@@ -9,6 +9,9 @@ using Tobii.EyeTracking;
 
 public abstract class Lookable : MonoBehaviour
 {
+	public float distanceDeVision;
+	public bool looked;
+
 	private bool tempBool = false;
 
 	private EyePositions po;
@@ -35,7 +38,7 @@ public abstract class Lookable : MonoBehaviour
 	public bool canAct;
 
 	// Use this for initialization
-	void Start ()
+	public virtual void Start ()
 	{
 		StartLookable ();
 	}
@@ -52,6 +55,7 @@ public abstract class Lookable : MonoBehaviour
 		_gazeAware = GetComponent<GazeAware> ();
 		clock = 0;
 		//myDevice = EyeTrackingHost.GetInstance() as EyeTrackingHost;
+		looked = false;
 	}
 
 	public virtual void DoAction ()
@@ -88,7 +92,7 @@ public abstract class Lookable : MonoBehaviour
 	}
 
 	// Update is called once per frame
-	void Update ()
+	public virtual void Update ()
 	{
 		
 		if (!canAct)
@@ -121,11 +125,12 @@ public abstract class Lookable : MonoBehaviour
 
 
 		//Debug.Log(po);
-		if (/*_gazeAware.HasGazeFocus*/tempBool && canAct)
+		if (looked && canAct)
 		{
 			timeForDecrement = 0.0f;
 			clock += Time.deltaTime;
 			Stare ();
+			looked = false;
 		}
 		else if (clock > 0)
 		{

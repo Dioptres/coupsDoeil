@@ -5,5 +5,8 @@ using UnityEngine;
 public class Test : Lookable
 {
 
-	
+	public override void DoAction()
+	{
+		Debug.Log (this.name);
+	}
 }
