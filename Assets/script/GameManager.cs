@@ -23,7 +23,6 @@ public class GameManager : MonoBehaviour {
 			whereIlook = Camera.main.ScreenToWorldPoint (new Vector3 (gazePoint.Screen.x, gazePoint.Screen.y, 10));
 			foreach(GameObject toLook in lookables)
 			{
-				Debug.Log (Vector3.Distance (whereIlook, toLook.transform.position));
 				if(Vector3.Distance(whereIlook,toLook.transform.position) < toLook.GetComponent<Lookable>().distanceDeVision)
 				{
 					toLook.GetComponent<Lookable> ().looked = true;

@@ -64,6 +64,7 @@ public abstract class Lookable : MonoBehaviour
 
 	public virtual void QuitSee ()
 	{
+		done = false;
 	}
 
 	void Stare ()
