@@ -15,6 +15,10 @@ public class moveFromAtoB1 : Lookable
 	bool goingUp;
 	bool goingRight;
 
+	GameObject[] catchables;
+
+	public bool attire;
+
 	public Animator animator;
 
 	public override void DoAction ()
@@ -45,6 +49,7 @@ public class moveFromAtoB1 : Lookable
 
     public override void Start()
     {
+		catchables = GameObject.FindGameObjectsWithTag ("catchable");
         base.Start();
 		isMoving = false;
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
@@ -69,6 +74,19 @@ public class moveFromAtoB1 : Lookable
 		if (doAct)
 		{
 			goThere = Camera.main.ScreenToWorldPoint (new Vector3 (gazePoint.Screen.x, gazePoint.Screen.y, 10));
+
+			if(attire)
+			{
+				foreach(GameObject catched in catchables)
+				{
+					if(Vector3.Distance(this.transform.position, catched.transform.position) < 2)
+					{
+						catched.GetComponent<UnityEngine.AI.NavMeshAgent> ().destination = this.transform.position;
+						Debug.Log ("Oï");
+					}
+				}
+			}
+
 			if(transform.position.x < goThere.x)
 			{
 				animator.SetBool ("right", true);
