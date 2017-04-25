@@ -38,21 +38,25 @@ public class lampFireflySpxn : Lookable {
 			Destroy (fireFly3);
 			Destroy (fireFly4);
 		}
-		
-		fireFly1 = Instantiate (new GameObject());
+
+		fireFly1 = Instantiate (new GameObject (), this.transform.position, Quaternion.identity);
 		fireFly1.AddComponent<Light>();
+		fireFly1.GetComponent<Light> ().color = new Color (Random.Range (0.0f, 1.0f), Random.Range (0.0f, 1.0f), Random.Range (0.0f, 1.0f));
 		fireFly1.name = "fireFly1";
 
-		fireFly2 = Instantiate (new GameObject ());
+		fireFly2 = Instantiate (new GameObject (), this.transform.position, Quaternion.identity);
 		fireFly2.AddComponent<Light> ();
+		fireFly2.GetComponent<Light> ().color = new Color (Random.Range (0.0f, 1.0f), Random.Range (0.0f, 1.0f), Random.Range (0.0f, 1.0f));
 		fireFly2.name = "fireFly2";
 
-		fireFly3 = Instantiate (new GameObject ());
+		fireFly3 = Instantiate (new GameObject (), this.transform.position, Quaternion.identity);
 		fireFly3.AddComponent<Light> ();
+		fireFly3.GetComponent<Light> ().color = new Color (Random.Range (0.0f, 1.0f), Random.Range (0.0f, 1.0f), Random.Range (0.0f, 1.0f));
 		fireFly3.name = "fireFly3";
 
-		fireFly4 = Instantiate (new GameObject ());
+		fireFly4 = Instantiate (new GameObject (), this.transform.position, Quaternion.identity);
 		fireFly4.AddComponent<Light> ();
+		fireFly4.GetComponent<Light> ().color = new Color (Random.Range (0.0f, 1.0f), Random.Range (0.0f, 1.0f), Random.Range (0.0f, 1.0f));
 		fireFly4.name = "fireFly4";
 
 		exist = true;
