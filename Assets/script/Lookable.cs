@@ -21,7 +21,7 @@ public abstract class Lookable : MonoBehaviour
 	public float timeTillAction;
 	public float actionDuration;
 	public bool repeat;
-	public bool done;
+	bool done;
 	
 	protected float clock;
 	private bool isLooked = false;
