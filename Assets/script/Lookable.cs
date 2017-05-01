@@ -63,6 +63,7 @@ public abstract class Lookable : MonoBehaviour
 
 	void Stare ()
 	{
+		
 		isLooked = true;
 		if (clock >= timeTillAction)
 		{

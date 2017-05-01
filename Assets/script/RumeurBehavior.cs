@@ -29,7 +29,6 @@ public class RumeurBehavior : Lookable {
 
 		base.Update ();
 
-		Debug.Log (agent.remainingDistance);
 		if (agent.remainingDistance == 0f)
 		{
 			if(!flee)
@@ -48,6 +47,7 @@ public class RumeurBehavior : Lookable {
 
 	public override void DoAction ()
 	{
+		Debug.Log ("act");
 		if(shy)
 		{
 			agent.destination = checkPoints[actualCheckPoint].position;
@@ -55,6 +55,7 @@ public class RumeurBehavior : Lookable {
 		}
 		else
 		{
+
 			agent.velocity = Vector3.zero;
 		}
 	}

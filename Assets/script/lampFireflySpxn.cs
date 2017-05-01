@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class lampFireflySpxn : Lookable {
 
+	public Animator anim;
+
+
 	GameObject fireFly1;
 
 	GameObject fireFly2;
@@ -16,14 +19,23 @@ public class lampFireflySpxn : Lookable {
 
 	Color fireflyColor;
 
+	public GameObject luciol;
+
 	public float distanceActivationLampe;
 
 	bool exist = false;
 
 	GameObject[] lampes;
 
+	public override void QuitSee ()
+	{
+		base.QuitSee ();
+		anim.SetBool ("isThrowing", false);
+	}
+
 	public override void DoAction()
 	{
+		anim.SetBool ("isThrowing", true);
 		float randA = Random.Range(-1f,1f);
 		float randB = Random.Range (-1f, 1f);
 
@@ -35,7 +47,6 @@ public class lampFireflySpxn : Lookable {
 
 		move = new Vector3(randA,0,randB);
 
-		Debug.Log (move);
 
 		if(exist)
 		{
@@ -47,25 +58,25 @@ public class lampFireflySpxn : Lookable {
 
 		fireflyColor = new Color (Random.Range (0.0f, 1.0f), Random.Range (0.0f, 1.0f), Random.Range (0.0f, 1.0f));
 
-		fireFly1 = Instantiate (new GameObject (), this.transform.position, Quaternion.identity);
-		fireFly1.AddComponent<Light>();
-		fireFly1.GetComponent<Light> ().color = fireflyColor;
+		fireFly1 = Instantiate (luciol, this.transform.position, Quaternion.identity);
+		fireFly1.GetComponentInChildren<Light> ().color = fireflyColor;
 		fireFly1.name = "fireFly1";
+		fireFly1.transform.LookAt (this.transform.position + move.normalized);
 
-		fireFly2 = Instantiate (new GameObject (), this.transform.position, Quaternion.identity);
-		fireFly2.AddComponent<Light> ();
-		fireFly2.GetComponent<Light> ().color = fireflyColor;
+		fireFly2 = Instantiate (luciol, this.transform.position, Quaternion.identity);
+		fireFly2.GetComponentInChildren<Light> ().color = fireflyColor;
 		fireFly2.name = "fireFly2";
+		fireFly2.transform.LookAt (this.transform.position  -move.normalized);
 
-		fireFly3 = Instantiate (new GameObject (), this.transform.position, Quaternion.identity);
-		fireFly3.AddComponent<Light> ();
-		fireFly3.GetComponent<Light> ().color = fireflyColor;
+		fireFly3 = Instantiate (luciol, this.transform.position, Quaternion.identity);
+		fireFly3.GetComponentInChildren<Light> ().color = fireflyColor;
 		fireFly3.name = "fireFly3";
+		fireFly3.transform.LookAt (this.transform.position + (Quaternion.AngleAxis (-90, Vector3.up) * move).normalized);
 
-		fireFly4 = Instantiate (new GameObject (), this.transform.position, Quaternion.identity);
-		fireFly4.AddComponent<Light> ();
-		fireFly4.GetComponent<Light> ().color = fireflyColor;
+		fireFly4 = Instantiate (luciol, this.transform.position, Quaternion.identity);
+		fireFly4.GetComponentInChildren<Light> ().color = fireflyColor;
 		fireFly4.name = "fireFly4";
+		fireFly4.transform.LookAt (this.transform.position + (Quaternion.AngleAxis (90, Vector3.up) * move).normalized);
 
 		exist = true;
 
@@ -93,10 +104,10 @@ public class lampFireflySpxn : Lookable {
 
 			if (exist)
 		{
-			fireFly1.transform.Translate (move.normalized*Time.deltaTime);
-			fireFly2.transform.Translate (-move.normalized * Time.deltaTime);
-			fireFly3.transform.Translate ((Quaternion.AngleAxis (-90, Vector3.up) * move).normalized * Time.deltaTime);
-			fireFly4.transform.Translate ((Quaternion.AngleAxis (90, Vector3.up) * move).normalized * Time.deltaTime);
+			fireFly1.transform.Translate (Vector3.forward*Time.deltaTime);
+			fireFly2.transform.Translate (Vector3.forward * Time.deltaTime);
+			fireFly3.transform.Translate (Vector3.forward * Time.deltaTime);
+			fireFly4.transform.Translate (Vector3.forward * Time.deltaTime);
 
 		}
 	}
