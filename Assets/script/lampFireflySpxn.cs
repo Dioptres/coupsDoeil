@@ -14,7 +14,13 @@ public class lampFireflySpxn : Lookable {
 
 	Vector3 move;
 
+	Color fireflyColor;
+
+	public float distanceActivationLampe;
+
 	bool exist = false;
+
+	GameObject[] lampes;
 
 	public override void DoAction()
 	{
@@ -39,27 +45,40 @@ public class lampFireflySpxn : Lookable {
 			Destroy (fireFly4);
 		}
 
+		fireflyColor = new Color (Random.Range (0.0f, 1.0f), Random.Range (0.0f, 1.0f), Random.Range (0.0f, 1.0f));
+
 		fireFly1 = Instantiate (new GameObject (), this.transform.position, Quaternion.identity);
 		fireFly1.AddComponent<Light>();
-		fireFly1.GetComponent<Light> ().color = new Color (Random.Range (0.0f, 1.0f), Random.Range (0.0f, 1.0f), Random.Range (0.0f, 1.0f));
+		fireFly1.GetComponent<Light> ().color = fireflyColor;
 		fireFly1.name = "fireFly1";
 
 		fireFly2 = Instantiate (new GameObject (), this.transform.position, Quaternion.identity);
 		fireFly2.AddComponent<Light> ();
-		fireFly2.GetComponent<Light> ().color = new Color (Random.Range (0.0f, 1.0f), Random.Range (0.0f, 1.0f), Random.Range (0.0f, 1.0f));
+		fireFly2.GetComponent<Light> ().color = fireflyColor;
 		fireFly2.name = "fireFly2";
 
 		fireFly3 = Instantiate (new GameObject (), this.transform.position, Quaternion.identity);
 		fireFly3.AddComponent<Light> ();
-		fireFly3.GetComponent<Light> ().color = new Color (Random.Range (0.0f, 1.0f), Random.Range (0.0f, 1.0f), Random.Range (0.0f, 1.0f));
+		fireFly3.GetComponent<Light> ().color = fireflyColor;
 		fireFly3.name = "fireFly3";
 
 		fireFly4 = Instantiate (new GameObject (), this.transform.position, Quaternion.identity);
 		fireFly4.AddComponent<Light> ();
-		fireFly4.GetComponent<Light> ().color = new Color (Random.Range (0.0f, 1.0f), Random.Range (0.0f, 1.0f), Random.Range (0.0f, 1.0f));
+		fireFly4.GetComponent<Light> ().color = fireflyColor;
 		fireFly4.name = "fireFly4";
 
 		exist = true;
+
+		lampes = GameObject.FindGameObjectsWithTag ("lampe");
+
+		foreach (GameObject lampe in lampes)
+		{
+			if (Vector3.Distance (this.transform.position, lampe.transform.position) < distanceActivationLampe)
+			{
+				lampe.GetComponentInChildren<Light> ().intensity = 1;
+				lampe.GetComponentInChildren<Light> ().color = fireflyColor;
+			}
+		}
 
 	}
 
