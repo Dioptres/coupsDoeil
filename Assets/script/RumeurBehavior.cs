@@ -9,6 +9,7 @@ public class RumeurBehavior : Lookable {
 	UnityEngine.AI.NavMeshAgent agent;
 	int actualCheckPoint;
 	bool flee;
+	public bool shy;
 
 	public override void Start ()
 	{
@@ -21,7 +22,7 @@ public class RumeurBehavior : Lookable {
 
 	public override void Update ()
 	{
-		if (Input.GetKeyDown ("space"))
+		if (Input.GetKey ("space"))
 		{
 			DoAction ();
 		}
@@ -47,7 +48,14 @@ public class RumeurBehavior : Lookable {
 
 	public override void DoAction ()
 	{
-		agent.destination = checkPoints[actualCheckPoint].position;
-		flee = true;
+		if(shy)
+		{
+			agent.destination = checkPoints[actualCheckPoint].position;
+			flee = true;
+		}
+		else
+		{
+			agent.velocity = Vector3.zero;
+		}
 	}
 }
