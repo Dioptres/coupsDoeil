@@ -10,7 +10,7 @@ using Tobii.EyeTracking;
 public abstract class Lookable : MonoBehaviour
 {
 	public float distanceDeVision;
-	public bool looked;
+	public int looked;
 
 	private bool tempBool = false;
 
@@ -48,14 +48,8 @@ public abstract class Lookable : MonoBehaviour
 		canAct = false;
 		done = false;
 		timeForDecrement = 0;
-		hst = EyeTrackingHost.GetInstance ();
-		po = hst.GetEyePositionDataProvider ().Last;
-		//myEyes = gaze;
-		//position = myDevice.
-		_gazeAware = GetComponent<GazeAware> ();
 		clock = 0;
-		//myDevice = EyeTrackingHost.GetInstance() as EyeTrackingHost;
-		looked = false;
+		looked = 0;
 	}
 
 	public virtual void DoAction ()
@@ -126,19 +120,19 @@ public abstract class Lookable : MonoBehaviour
 
 
 		//Debug.Log(po);
-		if (looked && canAct)
+		if (looked == 2 && canAct)
 		{
 			timeForDecrement = 0.0f;
 			clock += Time.deltaTime;
 			Stare ();
-			looked = false;
 		}
 		else if (clock > 0)
 		{
-			if (isLooked)
+			if (looked == 1)
 			{
 				QuitSee ();
 				isLooked = false;
+				looked = 0;
 			}
 			if (decrement)
 			{

@@ -25,8 +25,15 @@ public class GameManager : MonoBehaviour {
 			{
 				if(Vector3.Distance(whereIlook,toLook.transform.position) < toLook.GetComponent<Lookable>().distanceDeVision)
 				{
-					toLook.GetComponent<Lookable> ().looked = true;
+					toLook.GetComponent<Lookable> ().looked = 2;
 
+				}
+				else
+				{
+					if(toLook.GetComponent<Lookable> ().looked == 2)
+					{
+						toLook.GetComponent<Lookable> ().looked = 1;
+					}
 				}
 			}
 		}
