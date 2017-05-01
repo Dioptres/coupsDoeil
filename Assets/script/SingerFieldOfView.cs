@@ -38,11 +38,11 @@ public class SingerFieldOfView : Lookable
     public override void DoAction()
     {
         dancerAnimator.SetTrigger("dancerIsDancing");
-
         singerAudio.Play();
 
 
         Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, radiusRange, targetMask);
+        Debug.Log(targetsInViewRadius.Length);
 
         Debug.Log(targetsInViewRadius[0]);
 
