@@ -23,7 +23,10 @@ public class lampFireflySpxn : Lookable {
 
 	public float distanceActivationLampe;
 
-	bool exist = false;
+    public float lampPostIntensity = 3;
+    public float lampPostRange = 50;
+
+    bool exist = false;
 
 	GameObject[] lampes;
 
@@ -47,8 +50,7 @@ public class lampFireflySpxn : Lookable {
 
 		move = new Vector3(randA,0,randB);
 
-
-		if(exist)
+        if (exist)
 		{
 			Destroy (fireFly1);
 			Destroy (fireFly2);
@@ -86,8 +88,9 @@ public class lampFireflySpxn : Lookable {
 		{
 			if (Vector3.Distance (this.transform.position, lampe.transform.position) < distanceActivationLampe)
 			{
-				lampe.GetComponentInChildren<Light> ().intensity = 1;
-				lampe.GetComponentInChildren<Light> ().color = fireflyColor;
+				lampe.GetComponentInChildren<Light> ().intensity = lampPostIntensity;
+                lampe.GetComponentInChildren<Light>().range = lampPostRange;
+                lampe.GetComponentInChildren<Light> ().color = fireflyColor;
 			}
 		}
 
