@@ -46,7 +46,7 @@ public class DancerFieldOfView : Lookable
             Debug.Log("Distance" +  distanceToDancer);
 
             if (distanceToDancer > distanceFollowerToStop)
-            targetAgent.destination = transform.position - new Vector3(1, 0, 1);
+            targetAgent.destination = transform.position + new Vector3(1, 0, 1);
             Debug.Log(targetAgent.destination);
 
             targetAnimator.SetBool("CrowdIsDancing", true);
