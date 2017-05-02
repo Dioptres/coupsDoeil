@@ -24,6 +24,14 @@ public class moveFromAtoB1 : Lookable
 	public override void DoAction ()
 	{
 		doAct = false;
+		if (!isMoving)
+		{
+			animator.SetInteger ("doing", 1);
+		}
+		else
+		{
+			animator.SetInteger ("doing", 2);
+		}
 	}
 
 	public override void QuitSee()
@@ -32,8 +40,14 @@ public class moveFromAtoB1 : Lookable
 		if (!isMoving)
 		{
 			doAct = true;
+			animator.SetInteger ("doing", 0);
+		}
+		else
+		{
+			animator.SetInteger ("doing", 2);
 		}
 		isMoving = !isMoving;
+
     }
 
     IEnumerator moveMeThere()
@@ -82,32 +96,11 @@ public class moveFromAtoB1 : Lookable
 					if(Vector3.Distance(this.transform.position, catched.transform.position) < 2)
 					{
 						catched.GetComponent<UnityEngine.AI.NavMeshAgent> ().destination = this.transform.position;
-						Debug.Log ("Oï");
 					}
 				}
 			}
 
-			if(transform.position.x < goThere.x)
-			{
-				animator.SetBool ("right", true);
-			}
-			else
-			{
-				animator.SetBool ("right", false);
-			}
-
-			if (transform.position.z + 1 < goThere.z)
-			{
-				animator.SetInteger ("upMiddleDown", 0);
-			}
-			else if (transform.position.z - 1 > goThere.z)
-			{
-				animator.SetInteger ("upMiddleDown", 2);
-			}
-			else
-			{
-				animator.SetInteger ("upMiddleDown", 1);
-			}
+			
 
 			agent.destination = goThere;
 		}
