@@ -28,6 +28,8 @@ public class lampFireflySpxn : Lookable {
 
     bool exist = false;
 
+    int waveNumber = 0;
+
 	GameObject[] lampes;
 
 	public override void QuitSee ()
@@ -58,7 +60,24 @@ public class lampFireflySpxn : Lookable {
 			Destroy (fireFly4);
 		}
 
-		fireflyColor = new Color (Random.Range (0.0f, 1.0f), Random.Range (0.0f, 1.0f), Random.Range (0.0f, 1.0f));
+		//fireflyColor = new Color (Random.Range (0.0f, 1.0f), Random.Range (0.0f, 1.0f), Random.Range (0.0f, 1.0f));
+        switch (waveNumber)
+        {
+            case 0:
+                fireflyColor =  Color.cyan;
+                waveNumber ++;
+                break;
+
+            case 1:
+                fireflyColor = Color.yellow;
+                waveNumber++;
+                break;
+
+            case 2:
+                fireflyColor = Color.magenta;
+                waveNumber = 0;
+                break;
+        }
 
 		fireFly1 = Instantiate (luciol, this.transform.position, Quaternion.identity);
 		fireFly1.GetComponentInChildren<Light> ().color = fireflyColor;
