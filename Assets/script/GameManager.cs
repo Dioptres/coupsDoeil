@@ -17,10 +17,13 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		lookables = GameObject.FindGameObjectsWithTag ("Lookable");
+
 		gazePoint = EyeTracking.GetGazePoint ();
 		if (gazePoint.IsValid)
 		{
-			whereIlook = Camera.main.ScreenToWorldPoint (new Vector3 (gazePoint.Screen.x, gazePoint.Screen.y, 10));
+			whereIlook = Camera.main.ScreenToWorldPoint (new Vector3 (gazePoint.Screen.x, gazePoint.Screen.y, 5.5f));
 			foreach(GameObject toLook in lookables)
 			{
 				if(Vector3.Distance(whereIlook,toLook.transform.position) < toLook.GetComponent<Lookable>().distanceDeVision)

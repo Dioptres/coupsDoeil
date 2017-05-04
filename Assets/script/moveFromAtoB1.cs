@@ -63,7 +63,7 @@ public class moveFromAtoB1 : Lookable
 
     public override void Start()
     {
-		catchables = GameObject.FindGameObjectsWithTag ("catchable");
+		catchables = GameObject.FindGameObjectsWithTag ("Lookable");
         base.Start();
 		isMoving = false;
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
@@ -84,7 +84,6 @@ public class moveFromAtoB1 : Lookable
 
 	private void FixedUpdate ()
 	{
-		//Debug.Log (doAct);
 		if (doAct)
 		{
 			goThere = Camera.main.ScreenToWorldPoint (new Vector3 (gazePoint.Screen.x, gazePoint.Screen.y, 10));
@@ -93,9 +92,13 @@ public class moveFromAtoB1 : Lookable
 			{
 				foreach(GameObject catched in catchables)
 				{
-					if(Vector3.Distance(this.transform.position, catched.transform.position) < 2)
+					if (catched.layer == 8)
 					{
-						catched.GetComponent<UnityEngine.AI.NavMeshAgent> ().destination = this.transform.position;
+						
+						if (Vector3.Distance (this.transform.position, catched.transform.position) < 2)
+						{
+							catched.GetComponent<UnityEngine.AI.NavMeshAgent> ().destination = this.transform.position;
+						}
 					}
 				}
 			}

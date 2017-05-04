@@ -11,8 +11,30 @@ public class RumeurBehavior : Lookable {
 	bool flee;
 	public bool shy;
 
-	public override void Start ()
+	private AudioSource source;
+
+	public AudioClip move;
+
+	public AudioClip look1;
+	public AudioClip look2;
+	public AudioClip look3;
+
+	public GameObject go1;
+	public GameObject go2;
+	public GameObject go3;
+	public GameObject go4;
+
+	public void Awake ()
 	{
+		if(shy)
+		{
+			go1.SetActive (false);
+			go2.SetActive (false);
+			go3.SetActive (false);
+			go4.SetActive (false);
+		}
+
+		source = GetComponent<AudioSource> ();
 		flee = false;
 		base.Start ();
 		actualCheckPoint = 0;
@@ -22,6 +44,22 @@ public class RumeurBehavior : Lookable {
 
 	public override void Update ()
 	{
+		if(!source.isPlaying && shy)
+		{
+			source.loop = true;
+			source.clip = move;
+			source.Play ();
+		}
+
+		if((actualCheckPoint + 1) % checkPoints.Length == 0 && shy)
+		{
+			go1.SetActive (true);
+			go2.SetActive (true);
+			go3.SetActive (true);
+			go4.SetActive (true);
+			Destroy (this.transform.parent.gameObject);
+		}
+
 		if (Input.GetKey ("space"))
 		{
 			DoAction ();
@@ -29,12 +67,17 @@ public class RumeurBehavior : Lookable {
 
 		base.Update ();
 
+
 		if (agent.remainingDistance == 0f)
 		{
 			if(!flee)
 			{
-				actualCheckPoint++;
-				actualCheckPoint = actualCheckPoint % checkPoints.Length;
+				
+					actualCheckPoint++;
+					actualCheckPoint = actualCheckPoint % checkPoints.Length;
+				
+
+				
 			}
 			else
 			{
@@ -47,16 +90,37 @@ public class RumeurBehavior : Lookable {
 
 	public override void DoAction ()
 	{
-		Debug.Log ("act");
 		if(shy)
 		{
 			agent.destination = checkPoints[actualCheckPoint].position;
 			flee = true;
-		}
-		else
-		{
 
-			agent.velocity = Vector3.zero;
+
+			if (source.clip == move)
+			{
+				int random = Random.Range (1, 4);
+
+
+				switch (random)
+				{
+					case 1:
+						source.loop = false;
+						source.clip = look1;
+						source.Play ();
+						break;
+					case 2:
+						source.loop = false;
+						source.clip = look2;
+						source.Play ();
+						break;
+					case 3:
+						source.loop = false;
+						source.clip = look3;
+						source.Play ();
+						break;
+				}
+			}
 		}
+		
 	}
 }

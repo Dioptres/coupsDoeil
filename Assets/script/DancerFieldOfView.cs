@@ -33,7 +33,7 @@ public class DancerFieldOfView : Lookable
         dancerAnimator.SetTrigger("dancerIsDancing");
 
         Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, radiusRange, targetMask);
-        Debug.Log(targetsInViewRadius[0]);
+
 
         foreach (Collider catched in targetsInViewRadius)
         {
@@ -43,16 +43,12 @@ public class DancerFieldOfView : Lookable
 
             float distanceToDancer = Vector3.Distance(transform.position, target.position);
             
-            Debug.Log("Distance" +  distanceToDancer);
 
             if (distanceToDancer > distanceFollowerToStop)
             targetAgent.destination = transform.position + new Vector3(1, 0, 1);
-            Debug.Log(targetAgent.destination);
 
             targetAnimator.SetBool("CrowdIsDancing", true);
-            Debug.Log(targetAnimator);
 
-            Debug.Log(target);
         }
     }
 }

@@ -6,6 +6,7 @@ public class lampFireflySpxn : Lookable {
 
 	public Animator anim;
 
+	float timerSpwnFirefly = 0.4f;
 
 	GameObject fireFly1;
 
@@ -17,6 +18,8 @@ public class lampFireflySpxn : Lookable {
 
 	Vector3 move;
 
+	int lampeAllume;
+
 	Color fireflyColor;
 
 	public GameObject luciol;
@@ -26,11 +29,24 @@ public class lampFireflySpxn : Lookable {
     public float lampPostIntensity = 3;
     public float lampPostRange = 50;
 
+	public GameObject millePatte;
     bool exist = false;
 
     int waveNumber = 0;
 
 	GameObject[] lampes;
+
+	private AudioSource source;
+
+	public AudioClip fireFly;
+
+	public override void Start ()
+	{
+		base.Start ();
+		lampeAllume = 0;
+		source = GetComponent<AudioSource> ();
+		millePatte.SetActive (false);
+	}
 
 	public override void QuitSee ()
 	{
@@ -40,7 +56,11 @@ public class lampFireflySpxn : Lookable {
 
 	public override void DoAction()
 	{
-		anim.SetBool ("isThrowing", true);
+		if (timerSpwnFirefly <= 0)
+		{
+			timerSpwnFirefly = 0.4f;
+			source.PlayOneShot (fireFly);
+			anim.SetBool ("isThrowing", true);
 		float randA = Random.Range(-1f,1f);
 		float randB = Random.Range (-1f, 1f);
 
@@ -107,12 +127,29 @@ public class lampFireflySpxn : Lookable {
 		{
 			if (Vector3.Distance (this.transform.position, lampe.transform.position) < distanceActivationLampe)
 			{
-				lampe.GetComponentInChildren<Light> ().intensity = lampPostIntensity;
+					if(lampe.GetComponentInChildren<Light> ().intensity == 0)
+					{
+						lampeAllume++;
+						Debug.Log (lampe.name);
+						lampe.GetComponent<lamp> ().song ();
+					}
+					if (lampeAllume > 3)
+					{
+						millePatte.SetActive (true);
+					}
+					lampe.GetComponentInChildren<Light> ().intensity = lampPostIntensity;
                 lampe.GetComponentInChildren<Light>().range = lampPostRange;
                 lampe.GetComponentInChildren<Light> ().color = fireflyColor;
+					
+					
 			}
 		}
-
+		}
+		else
+		{
+			anim.SetBool ("isThrowing", true);
+			timerSpwnFirefly -= Time.deltaTime;
+		}
 	}
 
 	public override void Update ()
@@ -124,7 +161,7 @@ public class lampFireflySpxn : Lookable {
 			DoAction ();
 		}
 
-			if (exist)
+			if (exist && fireFly1 != null)
 		{
 			fireFly1.transform.Translate (Vector3.forward*Time.deltaTime);
 			fireFly2.transform.Translate (Vector3.forward * Time.deltaTime);
