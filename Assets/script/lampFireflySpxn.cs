@@ -29,7 +29,6 @@ public class lampFireflySpxn : Lookable {
     public float lampPostIntensity = 3;
     public float lampPostRange = 50;
 
-	public GameObject millePatte;
     bool exist = false;
 
     int waveNumber = 0;
@@ -45,7 +44,6 @@ public class lampFireflySpxn : Lookable {
 		base.Start ();
 		lampeAllume = 0;
 		source = GetComponent<AudioSource> ();
-		millePatte.SetActive (false);
 	}
 
 	public override void QuitSee ()
@@ -132,10 +130,6 @@ public class lampFireflySpxn : Lookable {
 						lampeAllume++;
 						Debug.Log (lampe.name);
 						lampe.GetComponent<lamp> ().song ();
-					}
-					if (lampeAllume > 3)
-					{
-						millePatte.SetActive (true);
 					}
 					lampe.GetComponentInChildren<Light> ().intensity = lampPostIntensity;
                 lampe.GetComponentInChildren<Light>().range = lampPostRange;

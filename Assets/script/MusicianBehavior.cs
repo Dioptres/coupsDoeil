@@ -46,7 +46,6 @@ public class MusicianBehavior : Lookable
 		if(trueNbrOfMusician>1)
 		{
 			anim.SetBool ("dancerIsDancing", true);
-			this.gameObject.layer = 9;
 		}
 
 		
@@ -103,7 +102,6 @@ public class MusicianBehavior : Lookable
 			}
 			if (trueNbrOfMusician == Musician.Length)
 			{
-				Destroy (GO1);
 				anim.SetBool ("dancerIsDancing", true);
 				source.loop = false;
 				if (superSon != null)
