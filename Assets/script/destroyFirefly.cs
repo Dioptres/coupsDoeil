@@ -8,9 +8,22 @@ public class destroyFirefly : MonoBehaviour {
 
     private float timer = 0;
 
-	
+	private AudioSource source;
+
+	public AudioClip fireFly;
+
+	private void Start ()
+	{
+		source = GetComponent<AudioSource> ();
+
+		source.loop = true;
+		source.clip = fireFly;
+		source.Play ();
+	}
+
 	void Update ()
     {
+
         timer += Time.deltaTime;
 
         if (timer >= timeToDeath)

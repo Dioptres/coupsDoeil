@@ -22,21 +22,13 @@ public class followFromDist : MonoBehaviour {
 			move = this.transform.position - followed.position;
 			move = move.normalized;
 
-			Debug.Log (move);
 
 			this.transform.position = followed.transform.position + move * dist;
 
 			if(Mathf.Abs(move.x)>Mathf.Abs(move.z))
 			{
 				anim.SetInteger ("direction", 2);
-				if (move.x < 0)
-				{
-					
-				}
-				else if (move.x > 0)
-				{
-					
-				}
+				
 			}
 			else
 			{
