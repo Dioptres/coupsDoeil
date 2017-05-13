@@ -5,8 +5,8 @@ using UnityEngine.AI;
 
 public class SingerFieldOfView : Lookable
 {
-    public AudioClip singerSong;
-    public AudioClip crowdSound;
+    public AudioClip[] singerSong;
+    public AudioClip[] crowdSound;
 
     public float radiusRange;
     public float distanceFollowerToStop;
@@ -22,8 +22,7 @@ public class SingerFieldOfView : Lookable
         base.Start();
         dancerAnimator = GetComponentInChildren<Animator>();
         singerAudio = GetComponent<AudioSource>();
-        singerAudio.clip = singerSong;
-
+        singerAudio.clip = singerSong[Random.Range(0, singerSong.Length)];
     }
 
     public override void Update()
@@ -67,7 +66,7 @@ public class SingerFieldOfView : Lookable
             Debug.Log(targetAnimator);
 
 
-            targetAudio.clip = crowdSound;
+            targetAudio.clip = crowdSound[Random.Range(0, crowdSound.Length)];
             targetAudio.Play();
             Debug.Log(crowdSound); 
         }

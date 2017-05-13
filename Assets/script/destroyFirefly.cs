@@ -7,18 +7,18 @@ public class destroyFirefly : MonoBehaviour {
     public float timeToDeath;
 
     private float timer = 0;
-
-	private AudioSource source;
-
-	public AudioClip fireFly;
+	
+    public AudioClip[] fireflySound;
+    private AudioSource fireflySource;
 
 	private void Start ()
 	{
-		source = GetComponent<AudioSource> ();
+		fireflySource = GetComponent<AudioSource> ();
 
-		source.loop = true;
-		source.clip = fireFly;
-		source.Play ();
+		fireflySource.loop = true;
+		
+        fireflySource.clip = fireflySound[Random.Range(0, fireflySound.Length)];
+        fireflySource.Play();
 	}
 
 	void Update ()
