@@ -19,9 +19,9 @@ public class DancerFieldOfView : Lookable
         dancerAnimator = GetComponentInChildren<Animator>();
     }
 
-    public override void Update()
+    public override void UpdateLookable ()
     {
-        base.Update();
+        base.UpdateLookable ();
         if (Input.GetKeyDown("space"))
         {
             DoAction();

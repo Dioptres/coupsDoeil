@@ -9,9 +9,9 @@ public class shoot : Lookable {
 	GazePoint gazePoint;
 	public GameObject bullet;
 
-	public override void Update ()
+	public override void UpdateLookable ()
 	{
-		base.Update ();
+		base.UpdateLookable ();
 		gazePoint = EyeTracking.GetGazePoint ();
 	}
 

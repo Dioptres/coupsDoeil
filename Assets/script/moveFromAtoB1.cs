@@ -73,10 +73,10 @@ public class moveFromAtoB1 : Lookable
 	}
 
 
-	public override void Update()
+	public override void UpdateLookable ()
     {
 		
-			base.Update ();
+			base.UpdateLookable ();
 			gazePoint = EyeTracking.GetGazePoint ();
 		
 

@@ -146,9 +146,9 @@ public class lampFireflySpxn : Lookable {
 		}
 	}
 
-	public override void Update ()
+	public override void UpdateLookable ()
 	{
-		base.Update ();
+		base.UpdateLookable ();
 
 		if (Input.GetKeyDown ("space"))
 		{

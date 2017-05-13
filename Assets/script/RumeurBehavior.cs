@@ -24,10 +24,8 @@ public class RumeurBehavior : Lookable {
 	public GameObject go3;
 	public GameObject go4;
 
-	public void Awake ()
-	{
-		if(shy)
-		{
+	public void Awake () {
+		if (shy) {
 			go1.SetActive (false);
 			go2.SetActive (false);
 			go3.SetActive (false);
@@ -39,20 +37,19 @@ public class RumeurBehavior : Lookable {
 		base.Start ();
 		actualCheckPoint = 0;
 		agent = GetComponent<UnityEngine.AI.NavMeshAgent> ();
-		agent.destination = checkPoints[(actualCheckPoint+1) % checkPoints.Length].position;
+		agent.destination = checkPoints[(actualCheckPoint + 1) % checkPoints.Length].position;
 	}
 
-	public override void Update ()
-	{
-		if(!source.isPlaying && shy)
-		{
+	public override void UpdateLookable () {
+		base.UpdateLookable ();
+
+		if (!source.isPlaying && shy) {
 			source.loop = true;
 			source.clip = move;
 			source.Play ();
 		}
 
-		if((actualCheckPoint + 1) % checkPoints.Length == 0 && shy)
-		{
+		if ((actualCheckPoint + 1) % checkPoints.Length == 0 && shy) {
 			go1.SetActive (true);
 			go2.SetActive (true);
 			go3.SetActive (true);
@@ -60,49 +57,34 @@ public class RumeurBehavior : Lookable {
 			Destroy (this.transform.parent.gameObject);
 		}
 
-		if (Input.GetKey ("space"))
-		{
+		if (Input.GetKey ("space")) {
 			DoAction ();
 		}
 
-		base.Update ();
-
-
-		if (agent.remainingDistance == 0f)
-		{
-			if(!flee)
-			{
-				
-					actualCheckPoint++;
-					actualCheckPoint = actualCheckPoint % checkPoints.Length;
-				
-
-				
+		if (agent.remainingDistance == 0f) {
+			if (!flee) {
+				actualCheckPoint++;
+				actualCheckPoint = actualCheckPoint % checkPoints.Length;
 			}
-			else
-			{
+			else {
 				flee = false;
 			}
-			
+
 			agent.destination = checkPoints[(actualCheckPoint + 1) % checkPoints.Length].position;
 		}
 	}
 
-	public override void DoAction ()
-	{
-		if(shy)
-		{
+	public override void DoAction () {
+		if (shy) {
 			agent.destination = checkPoints[actualCheckPoint].position;
 			flee = true;
 
 
-			if (source.clip == move)
-			{
+			if (source.clip == move) {
 				int random = Random.Range (1, 4);
 
 
-				switch (random)
-				{
+				switch (random) {
 					case 1:
 						source.loop = false;
 						source.clip = look1;
@@ -121,6 +103,6 @@ public class RumeurBehavior : Lookable {
 				}
 			}
 		}
-		
+
 	}
 }

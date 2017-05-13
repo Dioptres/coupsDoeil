@@ -3,72 +3,66 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class SingerFieldOfView : Lookable
-{
-    public AudioClip[] singerSong;
-    public AudioClip[] crowdSound;
+public class SingerFieldOfView : Lookable {
+	public AudioClip[] singerSong;
+	public AudioClip[] crowdSound;
 
-    public float radiusRange;
-    public float distanceFollowerToStop;
+	public float radiusRange;
+	public float distanceFollowerToStop;
 
-    public LayerMask targetMask;
-    public LayerMask obstacleMask;
+	public LayerMask targetMask;
+	public LayerMask obstacleMask;
 
-    private Animator dancerAnimator;
-    private AudioSource singerAudio;
+	private Animator dancerAnimator;
+	private AudioSource singerAudio;
 
-    public override void Start()
-    {
-        base.Start();
-        dancerAnimator = GetComponentInChildren<Animator>();
-        singerAudio = GetComponent<AudioSource>();
-        singerAudio.clip = singerSong[Random.Range(0, singerSong.Length)];
-    }
+	public override void Start () {
+		base.Start ();
+		dancerAnimator = GetComponentInChildren<Animator> ();
+		singerAudio = GetComponent<AudioSource> ();
+		singerAudio.clip = singerSong[Random.Range (0, singerSong.Length)];
+	}
 
-    public override void Update()
-    {
-        base.Update();
-        if (Input.GetKeyDown("space"))
-        {
-            DoAction();
-        }
-    }
+	public override void UpdateLookable () {
+		base.UpdateLookable ();
+		if (Input.GetKeyDown ("space")) {
+			DoAction ();
+		}
+	}
 
-    public override void DoAction()
-    {
-        dancerAnimator.SetTrigger("dancerIsDancing");
-        singerAudio.Play();
+	public override void DoAction () {
+		dancerAnimator.SetTrigger ("dancerIsDancing");
+		singerAudio.Play ();
 
 
-        Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, radiusRange, targetMask);
-        Debug.Log(targetsInViewRadius.Length);
+		Collider[] targetsInViewRadius = Physics.OverlapSphere (transform.position, radiusRange, targetMask);
+		Debug.Log (targetsInViewRadius.Length);
 
-        Debug.Log(targetsInViewRadius[0]);
+		Debug.Log (targetsInViewRadius[0]);
 
-        foreach (Collider catched in targetsInViewRadius)
-        {
-            Transform target = catched.GetComponent<Transform>();
-            
-            Animator targetAnimator = catched.GetComponentInChildren<Animator>();
+		foreach (Collider catched in targetsInViewRadius) {
+			Transform target = catched.GetComponent<Transform> ();
 
-            NavMeshAgent targetAgent = catched.GetComponent<NavMeshAgent>();
+			Animator targetAnimator = catched.GetComponentInChildren<Animator> ();
 
-            AudioSource targetAudio = catched.GetComponent<AudioSource>();
+			NavMeshAgent targetAgent = catched.GetComponent<NavMeshAgent> ();
 
-
-            targetAgent.destination = transform.position - new Vector3(1, 0, 1);
-
-            Debug.Log(targetAgent.destination);
+			AudioSource targetAudio = catched.GetComponent<AudioSource> ();
 
 
-            targetAnimator.SetBool("CrowdIsDancing", true);
+			targetAgent.destination = transform.position - new Vector3 (1, 0, 1);
 
-            Debug.Log(targetAnimator);
+			Debug.Log (targetAgent.destination);
 
 
-            targetAudio.clip = crowdSound[Random.Range(0, crowdSound.Length)];
-            targetAudio.Play();
-            Debug.Log(crowdSound); 
-        }
-    }
+			targetAnimator.SetBool ("CrowdIsDancing", true);
+
+			Debug.Log (targetAnimator);
+
+
+			targetAudio.clip = crowdSound[Random.Range (0, crowdSound.Length)];
+			targetAudio.Play ();
+			Debug.Log (crowdSound);
+		}
+	}
 }
