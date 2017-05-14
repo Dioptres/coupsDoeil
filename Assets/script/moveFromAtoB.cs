@@ -26,15 +26,15 @@ public class moveFromAtoB : Lookable {
 
 	}
 
-	public override void Start () {
-		base.Start ();
+	protected override void StartLookable () {
+		base.StartLookable ();
 		agent = GetComponent<UnityEngine.AI.NavMeshAgent> ();
 		i = 0;
 		doAct = false;
 		previousLookPoint = Vector3.zero;
 	}
 
-	public override void UpdateLookable () {
+	protected override void UpdateLookable () {
 		base.UpdateLookable ();
 		gazePoint = EyeTracking.GetGazePoint ();
 	}

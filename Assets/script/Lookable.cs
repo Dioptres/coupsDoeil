@@ -8,8 +8,15 @@ using Tobii.EyeTracking;
 
 
 public abstract class Lookable : MonoBehaviour {
+	public enum StareState {
+		NotLooking,
+		Looking,
+		LosingSight
+	}
+
+
 	public float distanceDeVision;
-	public int looked;
+	public StareState looked;
 
 	private bool tempBool = false;
 
@@ -37,7 +44,7 @@ public abstract class Lookable : MonoBehaviour {
 	public bool canAct;
 
 	// Use this for initialization
-	public virtual void Start () {
+	void Start () {
 		StartLookable ();
 	}
 
@@ -46,7 +53,7 @@ public abstract class Lookable : MonoBehaviour {
 		done = false;
 		timeForDecrement = 0;
 		clock = 0;
-		looked = 0;
+		looked = StareState.NotLooking;
 	}
 
 	public virtual void DoAction () {
@@ -57,7 +64,6 @@ public abstract class Lookable : MonoBehaviour {
 	}
 
 	void Stare () {
-
 		isLooked = true;
 		if (clock >= timeTillAction) {
 			if (repeat) {
@@ -80,10 +86,8 @@ public abstract class Lookable : MonoBehaviour {
 		UpdateLookable ();
 	}
 
-	public virtual void UpdateLookable () {
-
+	protected virtual void UpdateLookable () {
 		if (!canAct) {
-
 			if (conditionsDactivation.Length != 0) {
 				for (var i = 0; i < conditionsDactivation.Length; i++) {
 					if (conditionsDactivation[i].GetComponent<Lookable> ().done == false) {
@@ -106,16 +110,16 @@ public abstract class Lookable : MonoBehaviour {
 
 
 		//Debug.Log(po);
-		if (looked == 2 && canAct) {
+		if (looked == StareState.Looking && canAct) {
 			timeForDecrement = 0.0f;
 			clock += Time.deltaTime;
 			Stare ();
 		}
 		else if (clock > 0) {
-			if (looked == 1) {
+			if (looked == StareState.LosingSight) {
 				QuitSee ();
 				isLooked = false;
-				looked = 0;
+				looked = StareState.NotLooking;
 			}
 			if (decrement) {
 				timeForDecrement += Time.deltaTime;

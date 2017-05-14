@@ -3,14 +3,20 @@ using System.Collections;
 using Tobii.EyeTracking;
 
 public class moveFromAtoB2 : Lookable {
+	private enum State : byte {
+		Idle,
+		LookedAt,
+		Ready,
+		WaitingLocation,
+		Cancelling
+	}
 
-	Vector3 goThere;
-	Vector3 previousGoThere;
-	Vector3 previousLookPoint;
-	GazePoint gazePoint;
+	private State state = State.Idle;
+
+	Vector3 targetLocation;
+	bool targetLocationIsValid;
+	
 	float i;
-	bool doAct;
-	bool isMoving;
 	bool canMove;
 	bool goingUp;
 	bool goingRight;
@@ -24,85 +30,98 @@ public class moveFromAtoB2 : Lookable {
 
 	public Animator animator;
 
-	public override void DoAction () {
-		doAct = false;
-		if (!isMoving) {
+	public float maxDistance = 0.7f;
+	public float timeTillReady = 1.0f;
+	public float timeTillCancel = 1.0f;
+	public float timeTillTeleport = 0.4f;
+
+	public override void DoAction () { // LookingAt
+		timerCanMove -= Time.deltaTime;
+		if (state == State.Idle) {
+			state = State.LookedAt;
 			animator.SetInteger ("doing", 1);
 		}
-		else {
-			timerCanMove -= Time.deltaTime;
+		else if (state == State.LookedAt) {
 			if (timerCanMove < 0) {
-				isMoving = false;
+				state = State.Ready;
+				animator.SetInteger ("doing", 0);
 			}
-			animator.SetInteger ("doing", 2);
+		}
+		else if (state == State.WaitingLocation) {
+			timerCanMove = timeTillCancel;
+			state = State.Cancelling;
+			targetLocationIsValid = false;
+		}
+		else if (state == State.Cancelling) {
+			if (timerCanMove < 0) {
+				state = State.LookedAt;
+				timerCanMove = timeTillReady;
+				animator.SetInteger ("doing", 1);
+			}
 		}
 	}
 
 	public override void QuitSee () {
-		timerCanMove = 0.6f;
 		base.QuitSee ();
-		if (!isMoving) {
-			doAct = true;
-			animator.SetInteger ("doing", 0);
-		}
-		else {
+		timerCanMove = timeTillReady;
+		if (state == State.LookedAt) {
+			state = State.Idle;
 			animator.SetInteger ("doing", 2);
 		}
-		isMoving = !isMoving;
-
+		else if (state == State.Ready || state == State.Cancelling) {
+			state = State.WaitingLocation;
+			targetLocation = transform.position;
+		}
 	}
 
-	public override void Start () {
+	protected override void StartLookable () {
+		base.StartLookable ();
 		timerCanMove = 0.6f;
 		timerMove = 0;
-		catchables = GameObject.FindGameObjectsWithTag ("Lookable");
-		base.Start ();
-		isMoving = false;
 		i = 0;
-		doAct = false;
-		previousLookPoint = Vector3.zero;
+		targetLocation = Vector3.zero;
+		targetLocationIsValid = false;
 
 		// changer si on en instancie dans la scene (deplacer vers update)
-		catchables = GameObject.FindGameObjectsWithTag ("Lookable");
+		catchables = GameManager.lookables;
 	}
 
-
-	public override void UpdateLookable () {
+	protected override void UpdateLookable () {
 		base.UpdateLookable ();
-		gazePoint = EyeTracking.GetGazePoint ();
 
-		if (doAct) {
+		if (state == State.WaitingLocation) {
 
-			previousGoThere = goThere;
-			goThere = Camera.main.ScreenToWorldPoint (new Vector3 (gazePoint.Screen.x, gazePoint.Screen.y, 10));
-
-			Ray ray = Camera.main.ScreenPointToRay (gazePoint.Screen);
-			Debug.DrawRay (ray.origin, ray.direction*1000.0f, Color.red);
-
-			if (Vector3.Distance (goThere, previousGoThere) < 0.7f) {
+			if (targetLocationIsValid && Vector3.Distance (GameManager.whereIlook, targetLocation) < maxDistance) {
 				timerMove += Time.deltaTime;
 			}
 			else {
-				timerMove = 0;
+				Ray ray = Camera.main.ScreenPointToRay (GameManager.gazePoint.Screen);
+				Debug.DrawRay (ray.origin, ray.direction * 10.0f, Color.red);
+				RaycastHit hit;
+				targetLocationIsValid = !Physics.Raycast (ray, out hit, 20.0f, 1 << 10);
+				if (targetLocationIsValid) {
+					targetLocation = GameManager.whereIlook;
+					timerMove = 0;
+				}
 			}
 
-			if (timerMove > 0.4f) {
+			if (timerMove > timeTillTeleport) {
 				if (attire) {
 					i = 0;
 					foreach (GameObject catched in catchables) {
-						if (catched.layer == 8) {
+						if (catched.layer == 8) { // layer 8 = Musicians
 
 							if (Vector3.Distance (this.transform.position, catched.transform.position) < 2) {
 								i++;
 
 								if (i == 1) {
-									catched.transform.position = new Vector3 (goThere.x + 1, 0, goThere.z);
+									catched.transform.position = new Vector3 (targetLocation.x + 1, 0, targetLocation.z);
 								}
 								else if (i == 2) {
-									catched.transform.position = new Vector3 (goThere.x - 1, 0, goThere.z);
+									catched.transform.position = new Vector3 (targetLocation.x - 1, 0, targetLocation.z);
 								}
 								else if (i == 3) {
-									catched.transform.position = new Vector3 (goThere.x, 0, goThere.z - 1);
+									catched.transform.position = new Vector3 (targetLocation.x, 0, targetLocation.z - 1);
 								}
 								Debug.Log ("MOVE      " + new Vector3 (this.transform.position.x + 1, 0, this.transform.position.z));
 							}
@@ -110,7 +129,7 @@ public class moveFromAtoB2 : Lookable {
 					}
 				}
 
-				this.transform.position = new Vector3 (goThere.x, 0, goThere.z);
+				this.transform.position = new Vector3 (targetLocation.x, 0, targetLocation.z);
 			}
 		}
 	}

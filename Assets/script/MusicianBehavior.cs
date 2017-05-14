@@ -32,12 +32,12 @@ public class MusicianBehavior : Lookable {
 
 	}
 
-	public override void Start () {
-		base.Start ();
+	protected override void StartLookable () {
+		base.StartLookable ();
 		time = 0;
 	}
 
-	public override void UpdateLookable () {
+	protected override void UpdateLookable () {
 		base.UpdateLookable ();
 		if (trueNbrOfMusician > 1) {
 			anim.SetBool ("dancerIsDancing", true);

@@ -16,14 +16,14 @@ public class SingerFieldOfView : Lookable {
 	private Animator dancerAnimator;
 	private AudioSource singerAudio;
 
-	public override void Start () {
-		base.Start ();
+	protected override void StartLookable () {
+		base.StartLookable ();
 		dancerAnimator = GetComponentInChildren<Animator> ();
 		singerAudio = GetComponent<AudioSource> ();
 		singerAudio.clip = singerSong[Random.Range (0, singerSong.Length)];
 	}
 
-	public override void UpdateLookable () {
+	protected override void UpdateLookable () {
 		base.UpdateLookable ();
 		if (Input.GetKeyDown ("space")) {
 			DoAction ();

@@ -61,10 +61,9 @@ public class moveFromAtoB1 : Lookable
         
     }
 
-    public override void Start()
-    {
-		catchables = GameObject.FindGameObjectsWithTag ("Lookable");
-        base.Start();
+	protected override void StartLookable () {
+		base.StartLookable ();
+		catchables = GameManager.lookables;
 		isMoving = false;
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
 		i = 0;
@@ -73,7 +72,7 @@ public class moveFromAtoB1 : Lookable
 	}
 
 
-	public override void UpdateLookable ()
+	protected override void UpdateLookable ()
     {
 		
 			base.UpdateLookable ();

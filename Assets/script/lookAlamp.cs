@@ -15,9 +15,9 @@ public class lookAlamp : Lookable
 
 	UnityEngine.AI.NavMeshAgent agent;
 
-	public override void Start ()
+	protected override void StartLookable ()
 	{
-		base.Start ();
+		base.StartLookable ();
 
 		
 			activate = false;

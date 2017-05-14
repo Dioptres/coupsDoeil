@@ -34,13 +34,16 @@ public class RumeurBehavior : Lookable {
 
 		source = GetComponent<AudioSource> ();
 		flee = false;
-		base.Start ();
 		actualCheckPoint = 0;
 		agent = GetComponent<UnityEngine.AI.NavMeshAgent> ();
 		agent.destination = checkPoints[(actualCheckPoint + 1) % checkPoints.Length].position;
 	}
 
-	public override void UpdateLookable () {
+	protected override void StartLookable () {
+		base.StartLookable ();
+	}
+
+	protected override void UpdateLookable () {
 		base.UpdateLookable ();
 
 		if (!source.isPlaying && shy) {
