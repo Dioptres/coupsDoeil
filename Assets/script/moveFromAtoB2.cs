@@ -90,7 +90,6 @@ public class moveFromAtoB2 : Lookable {
 		base.UpdateLookable ();
 
 		if (state == State.WaitingLocation) {
-
 			if (targetLocationIsValid && Vector3.Distance (GameManager.whereIlook, targetLocation) < maxDistance) {
 				timerMove += Time.deltaTime;
 			}
@@ -99,6 +98,8 @@ public class moveFromAtoB2 : Lookable {
 				Debug.DrawRay (ray.origin, ray.direction * 10.0f, Color.red);
 				RaycastHit hit;
 				targetLocationIsValid = !Physics.Raycast (ray, out hit, 20.0f, 1 << 10);
+				if (targetLocationIsValid)
+					targetLocationIsValid = Physics.OverlapSphere (GameManager.whereIlook, maxDistance, 1 << 10).Length <= 0;
 				if (targetLocationIsValid) {
 					targetLocation = GameManager.whereIlook;
 					timerMove = 0;
