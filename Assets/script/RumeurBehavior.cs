@@ -31,8 +31,14 @@ public class RumeurBehavior : Lookable {
 		
 	}
 
-	protected override void StartLookable () {
+	protected override void StartLookable ()
+	{
 		base.StartLookable ();
+		agent.destination = checkPoints.position;
+	}
+
+	public void launch()
+	{
 		agent.destination = checkPoints.position;
 	}
 
@@ -47,15 +53,16 @@ public class RumeurBehavior : Lookable {
 
 
 		if (agent.remainingDistance == 0f) {
-
 			if(!flee)
 			{
 				checkPoints.GetChild(0).GetComponent<Light> ().intensity = 0;
 				agent.destination = terrier.transform.position;
+				flee = true;
 			}
 			else
 			{
-				
+				this.transform.parent.GetComponent<millePatteBehavior> ().deactivate ();
+				flee = false;
 			}
 		}
 	}

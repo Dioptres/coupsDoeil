@@ -15,6 +15,17 @@ public class millePatteBehavior : MonoBehaviour {
 
 	GameObject[] spwnPoints;
 
+	public void deactivate()
+	{
+		timer = 5;
+		securite = 0;
+		foreach (Transform child in transform)
+		{
+			child.gameObject.SetActive (false);
+		}
+		active = false;
+	}
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -57,12 +68,12 @@ public class millePatteBehavior : MonoBehaviour {
 				{
 					child.position = actualSpwnPoint.transform.position;
 					child.gameObject.SetActive (true);
-
 				}
 				
 
 				this.transform.GetChild (0).gameObject.GetComponent<RumeurBehavior> ().terrier = actualSpwnPoint.transform;
 				this.transform.GetChild (0).gameObject.GetComponent<RumeurBehavior> ().checkPoints = lampChoosen.transform;
+				transform.GetChild (0).GetComponent<RumeurBehavior> ().launch ();
 				active = true;
 			}
 			else
