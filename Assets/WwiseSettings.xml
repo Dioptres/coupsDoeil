@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <WwiseSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <WwiseProjectPath>../coupsDoeil_WwiseProject/coupsDoeil_WwiseProject.wproj</WwiseProjectPath>
-  <SoundbankPath>Audio/GeneratedSoundBanks</SoundbankPath>
+  <WwiseProjectPath>../../CoupsDoeil_Wwise/CoupD'oeil Wwise.wproj</WwiseProjectPath>
+  <SoundbankPath>Audio/GeneratedSoundBanks/Windows/</SoundbankPath>
   <CreateWwiseGlobal>false</CreateWwiseGlobal>
   <CreateWwiseListener>false</CreateWwiseListener>
   <WwiseInstallationPathWindows>C:\Program Files (x86)\Audiokinetic\Wwise 2016.2.2.6022</WwiseInstallationPathWindows>
