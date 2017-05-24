@@ -51,6 +51,7 @@ public class RumeurBehavior : Lookable {
 			if(!flee)
 			{
 				checkPoints.GetChild(0).GetComponent<Light> ().intensity = 0;
+				agent.destination = terrier.transform.position;
 			}
 			else
 			{

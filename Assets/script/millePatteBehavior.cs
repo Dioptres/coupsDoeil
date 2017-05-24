@@ -33,15 +33,14 @@ public class millePatteBehavior : MonoBehaviour {
 		timer -= Time.deltaTime;
 		if(timer <= 0 && !active)
 		{
-			
 
+			lampChoosen = lampes[0]; //DELETE
 			do
 			{
 				lampChoosen = lampes[Random.Range (0, lampes.Length)];
 				securite++;
-			} while (lampChoosen.transform.GetChild(0).GetComponent<Light>().intensity > 0 || securite < 20);
+			} while (lampChoosen.transform.GetChild(0).GetComponent<Light>().intensity == 0 && securite < 20);
 
-			Debug.Log (securite + "      oih");
 			if(securite != 20)
 			{
 				actualSpwnPoint = spwnPoints[0];
