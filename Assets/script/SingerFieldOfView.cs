@@ -20,7 +20,11 @@ public class SingerFieldOfView : Lookable {
 		base.StartLookable ();
 		dancerAnimator = GetComponentInChildren<Animator> ();
 		singerAudio = GetComponent<AudioSource> ();
-		singerAudio.clip = singerSong[Random.Range (0, singerSong.Length)];
+		if(singerSong.Length > 0)
+		{
+			singerAudio.clip = singerSong[Random.Range (0, singerSong.Length)];
+		}
+		
 	}
 
 	protected override void UpdateLookable () {
@@ -36,9 +40,7 @@ public class SingerFieldOfView : Lookable {
 
 
 		Collider[] targetsInViewRadius = Physics.OverlapSphere (transform.position, radiusRange, targetMask);
-		Debug.Log (targetsInViewRadius.Length);
 
-		Debug.Log (targetsInViewRadius[0]);
 
 		foreach (Collider catched in targetsInViewRadius) {
 			Transform target = catched.GetComponent<Transform> ();

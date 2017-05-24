@@ -86,7 +86,7 @@ public class moveFromAtoB1 : Lookable
 		catchables = GameObject.FindGameObjectsWithTag ("Lookable");
 		if (doAct)
 		{
-			goThere = Camera.main.ScreenToWorldPoint (new Vector3 (gazePoint.Screen.x, gazePoint.Screen.y, 10));
+			//goThere = Camera.main.ScreenToWorldPoint (new Vector3 (gazePoint.Screen.x, gazePoint.Screen.y, 10));
 
 			if(attire)
 			{

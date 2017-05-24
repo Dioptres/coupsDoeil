@@ -39,12 +39,12 @@ public class moveFromAtoB2 : Lookable {
 		timerCanMove -= Time.deltaTime;
 		if (state == State.Idle) {
 			state = State.LookedAt;
-			animator.SetInteger ("doing", 1);
+			//animator.SetInteger ("doing", 1);
 		}
 		else if (state == State.LookedAt) {
 			if (timerCanMove < 0) {
 				state = State.Ready;
-				animator.SetInteger ("doing", 0);
+				//animator.SetInteger ("doing", 0);
 			}
 		}
 		else if (state == State.WaitingLocation) {
@@ -56,7 +56,7 @@ public class moveFromAtoB2 : Lookable {
 			if (timerCanMove < 0) {
 				state = State.LookedAt;
 				timerCanMove = timeTillReady;
-				animator.SetInteger ("doing", 1);
+				//animator.SetInteger ("doing", 1);
 			}
 		}
 	}
@@ -66,7 +66,7 @@ public class moveFromAtoB2 : Lookable {
 		timerCanMove = timeTillReady;
 		if (state == State.LookedAt) {
 			state = State.Idle;
-			animator.SetInteger ("doing", 2);
+			//animator.SetInteger ("doing", 2);
 		}
 		else if (state == State.Ready || state == State.Cancelling) {
 			state = State.WaitingLocation;
@@ -105,7 +105,6 @@ public class moveFromAtoB2 : Lookable {
 					timerMove = 0;
 				}
 			}
-
 			if (timerMove > timeTillTeleport) {
 				if (attire) {
 					i = 0;

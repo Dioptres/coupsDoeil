@@ -12,6 +12,8 @@ public class MusicianBehavior : Lookable {
 
 	public bool boule;
 
+	GameObject myPlace;
+
 	public GameObject[] Musician;
 
 	public AudioClip son1;
@@ -20,25 +22,85 @@ public class MusicianBehavior : Lookable {
 
 	public GameObject GO1;
 
+	public int numberOfFouleSpwn = 8;
+	public GameObject foule;
+
 	private AudioSource source;
 
 	float time;
+
+	GameObject manager;
+
+	
+	public void spwnFoule()
+	{
+		GameObject[] foulesSPWNer;
+		foulesSPWNer = GameObject.FindGameObjectsWithTag ("place");
+		for (int i = 0; i<numberOfFouleSpwn; i++)
+		{
+			int randPosition = Random.Range (0, foulesSPWNer.Length);
+			Debug.Log (randPosition + "   " + foulesSPWNer.Length);
+			GameObject go = Instantiate (foule, foulesSPWNer[randPosition].transform.position, Quaternion.identity);
+			go.GetComponent<crowdBehavior> ().MainPlace = myPlace;
+		}
+	}
 
 	private void Awake () {
 		anim = GetComponentInChildren<Animator> ();
 		nbrOfMusician = 0;
 		trueNbrOfMusician = 0;
 		source = GetComponent<AudioSource> ();
-
+		manager = GameObject.FindGameObjectWithTag ("Game_Manager");
 	}
 
 	protected override void StartLookable () {
 		base.StartLookable ();
 		time = 0;
+
+		GameObject[] foulesSPWNer;
+		foulesSPWNer = GameObject.FindGameObjectsWithTag ("place");
+
+		myPlace = foulesSPWNer[0];
+
+		for(int i = 1; i<foulesSPWNer.Length; i++)
+		{
+			if(Vector3.Distance(this.transform.position, foulesSPWNer[i].transform.position) < Vector3.Distance (this.transform.position, myPlace.transform.position))
+			{
+				myPlace = foulesSPWNer[i];
+			}
+		}
+	}
+
+	public void MoveThere (GameObject targetPosition)
+	{
+		foreach (GameObject musicos in Musician)
+		{
+
+			if (Vector3.Distance (this.transform.position, musicos.transform.position) < distanceOtherMusician)
+			{
+				GameObject[] foules = GameObject.FindGameObjectsWithTag ("foule");
+
+				foreach(GameObject foule in foules)
+				{
+					if(foule.GetComponent<crowdBehavior>().MyStartTarget == myPlace.transform.position)
+					{
+						Debug.Log ("here the random ");
+						if(Random.Range (0, 2) == 0)
+						{
+							foule.GetComponent<crowdBehavior> ().agent.destination = targetPosition.transform.position;
+						}
+					}
+				}
+
+				myPlace = targetPosition;
+				musicos.GetComponent<UnityEngine.AI.NavMeshAgent> ().destination = targetPosition.transform.position;
+			}
+		}
 	}
 
 	protected override void UpdateLookable () {
 		base.UpdateLookable ();
+
 		if (trueNbrOfMusician > 1) {
 			anim.SetBool ("dancerIsDancing", true);
 		}
@@ -49,20 +111,19 @@ public class MusicianBehavior : Lookable {
 				anim.SetBool ("dancerIsDancing", false);
 			}
 		}
-		
-		if (Input.GetKeyDown ("space")) {
-			DoAction ();
-		}
-		
+				
 		nbrOfMusician = 0;
 		foreach (GameObject musicos in Musician) {
-
-			if (boule) {
-			}
 
 			if (Vector3.Distance (this.transform.position, musicos.transform.position) < distanceOtherMusician) {
 
 				nbrOfMusician++;
+			}
+
+			if(manager.GetComponent<GameManager>().numberMaxMusiGroupTogether < nbrOfMusician)
+			{
+				manager.GetComponent<GameManager> ().numberMaxMusiGroupTogether = nbrOfMusician;
+				spwnFoule ();
 			}
 		}
 		if (nbrOfMusician > trueNbrOfMusician) {
