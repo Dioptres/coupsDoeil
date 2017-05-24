@@ -5,6 +5,14 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
+	public GameObject lastMusicianSeen;
+	public float TimeSincelastMusicianSeen;
+	float timeBeforeSelecMusic;
+
+	public int numberMaxMusiGroupTogether;
+
+	bool haveSeenMusician;
+
 	public static Vector3 whereIlook;
 	public static GazePoint gazePoint;
 
@@ -14,20 +22,38 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
 		lookables = GameObject.FindGameObjectsWithTag ("Lookable");
-		lookables2 = GameObject.FindGameObjectsWithTag ("lampe");
+		lookables2 = GameObject.FindGameObjectsWithTag ("place");
+		TimeSincelastMusicianSeen = 99999999;
+		numberMaxMusiGroupTogether = 1;
 	}
 
 	// Update is called once per frame
 	void Update () {
+		TimeSincelastMusicianSeen += Time.deltaTime;
 		lookables = GameObject.FindGameObjectsWithTag ("Lookable");
-		lookables2 = GameObject.FindGameObjectsWithTag ("lampe");
+		lookables2 = GameObject.FindGameObjectsWithTag ("place");
 
 		gazePoint = EyeTracking.GetGazePoint ();
-		if (gazePoint.IsValid) {
-			whereIlook = Camera.main.ScreenToWorldPoint (new Vector3 (gazePoint.Screen.x, gazePoint.Screen.y, 5.5f));
-			foreach (GameObject toLook in lookables) {
-				if (Vector3.Distance (whereIlook, toLook.transform.position) < toLook.GetComponent<Lookable> ().distanceDeVision) {
-
+		if (true) {
+			//whereIlook = Camera.main.ScreenToWorldPoint (new Vector3 (gazePoint.Screen.x, gazePoint.Screen.y, 5.5f));
+			whereIlook = Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 5.5f));
+			haveSeenMusician = false;
+			foreach (GameObject toLook in lookables)
+			{
+				if (Vector3.Distance (whereIlook, toLook.transform.position) < toLook.GetComponent<Lookable> ().distanceDeVision)
+				{
+					
+					if(toLook.layer == 8)
+					{
+						haveSeenMusician = true;
+						timeBeforeSelecMusic += Time.deltaTime;
+						if(timeBeforeSelecMusic > 0.4f)
+						{
+							lastMusicianSeen = toLook;
+						}
+						
+						TimeSincelastMusicianSeen = 0;
+					}
 					Lookable[] lo = toLook.GetComponents<Lookable> ();
 					foreach (Lookable loo in lo) {
 						loo.looked = Lookable.StareState.Looking;
@@ -43,19 +69,25 @@ public class GameManager : MonoBehaviour {
 					}
 				}
 			}
-			foreach (GameObject toLook in lookables2) {
-				if (Vector3.Distance (whereIlook, toLook.transform.position) < toLook.GetComponent<Lookable> ().distanceDeVision) {
+			foreach (GameObject toLook in lookables2)
+			{
+				if (Vector3.Distance (whereIlook, toLook.transform.position) < toLook.GetComponent<Lookable> ().distanceDeVision)
+				{
 
 					Lookable[] lo = toLook.GetComponents<Lookable> ();
-					foreach (Lookable loo in lo) {
+					foreach (Lookable loo in lo)
+					{
 						loo.looked = Lookable.StareState.Looking;
 					}
 					//Debug.Log (toLook.GetComponent<Lookable> ().looked);
 				}
-				else {
-					if (toLook.GetComponent<Lookable> ().looked == Lookable.StareState.Looking) {
+				else
+				{
+					if (toLook.GetComponent<Lookable> ().looked == Lookable.StareState.Looking)
+					{
 						Lookable[] lo = toLook.GetComponents<Lookable> ();
-						foreach (Lookable loo in lo) {
+						foreach (Lookable loo in lo)
+						{
 							loo.looked = Lookable.StareState.LosingSight;
 						}
 					}

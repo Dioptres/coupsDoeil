@@ -20,6 +20,10 @@ public class lampFireflySpxn : Lookable {
 
 	int lampeAllume;
 
+	public Transform lastPos;
+
+	int totalNbrLampes;
+
 	Color fireflyColor;
 
 	public GameObject luciol;
@@ -113,12 +117,22 @@ public class lampFireflySpxn : Lookable {
 			exist = true;
 
 			lampes = GameObject.FindGameObjectsWithTag ("lampe");
+			if (totalNbrLampes == 0)
+			{
+				totalNbrLampes = lampes.Length;
+			}
 
 			foreach (GameObject lampe in lampes) {
 				if (Vector3.Distance (this.transform.position, lampe.transform.position) < distanceActivationLampe) {
 					if (lampe.GetComponentInChildren<Light> ().intensity == 0) {
 						lampeAllume++;
-						Debug.Log (lampe.name);
+
+						if(lampeAllume == totalNbrLampes)
+						{
+							this.transform.position = lastPos.position;
+							this.GetComponent<moveFromAtoB2> ().enabled = false;
+						}
+
 						lampe.GetComponent<lamp> ().song ();
 					}
 					lampe.GetComponentInChildren<Light> ().intensity = lampPostIntensity;

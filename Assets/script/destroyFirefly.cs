@@ -17,8 +17,11 @@ public class destroyFirefly : MonoBehaviour {
 
 		fireflySource.loop = true;
 		
-        fireflySource.clip = fireflySound[Random.Range(0, fireflySound.Length)];
-        fireflySource.Play();
+		if(fireflySound.Length >0)
+		{
+			fireflySource.clip = fireflySound[Random.Range (0, fireflySound.Length)];
+			fireflySource.Play ();
+		}
 	}
 
 	void Update ()

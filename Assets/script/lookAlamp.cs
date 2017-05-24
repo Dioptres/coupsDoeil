@@ -5,7 +5,11 @@ using UnityEngine;
 public class lookAlamp : Lookable
 {
 
-	public GameObject lampist;
+	GameObject Manager;
+
+	GameObject lampist;
+
+	float TimeBeforeMusicianGoes = 0.3f;
 
 	float timerlamp;
 
@@ -13,15 +17,18 @@ public class lookAlamp : Lookable
 
 	bool activate;
 
-	UnityEngine.AI.NavMeshAgent agent;
+	
+
+	float timer;
 
 	protected override void StartLookable ()
 	{
+		timer = 0;
 		base.StartLookable ();
 
+		Manager = GameObject.FindGameObjectWithTag ("Game_Manager");
 		
 			activate = false;
-			agent = lampist.GetComponent<UnityEngine.AI.NavMeshAgent> ();
 			timerlamp = 0.4f;
 			act = false;
 		
@@ -30,13 +37,28 @@ public class lookAlamp : Lookable
 
 	public override void DoAction ()
 	{
-	if (this.GetComponentInChildren<Light> ().intensity == 0)
-	{
-		agent.destination = this.transform.position;
-		activate = true;
+		timer += Time.deltaTime;
+		if (Manager.GetComponent<GameManager>().TimeSincelastMusicianSeen < 3 && timer > TimeBeforeMusicianGoes)
+		{
+			if(Manager.GetComponent<GameManager> ().lastMusicianSeen.name == "Singer")
+			{
+				Manager.GetComponent<GameManager> ().lastMusicianSeen.GetComponent<SingerBehavior> ().MoveThere (this.gameObject);
+			}
+			else
+			{
+				Manager.GetComponent<GameManager> ().lastMusicianSeen.GetComponent<MusicianBehavior> ().MoveThere (this.gameObject);
+			}
+			
+			activate = true;
 		}
 	}
-	
+
+	public override void QuitSee ()
+	{
+		base.QuitSee ();
+		timer = 0;
+	}
+
 
 
 }
