@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour {
 	public float TimeSincelastMusicianSeen;
 	float timeBeforeSelecMusic;
 
+	bool ready;
+
 	public int numberMaxMusiGroupTogether;
 
 	bool haveSeenMusician;
@@ -25,6 +27,7 @@ public class GameManager : MonoBehaviour {
 		lookables2 = GameObject.FindGameObjectsWithTag ("place");
 		TimeSincelastMusicianSeen = 99999999;
 		numberMaxMusiGroupTogether = 1;
+		ready = true;
 	}
 
 	// Update is called once per frame
@@ -46,11 +49,12 @@ public class GameManager : MonoBehaviour {
 					if(toLook.layer == 8)
 					{
 						haveSeenMusician = true;
-						timeBeforeSelecMusic += Time.deltaTime;
-						if(timeBeforeSelecMusic > 0.4f)
+						if (ready)
 						{
 							lastMusicianSeen = toLook;
 						}
+						ready = !ready;
+
 						
 						TimeSincelastMusicianSeen = 0;
 					}

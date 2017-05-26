@@ -12,9 +12,14 @@ public class MusicianBehavior : Lookable {
 
 	public bool boule;
 
+	GameObject lampWakingMeUp;
+
+	bool isSleeping;
+
 	GameObject myPlace;
 
 	public GameObject[] Musician;
+	GameObject[] lampes;
 
 	public AudioClip son1;
 	public AudioClip son2;
@@ -34,7 +39,7 @@ public class MusicianBehavior : Lookable {
 	
 	public void spwnFoule()
 	{
-		GameObject[] foulesSPWNer;
+		/*GameObject[] foulesSPWNer;
 		foulesSPWNer = GameObject.FindGameObjectsWithTag ("place");
 		for (int i = 0; i<numberOfFouleSpwn; i++)
 		{
@@ -42,7 +47,7 @@ public class MusicianBehavior : Lookable {
 			Debug.Log (randPosition + "   " + foulesSPWNer.Length);
 			GameObject go = Instantiate (foule, foulesSPWNer[randPosition].transform.position, Quaternion.identity);
 			go.GetComponent<crowdBehavior> ().MainPlace = myPlace;
-		}
+		}*/
 	}
 
 	private void Awake () {
@@ -53,7 +58,10 @@ public class MusicianBehavior : Lookable {
 		manager = GameObject.FindGameObjectWithTag ("Game_Manager");
 	}
 
-	protected override void StartLookable () {
+	protected override void StartLookable ()
+	{
+		lampes = GameObject.FindGameObjectsWithTag ("lampe");
+		isSleeping = true;
 		base.StartLookable ();
 		time = 0;
 
@@ -69,37 +77,54 @@ public class MusicianBehavior : Lookable {
 				myPlace = foulesSPWNer[i];
 			}
 		}
+
+		lampWakingMeUp = lampes[0];
+		for (int i = 1; i < lampes.Length; i++)
+		{
+			if (Vector3.Distance (lampes[i].transform.position, this.transform.position) < Vector3.Distance (lampWakingMeUp.transform.position, this.transform.position))
+			{
+				lampWakingMeUp = lampes[i];
+			}
+		}
+
 	}
 
 	public void MoveThere (GameObject targetPosition)
 	{
-		foreach (GameObject musicos in Musician)
+		if(!isSleeping)
 		{
-
-			if (Vector3.Distance (this.transform.position, musicos.transform.position) < distanceOtherMusician)
+			foreach (GameObject musicos in Musician)
 			{
-				GameObject[] foules = GameObject.FindGameObjectsWithTag ("foule");
 
-				foreach(GameObject foule in foules)
+				if (Vector3.Distance (this.transform.position, musicos.transform.position) < distanceOtherMusician)
 				{
-					if(foule.GetComponent<crowdBehavior>().MyStartTarget == myPlace.transform.position)
+					GameObject[] foules = GameObject.FindGameObjectsWithTag ("foule");
+
+					foreach (GameObject foule in foules)
 					{
-						Debug.Log ("here the random ");
-						if(Random.Range (0, 2) == 0)
+						if (foule.GetComponent<crowdBehavior> ().MyStartTarget == myPlace.transform.position)
 						{
-							foule.GetComponent<crowdBehavior> ().agent.destination = targetPosition.transform.position;
+							Debug.Log ("here the random ");
+							if (Random.Range (0, 2) == 0)
+							{
+								foule.GetComponent<crowdBehavior> ().agent.destination = targetPosition.transform.position;
+							}
 						}
 					}
-				}
 
-				myPlace = targetPosition;
-				musicos.GetComponent<UnityEngine.AI.NavMeshAgent> ().destination = targetPosition.transform.position;
+					myPlace = targetPosition;
+					musicos.GetComponent<UnityEngine.AI.NavMeshAgent> ().destination = targetPosition.transform.position;
+				}
 			}
 		}
 	}
 
 	protected override void UpdateLookable () {
 		base.UpdateLookable ();
+		if(lampWakingMeUp.transform.GetChild(0).GetComponent<Light>().intensity > 0)
+		{
+			isSleeping = false;
+		}
 
 		if (trueNbrOfMusician > 1) {
 			anim.SetBool ("dancerIsDancing", true);
@@ -176,10 +201,14 @@ public class MusicianBehavior : Lookable {
 	}
 
 	public override void DoAction () {
-		if (trueNbrOfMusician == 1) {
-			source.PlayOneShot (son1);
-			time = 0.2f;
-			anim.SetBool ("dancerIsDancing", true);
+		if (!isSleeping)
+		{
+			if (trueNbrOfMusician == 1)
+			{
+				source.PlayOneShot (son1);
+				time = 0.2f;
+				anim.SetBool ("dancerIsDancing", true);
+			}
 		}
 	}
 }

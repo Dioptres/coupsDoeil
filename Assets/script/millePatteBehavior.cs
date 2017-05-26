@@ -5,7 +5,8 @@ using UnityEngine;
 public class millePatteBehavior : MonoBehaviour {
 
 	public float timer = 5;
-	bool active;
+	public bool active;
+	public bool hasStarted;
 	GameObject lampChoosen;
 	GameObject actualSpwnPoint;
 
@@ -14,6 +15,7 @@ public class millePatteBehavior : MonoBehaviour {
 	GameObject[] lampes;
 
 	GameObject[] spwnPoints;
+
 
 	public void deactivate()
 	{
@@ -29,6 +31,7 @@ public class millePatteBehavior : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
+		hasStarted = false;
 		securite = 0;
 		lampes = GameObject.FindGameObjectsWithTag ("lampe");
 		spwnPoints = GameObject.FindGameObjectsWithTag ("spwnRumeur");
@@ -36,52 +39,56 @@ public class millePatteBehavior : MonoBehaviour {
 		{
 			child.gameObject.SetActive(false);
 		}
+		transform.GetChild (0).gameObject.SetActive (true);
 		active = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		timer -= Time.deltaTime;
-		if(timer <= 0 && !active)
+		if (hasStarted)
 		{
-
-			lampChoosen = lampes[0]; //DELETE
-			do
+			timer -= Time.deltaTime;
+			if (timer <= 0 && !active)
 			{
-				lampChoosen = lampes[Random.Range (0, lampes.Length)];
-				securite++;
-			} while (lampChoosen.transform.GetChild(0).GetComponent<Light>().intensity == 0 && securite < 20);
 
-			if(securite != 20)
-			{
-				actualSpwnPoint = spwnPoints[0];
-				for (int i = 1; i < spwnPoints.Length; i++)
+				lampChoosen = lampes[0]; //DELETE
+				do
 				{
-					if (Vector3.Distance (lampChoosen.transform.position, spwnPoints[i].transform.position) < Vector3.Distance (lampChoosen.transform.position, actualSpwnPoint.transform.position))
+					lampChoosen = lampes[Random.Range (0, lampes.Length)];
+					securite++;
+				} while (lampChoosen.transform.GetChild (0).GetComponent<Light> ().intensity == 0 && securite < 20);
+
+				if (securite != 20)
+				{
+					actualSpwnPoint = spwnPoints[0];
+					for (int i = 1; i < spwnPoints.Length; i++)
 					{
-						actualSpwnPoint = spwnPoints[i];
+						if (Vector3.Distance (lampChoosen.transform.position, spwnPoints[i].transform.position) < Vector3.Distance (lampChoosen.transform.position, actualSpwnPoint.transform.position))
+						{
+							actualSpwnPoint = spwnPoints[i];
+						}
 					}
-				}
 
-				
-				foreach (Transform child in transform)
+
+					foreach (Transform child in transform)
+					{
+						child.position = actualSpwnPoint.transform.position;
+						child.gameObject.SetActive (true);
+					}
+
+
+					this.transform.GetChild (0).gameObject.GetComponent<RumeurBehavior> ().terrier = actualSpwnPoint.transform;
+					this.transform.GetChild (0).gameObject.GetComponent<RumeurBehavior> ().checkPoints = lampChoosen.transform;
+					transform.GetChild (0).GetComponent<RumeurBehavior> ().launch ();
+					active = true;
+				}
+				else
 				{
-					child.position = actualSpwnPoint.transform.position;
-					child.gameObject.SetActive (true);
+					timer = 5;
 				}
-				
 
-				this.transform.GetChild (0).gameObject.GetComponent<RumeurBehavior> ().terrier = actualSpwnPoint.transform;
-				this.transform.GetChild (0).gameObject.GetComponent<RumeurBehavior> ().checkPoints = lampChoosen.transform;
-				transform.GetChild (0).GetComponent<RumeurBehavior> ().launch ();
-				active = true;
+				securite = 0;
 			}
-			else
-			{
-				timer = 5;
-			}
-
-			securite = 0;
 		}
 	}
 }

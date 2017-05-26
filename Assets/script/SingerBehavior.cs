@@ -7,6 +7,15 @@ public class SingerBehavior : MonoBehaviour {
 	public UnityEngine.AI.NavMeshAgent agent;
 
 	public float coeffSpeed;
+	bool mustSing;
+
+	bool porteLuneActivate;
+
+	public float totalTimeSinging = 5;
+	float timeSpendSinging;
+
+	public GameObject porteLune;
+	public GameObject carrier;
 
 	GameObject[] places;
 
@@ -15,6 +24,7 @@ public class SingerBehavior : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
+		porteLuneActivate = false;
 		agent = GetComponent<UnityEngine.AI.NavMeshAgent> ();
 		places = GameObject.FindGameObjectsWithTag ("place");
 
@@ -31,22 +41,61 @@ public class SingerBehavior : MonoBehaviour {
 		
 	}
 
+	void Sing()
+	{
+		timeSpendSinging += Time.deltaTime;
+
+		if(timeSpendSinging >= totalTimeSinging)
+		{
+			agent.destination = places[Random.Range (0, places.Length)].transform.position;
+			agent.speed = 1;
+
+
+			if (!porteLuneActivate)
+			{
+				if (Vector3.Distance (this.transform.position, porteLune.transform.position) < 3)
+				{
+					porteLuneActivate = true;
+					carrier.GetComponent<scarabBehavior> ().endSleep ();
+				}
+			}
+		}
+		else
+		{
+			mustSing = true;
+		}
+	}
+
 	// Update is called once per frame
 	void Update () {
 
-		foreach(GameObject chanteur in chanteurs)
+		if(mustSing)
 		{
-			if(Vector3.Distance(chanteur.transform.position, this.transform.position)< 2)
-			{
-				chanteur.GetComponent<UnityEngine.AI.NavMeshAgent> ().destination = places[Random.Range (0, places.Length)].transform.position;
-			}
+			mustSing = false;
+			Sing ();
 		}
 
-		agent.speed = Vector3.Distance (this.transform.position, GameManager.whereIlook) * coeffSpeed;
 
-		if (Vector3.Distance(this.transform.position, agent.destination)<1)
+		else
 		{
-			agent.destination = places[Random.Range (0, places.Length)].transform.position;
+
+
+			/*foreach(GameObject chanteur in chanteurs)
+			{
+				if(Vector3.Distance(chanteur.transform.position, this.transform.position)< 2)
+				{
+					chanteur.GetComponent<UnityEngine.AI.NavMeshAgent> ().destination = places[Random.Range (0, places.Length)].transform.position;
+				}
+			}*/
+
+			agent.speed = Vector3.Distance (this.transform.position, GameManager.whereIlook) * coeffSpeed;
+
+			if (Vector3.Distance (this.transform.position, agent.destination) < 1)
+			{
+				agent.speed = 0;
+				timeSpendSinging = 0;
+				Sing ();
+			}
 		}
 	}
 }

@@ -54,17 +54,14 @@ public class SingerFieldOfView : Lookable {
 
 			targetAgent.destination = transform.position - new Vector3 (1, 0, 1);
 
-			Debug.Log (targetAgent.destination);
 
 
 			targetAnimator.SetBool ("CrowdIsDancing", true);
 
-			Debug.Log (targetAnimator);
 
 
 			targetAudio.clip = crowdSound[Random.Range (0, crowdSound.Length)];
 			targetAudio.Play ();
-			Debug.Log (crowdSound);
 		}
 	}
 }

@@ -9,7 +9,6 @@ public class lookAlamp : Lookable
 
 	GameObject lampist;
 
-	float TimeBeforeMusicianGoes = 0.3f;
 
 	float timerlamp;
 
@@ -29,7 +28,7 @@ public class lookAlamp : Lookable
 		Manager = GameObject.FindGameObjectWithTag ("Game_Manager");
 		
 			activate = false;
-			timerlamp = 0.4f;
+			timerlamp = 0.2f;
 			act = false;
 		
 		
@@ -38,7 +37,7 @@ public class lookAlamp : Lookable
 	public override void DoAction ()
 	{
 		timer += Time.deltaTime;
-		if (Manager.GetComponent<GameManager>().TimeSincelastMusicianSeen < 3 && timer > TimeBeforeMusicianGoes)
+		if (Manager.GetComponent<GameManager>().TimeSincelastMusicianSeen < 3)
 		{
 			if(Manager.GetComponent<GameManager> ().lastMusicianSeen.name == "Singer")
 			{

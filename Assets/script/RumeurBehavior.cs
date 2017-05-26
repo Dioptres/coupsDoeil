@@ -25,7 +25,7 @@ public class RumeurBehavior : Lookable {
 		
 
 		source = GetComponent<AudioSource> ();
-		flee = false;
+		flee = true;
 		actualCheckPoint = 0;
 		agent = GetComponent<UnityEngine.AI.NavMeshAgent> ();
 		
@@ -34,7 +34,10 @@ public class RumeurBehavior : Lookable {
 	protected override void StartLookable ()
 	{
 		base.StartLookable ();
-		agent.destination = checkPoints.position;
+
+		agent.destination = terrier.position;
+		this.transform.parent.gameObject.GetComponent<millePatteBehavior> ().hasStarted = true;
+		this.transform.parent.gameObject.GetComponent<millePatteBehavior> ().active = true;
 	}
 
 	public void launch()
@@ -52,7 +55,8 @@ public class RumeurBehavior : Lookable {
 		}
 
 
-		if (agent.remainingDistance == 0f) {
+		if (agent.remainingDistance == 0f)
+		{
 			if(!flee)
 			{
 				checkPoints.GetChild(0).GetComponent<Light> ().intensity = 0;
@@ -66,6 +70,8 @@ public class RumeurBehavior : Lookable {
 			}
 		}
 	}
+
+	
 
 	public override void DoAction () {
 		if (shy) {
