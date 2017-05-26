@@ -17,6 +17,8 @@ public class scarabBehavior : Lookable
 	public GameObject porteLune;
 	public GameObject rumeur;
 
+	public GameObject lampist;
+
 
 	public void Awake ()
 	{
@@ -75,8 +77,13 @@ public class scarabBehavior : Lookable
 				actualCheckPoint++;
 				agent.destination = checkPoints[actualCheckPoint].position;
 			}
-				
-			
+			else if (actualCheckPoint == checkPoints.Length - 1)
+			{
+				actualCheckPoint++;
+				lampist.GetComponent<shoot> ().active = true;
+			}
+
+
 		}
 	}
 
