@@ -215,7 +215,7 @@ public class AkBasePathGetter
 #if !UNITY_EDITOR
             Debug.LogError("WwiseUnity: Could not locate the SoundBanks. Did you make sure to copy them to the StreamingAssets folder?");
 #else
-            //Debug.LogError("WwiseUnity: Could not locate the SoundBanks. Did you make sure to generate them?");
+            Debug.LogError("WwiseUnity: Could not locate the SoundBanks. Did you make sure to generate them?");
 #endif
             return string.Empty;
         }

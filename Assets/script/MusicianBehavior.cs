@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class MusicianBehavior : Lookable {
 
+	/*
+	 * enum :
+	 *	guitare
+	 *  basse
+	 *  ukulele
+	 * flutte
+	 * batterie
+	 * /
+
 	Animator anim;
 
 	public float distanceOtherMusician;
