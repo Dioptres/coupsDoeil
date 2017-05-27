@@ -27,6 +27,22 @@ public class SingerBehavior : MonoBehaviour {
 
 	public GameObject[] chanteurs;
 
+	public void stopSing()
+	{
+		agent.speed = 1;
+
+
+		if (!porteLuneActivate)
+		{
+			if (Vector3.Distance (this.transform.position, porteLune.transform.position) < 3)
+			{
+				porteLuneActivate = true;
+				carrier.GetComponent<scarabBehavior> ().endSleep ();
+			}
+		}
+		mustSing = false;
+	}
+
 	// Use this for initialization
 	void Start ()
 	{
