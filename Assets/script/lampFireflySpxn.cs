@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class lampFireflySpxn : Lookable {
+public class lampFireflySpxn : MonoBehaviour {
 
 	public Animator anim;
-
-	float timerSpwnFirefly = 0.4f;
 
 	public float intensityOfLampist = 2;
 
@@ -35,6 +33,8 @@ public class lampFireflySpxn : Lookable {
 	public float lampPostIntensity = 3;
 	public float lampPostRange = 50;
 
+	float timerAnim;
+
 	bool exist = false;
 
 	int waveNumber = 0;
@@ -45,24 +45,21 @@ public class lampFireflySpxn : Lookable {
 
 	public AudioClip fireFly;
 
-	protected override void StartLookable () {
-		base.StartLookable ();
+	protected void Start () {
 		lampeAllume = 0;
 		source = GetComponent<AudioSource> ();
 
 		this.transform.GetChild (0).GetComponent<Light> ().intensity = intensityOfLampist;
 	}
 
-	public override void QuitSee () {
-		base.QuitSee ();
-		anim.SetBool ("isThrowing", false);
-	}
 
-	public override void DoAction () {
-		if (timerSpwnFirefly <= 0) {
-			timerSpwnFirefly = 0.4f;
+	public void throwFireFly () {
+		if (true)
+		{
 			source.PlayOneShot (fireFly);
 			anim.SetBool ("isThrowing", true);
+			timerAnim = 0;
+
 			float randA = Random.Range (-1f, 1f);
 			float randB = Random.Range (-1f, 1f);
 
@@ -149,18 +146,20 @@ public class lampFireflySpxn : Lookable {
 				}
 			}
 		}
-		else {
-			anim.SetBool ("isThrowing", true);
-			timerSpwnFirefly -= Time.deltaTime;
-		}
+		
 	}
 
-	protected override void UpdateLookable () {
-		base.UpdateLookable ();
+	protected void Update () {
 
-		if (Input.GetKeyDown ("space")) {
-			DoAction ();
+		if(timerAnim < 0.2f)
+		{
+			timerAnim+=Time.deltaTime;
 		}
+		else
+		{
+			anim.SetBool ("isThrowing", false);
+		}
+		
 
 		if (exist && fireFly1 != null) {
 			fireFly1.transform.Translate (Vector3.forward * Time.deltaTime);

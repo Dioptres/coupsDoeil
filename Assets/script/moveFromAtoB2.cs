@@ -15,7 +15,10 @@ public class moveFromAtoB2 : Lookable {
 
 	Vector3 targetLocation;
 	bool targetLocationIsValid;
-	
+
+	bool throwFanim;
+
+
 	float i;
 	bool canMove;
 	bool goingUp;
@@ -76,6 +79,7 @@ public class moveFromAtoB2 : Lookable {
 
 	protected override void StartLookable () {
 		base.StartLookable ();
+		throwFanim = false;
 		timerCanMove = 0.6f;
 		timerMove = 0;
 		i = 0;
@@ -88,6 +92,12 @@ public class moveFromAtoB2 : Lookable {
 
 	protected override void UpdateLookable () {
 		base.UpdateLookable ();
+
+		if (throwFanim)
+		{
+			this.GetComponent<lampFireflySpxn> ().throwFireFly ();
+			throwFanim = false;
+		}
 
 		if (state == State.WaitingLocation) {
 			if (targetLocationIsValid && Vector3.Distance (GameManager.whereIlook, targetLocation) < maxDistance) {
@@ -130,6 +140,11 @@ public class moveFromAtoB2 : Lookable {
 				}
 
 				this.transform.position = new Vector3 (targetLocation.x, 0, targetLocation.z);
+				
+				
+				
+
+				throwFanim = true;
 			}
 		}
 	}
