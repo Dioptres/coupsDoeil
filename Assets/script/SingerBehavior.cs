@@ -11,8 +11,14 @@ public class SingerBehavior : MonoBehaviour {
 
 	bool porteLuneActivate;
 
+	GameObject[] lampes;
+
+	GameObject lampWakingMeUp;
+
 	public float totalTimeSinging = 5;
 	float timeSpendSinging;
+
+	bool isSleeping;
 
 	public GameObject porteLune;
 	public GameObject carrier;
@@ -24,8 +30,20 @@ public class SingerBehavior : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
+		lampes = GameObject.FindGameObjectsWithTag ("lampe");
+		lampWakingMeUp = lampes[0];
+		for (int i = 1; i < lampes.Length; i++)
+		{
+			if (Vector3.Distance (lampes[i].transform.position, this.transform.position) < Vector3.Distance (lampWakingMeUp.transform.position, this.transform.position))
+			{
+				lampWakingMeUp = lampes[i];
+			}
+		}
+
+		isSleeping = true;
 		porteLuneActivate = false;
 		agent = GetComponent<UnityEngine.AI.NavMeshAgent> ();
+		agent.speed = 0;
 		places = GameObject.FindGameObjectsWithTag ("place");
 
 		agent.destination = places[Random.Range (0, places.Length)].transform.position;
@@ -33,68 +51,78 @@ public class SingerBehavior : MonoBehaviour {
 
 	public void MoveThere (GameObject targetPosition)
 	{
-		
-
-			
-				this.GetComponent<UnityEngine.AI.NavMeshAgent> ().destination = targetPosition.transform.position;
-			
-		
+		if(!isSleeping)
+		{
+			this.GetComponent<UnityEngine.AI.NavMeshAgent> ().destination = targetPosition.transform.position;
+		}		
 	}
 
 	void Sing()
 	{
-		timeSpendSinging += Time.deltaTime;
-
-		if(timeSpendSinging >= totalTimeSinging)
+		if (!isSleeping)
 		{
-			agent.destination = places[Random.Range (0, places.Length)].transform.position;
-			agent.speed = 1;
+			timeSpendSinging += Time.deltaTime;
 
-
-			if (!porteLuneActivate)
+			if (timeSpendSinging >= totalTimeSinging)
 			{
-				if (Vector3.Distance (this.transform.position, porteLune.transform.position) < 3)
+				agent.destination = places[Random.Range (0, places.Length)].transform.position;
+				agent.speed = 1;
+
+
+				if (!porteLuneActivate)
 				{
-					porteLuneActivate = true;
-					carrier.GetComponent<scarabBehavior> ().endSleep ();
+					if (Vector3.Distance (this.transform.position, porteLune.transform.position) < 3)
+					{
+						porteLuneActivate = true;
+						carrier.GetComponent<scarabBehavior> ().endSleep ();
+					}
 				}
 			}
-		}
-		else
-		{
-			mustSing = true;
+			else
+			{
+				mustSing = true;
+			}
 		}
 	}
 
 	// Update is called once per frame
-	void Update () {
-
-		if(mustSing)
+	void Update ()
+	{
+		if (lampWakingMeUp.transform.GetChild (0).GetComponent<Light> ().intensity > 0)
 		{
-			mustSing = false;
-			Sing ();
+			isSleeping = false;
 		}
 
-
-		else
+		if (!isSleeping)
 		{
 
-
-			/*foreach(GameObject chanteur in chanteurs)
+			if (mustSing)
 			{
-				if(Vector3.Distance(chanteur.transform.position, this.transform.position)< 2)
-				{
-					chanteur.GetComponent<UnityEngine.AI.NavMeshAgent> ().destination = places[Random.Range (0, places.Length)].transform.position;
-				}
-			}*/
-
-			agent.speed = Vector3.Distance (this.transform.position, GameManager.whereIlook) * coeffSpeed;
-
-			if (Vector3.Distance (this.transform.position, agent.destination) < 1)
-			{
-				agent.speed = 0;
-				timeSpendSinging = 0;
+				mustSing = false;
 				Sing ();
+			}
+
+
+			else
+			{
+
+
+				/*foreach(GameObject chanteur in chanteurs)
+				{
+					if(Vector3.Distance(chanteur.transform.position, this.transform.position)< 2)
+					{
+						chanteur.GetComponent<UnityEngine.AI.NavMeshAgent> ().destination = places[Random.Range (0, places.Length)].transform.position;
+					}
+				}*/
+
+				agent.speed = Vector3.Distance (this.transform.position, GameManager.whereIlook) * coeffSpeed;
+
+				if (Vector3.Distance (this.transform.position, agent.destination) < 1)
+				{
+					agent.speed = 0;
+					timeSpendSinging = 0;
+					Sing ();
+				}
 			}
 		}
 	}
