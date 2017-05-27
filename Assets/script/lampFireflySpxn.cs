@@ -8,6 +8,8 @@ public class lampFireflySpxn : Lookable {
 
 	float timerSpwnFirefly = 0.4f;
 
+	public float intensityOfLampist = 2;
+
 	GameObject fireFly1;
 
 	GameObject fireFly2;
@@ -47,6 +49,8 @@ public class lampFireflySpxn : Lookable {
 		base.StartLookable ();
 		lampeAllume = 0;
 		source = GetComponent<AudioSource> ();
+
+		this.transform.GetChild (0).GetComponent<Light> ().intensity = intensityOfLampist;
 	}
 
 	public override void QuitSee () {
@@ -126,9 +130,11 @@ public class lampFireflySpxn : Lookable {
 				if (Vector3.Distance (this.transform.position, lampe.transform.position) < distanceActivationLampe) {
 					if (lampe.GetComponentInChildren<Light> ().intensity == 0) {
 						lampeAllume++;
+						this.transform.GetChild (0).GetComponent<Light> ().intensity -= intensityOfLampist/totalNbrLampes;
 
-						if(lampeAllume == totalNbrLampes)
+						if (lampeAllume == totalNbrLampes)
 						{
+							this.transform.GetChild (0).GetComponent<Light> ().intensity = 0;
 							this.transform.position = lastPos.position;
 							this.GetComponent<moveFromAtoB2> ().enabled = false;
 						}
