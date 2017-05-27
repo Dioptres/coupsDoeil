@@ -19,8 +19,13 @@ public class shoot : Lookable {
 	public override void QuitSee () {
 		if(active)
 		{
-			dir = Camera.main.ScreenToWorldPoint (new Vector3 (gazePoint.Screen.x, gazePoint.Screen.y, 10)) - this.transform.position;
+			
+			dir = GameManager.whereIlook - this.transform.position;
 			dir = dir.normalized;
+			dir = new Vector3 (dir.x, 0, dir.z);
+
+			Debug.Log (dir);
+
 			GameObject firedBullet = Instantiate (bullet, this.transform.position, Quaternion.identity);
 			firedBullet.GetComponent<bullet> ().dir = dir;
 		}

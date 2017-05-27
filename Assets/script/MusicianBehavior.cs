@@ -11,7 +11,7 @@ public class MusicianBehavior : Lookable {
 	 *  ukulele
 	 * flutte
 	 * batterie
-	 * /
+	 */
 
 	Animator anim;
 
