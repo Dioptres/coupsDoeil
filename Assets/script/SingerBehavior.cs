@@ -44,9 +44,9 @@ public class SingerBehavior : MonoBehaviour {
 		porteLuneActivate = false;
 		agent = GetComponent<UnityEngine.AI.NavMeshAgent> ();
 		agent.speed = 0;
-		places = GameObject.FindGameObjectsWithTag ("place");
+		places = GameObject.FindGameObjectsWithTag ("soonToBePlace");
 
-		agent.destination = places[Random.Range (0, places.Length)].transform.position;
+		agent.destination = places[0].transform.position;
 	}
 
 	public void MoveThere (GameObject targetPosition)
