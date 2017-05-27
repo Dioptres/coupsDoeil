@@ -21,7 +21,7 @@ public class MusicianBehavior : Lookable {
 
 	public bool boule;
 
-	GameObject lampWakingMeUp;
+	public GameObject lampWakingMeUp;
 
 	bool isSleeping;
 
@@ -70,6 +70,16 @@ public class MusicianBehavior : Lookable {
 	protected override void StartLookable ()
 	{
 		lampes = GameObject.FindGameObjectsWithTag ("lampe");
+
+		lampWakingMeUp = lampes[0];
+		for (int i = 1; i < lampes.Length; i++)
+		{
+			if (Vector3.Distance (lampes[i].transform.position, this.transform.position) < Vector3.Distance (lampWakingMeUp.transform.position, this.transform.position))
+			{
+				lampWakingMeUp = lampes[i];
+			}
+		}
+
 		isSleeping = true;
 		base.StartLookable ();
 		time = 0;
@@ -87,14 +97,7 @@ public class MusicianBehavior : Lookable {
 			}
 		}
 
-		lampWakingMeUp = lampes[0];
-		for (int i = 1; i < lampes.Length; i++)
-		{
-			if (Vector3.Distance (lampes[i].transform.position, this.transform.position) < Vector3.Distance (lampWakingMeUp.transform.position, this.transform.position))
-			{
-				lampWakingMeUp = lampes[i];
-			}
-		}
+		
 
 	}
 
