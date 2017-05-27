@@ -85,7 +85,7 @@ public class MusicianBehavior : Lookable {
 		time = 0;
 
 		GameObject[] foulesSPWNer;
-		foulesSPWNer = GameObject.FindGameObjectsWithTag ("place");
+		foulesSPWNer = GameObject.FindGameObjectsWithTag ("soonToBePlace");
 
 		myPlace = foulesSPWNer[0];
 

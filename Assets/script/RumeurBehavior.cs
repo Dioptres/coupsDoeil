@@ -25,7 +25,7 @@ public class RumeurBehavior : Lookable {
 		
 
 		source = GetComponent<AudioSource> ();
-		flee = true;
+		flee = false;
 		actualCheckPoint = 0;
 		agent = GetComponent<UnityEngine.AI.NavMeshAgent> ();
 		
