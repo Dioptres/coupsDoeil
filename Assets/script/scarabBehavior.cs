@@ -14,10 +14,13 @@ public class scarabBehavior : Lookable
 	bool porteLuneDestroy;
 	public bool sleep;
 	public int speed = 1;
+	public GameObject triggerPorteLune;
+	public GameObject triggerRumeur;
 	public GameObject porteLune;
 	public GameObject rumeur;
 
 	public GameObject lampist;
+	public float distanceToActivateStuff;
 
 
 	public void Awake ()
@@ -51,7 +54,7 @@ public class scarabBehavior : Lookable
 
 		if (!porteLuneDestroy)
 		{
-			if (Vector3.Distance (this.transform.position, porteLune.transform.position) < 2.8)
+			if (Vector3.Distance (this.transform.position, triggerPorteLune.transform.position) < distanceToActivateStuff)
 			{
 				Destroy (porteLune);
 				porteLuneDestroy = true;
@@ -59,7 +62,7 @@ public class scarabBehavior : Lookable
 		}
 		if (!rumeurActive)
 		{
-			if (Vector3.Distance (this.transform.position, rumeur.transform.position) < 2.8)
+			if (Vector3.Distance (this.transform.position, triggerRumeur.transform.position) < distanceToActivateStuff)
 			{
 				rumeurActive = true;
 				Destroy (rumeur.transform.GetChild (0).gameObject);
