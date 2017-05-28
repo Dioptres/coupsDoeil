@@ -10,7 +10,13 @@ public class bullet : MonoBehaviour {
 	void Start () {
 		
 	}
-	
+
+	void OnBecameInvisible ()
+	{
+		Destroy (gameObject);
+	}
+
+
 	// Update is called once per frame
 	void Update () {
 		transform.Translate (dir * Time.deltaTime);
