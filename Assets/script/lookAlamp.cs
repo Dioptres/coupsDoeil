@@ -41,8 +41,8 @@ public class lookAlamp : Lookable
 		{
 			if(Manager.GetComponent<GameManager> ().lastMusicianSeen.name == "Singer" && Vector3.Distance(Manager.GetComponent<GameManager> ().lastMusicianSeen.transform.position, this.transform.position)>2)
 			{
-				Manager.GetComponent<GameManager> ().lastMusicianSeen.GetComponent<SingerBehavior> ().MoveThere (this.gameObject);
 				Manager.GetComponent<GameManager> ().lastMusicianSeen.GetComponent<SingerBehavior> ().stopSing ();
+				Manager.GetComponent<GameManager> ().lastMusicianSeen.GetComponent<SingerBehavior> ().MoveThere (this.gameObject);
 			}
 			else
 			{

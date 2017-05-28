@@ -11,6 +11,8 @@ public class SingerBehavior : MonoBehaviour {
 
 	bool porteLuneActivate;
 
+	int placeToGo;
+
 	GameObject[] lampes;
 
 	GameObject lampWakingMeUp;
@@ -23,7 +25,7 @@ public class SingerBehavior : MonoBehaviour {
 	public GameObject porteLune;
 	public GameObject carrier;
 
-	GameObject[] places;
+	public GameObject[] places;
 
 	public GameObject[] chanteurs;
 
@@ -46,6 +48,8 @@ public class SingerBehavior : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
+		placeToGo = 0;
+
 		lampes = GameObject.FindGameObjectsWithTag ("lampe");
 		lampWakingMeUp = lampes[0];
 		for (int i = 1; i < lampes.Length; i++)
@@ -60,7 +64,8 @@ public class SingerBehavior : MonoBehaviour {
 		porteLuneActivate = false;
 		agent = GetComponent<UnityEngine.AI.NavMeshAgent> ();
 		agent.speed = 0;
-		places = GameObject.FindGameObjectsWithTag ("soonToBePlace");
+
+		
 
 		agent.destination = places[0].transform.position;
 	}
@@ -81,7 +86,8 @@ public class SingerBehavior : MonoBehaviour {
 
 			if (timeSpendSinging >= totalTimeSinging)
 			{
-				agent.destination = places[Random.Range (0, places.Length)].transform.position;
+				placeToGo = (placeToGo + 1) % places.Length;
+				agent.destination = places[placeToGo].transform.position;
 				agent.speed = 1;
 
 
