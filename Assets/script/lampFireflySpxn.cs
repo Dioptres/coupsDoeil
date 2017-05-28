@@ -24,6 +24,8 @@ public class lampFireflySpxn : MonoBehaviour {
 
 	int totalNbrLampes;
 
+	bool end;
+
 	Color fireflyColor;
 
 	public GameObject luciol;
@@ -34,6 +36,9 @@ public class lampFireflySpxn : MonoBehaviour {
 	public float lampPostRange = 50;
 
 	float timerAnim;
+	bool feedback;
+
+	public float timerBeforeLeaving = 1.4f;
 
 	bool exist = false;
 
@@ -46,6 +51,9 @@ public class lampFireflySpxn : MonoBehaviour {
 	public AudioClip fireFly;
 
 	protected void Start () {
+		feedback = true;
+
+		end = false;
 		lampeAllume = 0;
 		source = GetComponent<AudioSource> ();
 
@@ -131,9 +139,8 @@ public class lampFireflySpxn : MonoBehaviour {
 
 						if (lampeAllume == totalNbrLampes)
 						{
-							this.transform.GetChild (0).GetComponent<Light> ().intensity = 0;
-							this.transform.position = lastPos.position;
-							this.GetComponent<moveFromAtoB2> ().enabled = false;
+							end = true;
+							
 						}
 
 						lampe.GetComponent<lamp> ().song ();
@@ -149,7 +156,24 @@ public class lampFireflySpxn : MonoBehaviour {
 		
 	}
 
-	protected void Update () {
+	protected void Update ()
+	{
+		if(end)
+		{
+			timerBeforeLeaving -= Time.deltaTime;
+
+			if (timerBeforeLeaving <= 0.4f && feedback)
+			{
+				throwFireFly ();
+				feedback = false;
+			}
+			else if (timerBeforeLeaving <= 0)
+			{
+				this.transform.GetChild (0).GetComponent<Light> ().intensity = 0;
+				this.transform.position = lastPos.position;
+				this.GetComponent<moveFromAtoB2> ().enabled = false;
+			}
+		}
 
 		if(timerAnim < 0.2f)
 		{
