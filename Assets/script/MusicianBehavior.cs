@@ -13,6 +13,12 @@ public class MusicianBehavior : Lookable {
 	 * batterie
 	 */
 
+	public bool lastPlace;
+
+	public bool stopMoving;
+
+	UnityEngine.AI.NavMeshAgent agent;
+
 	Animator anim;
 
 	public float distanceOtherMusician;
@@ -69,6 +75,8 @@ public class MusicianBehavior : Lookable {
 
 	protected override void StartLookable ()
 	{
+		agent = GetComponent<UnityEngine.AI.NavMeshAgent> ();
+		stopMoving = false;
 		lampes = GameObject.FindGameObjectsWithTag ("lampe");
 
 		lampWakingMeUp = lampes[0];
@@ -103,7 +111,7 @@ public class MusicianBehavior : Lookable {
 
 	public void MoveThere (GameObject targetPosition)
 	{
-		if(!isSleeping)
+		if(!isSleeping && !stopMoving)
 		{
 			foreach (GameObject musicos in Musician)
 			{
@@ -133,7 +141,16 @@ public class MusicianBehavior : Lookable {
 
 	protected override void UpdateLookable () {
 		base.UpdateLookable ();
-		if(lampWakingMeUp.transform.GetChild(0).GetComponent<Light>().intensity > 0)
+
+		if (Vector3.Distance (this.transform.position, agent.destination) < 1)
+		{
+			if(lastPlace)
+			{
+				stopMoving = true;
+			}
+		}
+
+			if (lampWakingMeUp.transform.GetChild(0).GetComponent<Light>().intensity > 0)
 		{
 			isSleeping = false;
 		}

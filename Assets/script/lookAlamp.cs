@@ -5,6 +5,8 @@ using UnityEngine;
 public class lookAlamp : Lookable
 {
 
+	public bool lastOne = false;
+
 	GameObject Manager;
 
 	GameObject lampist;
@@ -47,6 +49,8 @@ public class lookAlamp : Lookable
 			else
 			{
 				Manager.GetComponent<GameManager> ().lastMusicianSeen.GetComponent<MusicianBehavior> ().MoveThere (this.gameObject);
+				Manager.GetComponent<GameManager> ().lastMusicianSeen.GetComponent<MusicianBehavior> ().lastPlace = lastOne;
+				
 			}
 			
 			activate = true;
