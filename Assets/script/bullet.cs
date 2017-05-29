@@ -26,9 +26,9 @@ public class bullet : MonoBehaviour {
 
 		foreach(GameObject lampe in lampes)
 		{
-			if(Vector3.Distance(this.transform.position, lampe.transform.position)<1 && lampe.GetComponent<Light>().intensity == 0)
+			if(Vector3.Distance(this.transform.position, lampe.transform.position)<1 && lampe.transform.GetChild (0).GetComponent<Light> ().intensity == 0)
 			{
-				lampe.GetComponent<Light> ().intensity = 1;
+				lampe.transform.GetChild(0).GetComponent<Light> ().intensity = 1;
 				Destroy (gameObject);
 			}
 		}
