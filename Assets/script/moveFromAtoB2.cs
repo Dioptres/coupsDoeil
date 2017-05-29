@@ -139,7 +139,14 @@ public class moveFromAtoB2 : Lookable {
 					}
 				}
 
-				this.transform.position = new Vector3 (targetLocation.x, 0, targetLocation.z);
+				if (Mathf.Abs (targetLocation.x) < 10 && Mathf.Abs (targetLocation.z) < 6)
+				{
+					this.transform.position = new Vector3 (targetLocation.x, 0, targetLocation.z);
+				}
+				else
+				{
+					state = State.Idle;
+				}
 				
 				
 				
