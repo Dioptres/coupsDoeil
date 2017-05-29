@@ -9,7 +9,11 @@ public class SingerBehavior : MonoBehaviour {
 	public float coeffSpeed;
 	bool mustSing;
 
+	public float distanceDarret = 1;
+
 	bool willSing;
+	bool willStop;
+	public bool mustStop;
 
 	GameObject[] foules;
 
@@ -54,6 +58,7 @@ public class SingerBehavior : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
+		mustStop = false;
 		foules = GameObject.FindGameObjectsWithTag ("foule");
 
 		placeToGo = 0;
@@ -98,8 +103,9 @@ public class SingerBehavior : MonoBehaviour {
 				agent.destination = places[placeToGo].transform.position;
 				agent.speed = speed;
 
+				mustStop = false;
 
-				if (!porteLuneActivate)
+				if (!porteLuneActivate && !mustStop)
 				{
 					if (Vector3.Distance (this.transform.position, porteLune.transform.position) < 3)
 					{
@@ -110,7 +116,15 @@ public class SingerBehavior : MonoBehaviour {
 			}
 			else
 			{
-				mustSing = true;
+				if(mustStop)
+				{
+					willStop = true;
+				}
+				else
+				{
+					mustSing = true;
+				}
+				
 			}
 		}
 	}
@@ -126,9 +140,10 @@ public class SingerBehavior : MonoBehaviour {
 		if (!isSleeping)
 		{
 
-			if (mustSing)
+			if (mustSing || willStop)
 			{
 				mustSing = false;
+				willStop = false;
 				Sing ();
 			}
 
@@ -155,9 +170,10 @@ public class SingerBehavior : MonoBehaviour {
 				}
 				
 
-				if (Vector3.Distance (this.transform.position, agent.destination) < 1)
+				if (Vector3.Distance (this.transform.position, agent.destination) < distanceDarret)
 				{
 					willSing = false;
+					willStop = false;
 					foules = GameObject.FindGameObjectsWithTag ("foule");
 					foreach (GameObject foule in foules)
 					{
@@ -170,7 +186,16 @@ public class SingerBehavior : MonoBehaviour {
 							break;
 						}
 					}
-					if(!willSing)
+					if(mustStop)
+					{
+						agent.speed = 0;
+						timeSpendSinging = 0;
+						willStop = true;
+						mustStop = false;
+						Sing ();
+					}
+
+					if(!willSing && ! willStop)
 					{
 						placeToGo = (placeToGo + 1) % places.Length;
 						agent.destination = places[placeToGo].transform.position;

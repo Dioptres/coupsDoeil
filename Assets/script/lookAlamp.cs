@@ -45,6 +45,7 @@ public class lookAlamp : Lookable
 			{
 				Manager.GetComponent<GameManager> ().lastMusicianSeen.GetComponent<SingerBehavior> ().stopSing ();
 				Manager.GetComponent<GameManager> ().lastMusicianSeen.GetComponent<SingerBehavior> ().MoveThere (this.gameObject);
+				Manager.GetComponent<GameManager> ().lastMusicianSeen.GetComponent<SingerBehavior> ().mustStop = true;
 			}
 			else
 			{
