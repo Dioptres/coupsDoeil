@@ -9,6 +9,10 @@ public class SingerBehavior : MonoBehaviour {
 	public float coeffSpeed;
 	bool mustSing;
 
+	bool willSing;
+
+	GameObject[] foules;
+
 	bool porteLuneActivate;
 
 	int placeToGo;
@@ -48,6 +52,8 @@ public class SingerBehavior : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
+		foules = GameObject.FindGameObjectsWithTag ("foule");
+
 		placeToGo = 0;
 
 		lampes = GameObject.FindGameObjectsWithTag ("lampe");
@@ -141,9 +147,24 @@ public class SingerBehavior : MonoBehaviour {
 
 				if (Vector3.Distance (this.transform.position, agent.destination) < 1)
 				{
-					agent.speed = 0;
-					timeSpendSinging = 0;
-					Sing ();
+					willSing = false;
+					foules = GameObject.FindGameObjectsWithTag ("foule");
+					foreach (GameObject foule in foules)
+					{
+						if(Vector3.Distance(foule.transform.position,this.transform.position)<1.5)
+						{
+							agent.speed = 0;
+							timeSpendSinging = 0;
+							willSing = true;
+							Sing ();
+							break;
+						}
+					}
+					if(!willSing)
+					{
+						placeToGo = (placeToGo + 1) % places.Length;
+						agent.destination = places[placeToGo].transform.position;
+					}
 				}
 			}
 		}
