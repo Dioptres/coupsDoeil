@@ -33,9 +33,11 @@ public class SingerBehavior : MonoBehaviour {
 
 	public GameObject[] chanteurs;
 
+	public float speed = 1;
+
 	public void stopSing()
 	{
-		agent.speed = 1;
+		agent.speed = speed;
 
 
 		if (!porteLuneActivate)
@@ -94,7 +96,7 @@ public class SingerBehavior : MonoBehaviour {
 			{
 				placeToGo = (placeToGo + 1) % places.Length;
 				agent.destination = places[placeToGo].transform.position;
-				agent.speed = 1;
+				agent.speed = speed;
 
 
 				if (!porteLuneActivate)
@@ -143,7 +145,15 @@ public class SingerBehavior : MonoBehaviour {
 					}
 				}*/
 
-				agent.speed = Vector3.Distance (this.transform.position, GameManager.whereIlook) * coeffSpeed;
+				if(Vector3.Distance (this.transform.position, GameManager.whereIlook) < 1)
+				{
+					agent.speed = 0;
+				}
+				else
+				{
+					agent.speed = speed;
+				}
+				
 
 				if (Vector3.Distance (this.transform.position, agent.destination) < 1)
 				{
