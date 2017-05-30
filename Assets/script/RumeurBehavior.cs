@@ -12,7 +12,12 @@ public class RumeurBehavior : Lookable {
 	bool flee;
 	public bool shy;
 
+	public float timerBeforeLeaving = 1;
+	float timeHappenedSinceLooked;
+
 	private AudioSource source;
+
+	public float speed = 1;
 
 	public AudioClip move;
 
@@ -35,6 +40,10 @@ public class RumeurBehavior : Lookable {
 	{
 		base.StartLookable ();
 
+		agent.speed = speed;
+
+		timeHappenedSinceLooked = 0;
+
 		agent.destination = terrier.position;
 		this.transform.parent.gameObject.GetComponent<millePatteBehavior> ().hasStarted = true;
 		this.transform.parent.gameObject.GetComponent<millePatteBehavior> ().active = true;
@@ -52,8 +61,18 @@ public class RumeurBehavior : Lookable {
 			source.loop = true;
 			source.clip = move;
 			source.Play ();
+			AkSoundEngine.PostEvent ("Play_le_son_de_mon_poney_au_reveil", gameObject);  // call event
 		}
 
+		if(flee)
+		{
+			timeHappenedSinceLooked += Time.deltaTime;
+
+			if(timeHappenedSinceLooked >= timerBeforeLeaving)
+			{
+				agent.speed = speed;
+			}
+		}
 
 		if (agent.remainingDistance == 0f)
 		{
@@ -78,6 +97,8 @@ public class RumeurBehavior : Lookable {
 			agent.destination = terrier.transform.position;
 			flee = true;
 
+			agent.speed = 0;
+			timeHappenedSinceLooked = 0;
 
 			if (source.clip == move) {
 				int random = Random.Range (1, 4);
