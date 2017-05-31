@@ -81,6 +81,7 @@ public class RumeurBehavior : Lookable {
 				AkSoundEngine.PostEvent ("Lampadaire_off", gameObject);
 				agent.destination = terrier.transform.position;
 				flee = true;
+				AkSoundEngine.PostEvent ("Rumeur_regard", gameObject);
 			}
 			else
 			{

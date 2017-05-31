@@ -65,6 +65,7 @@ public class scarabBehavior : Lookable
 			if (Vector3.Distance (this.transform.position, triggerRumeur.transform.position) < distanceToActivateStuff)
 			{
 				rumeurActive = true;
+				AkSoundEngine.PostEvent ("Rumeur_reveil", gameObject);
 				Destroy (rumeur.transform.GetChild (0).gameObject);
 				foreach (Transform child in rumeur.transform)
 				{
@@ -94,6 +95,7 @@ public class scarabBehavior : Lookable
 	{
 		if (!sleep)
 		{
+			AkSoundEngine.PostEvent ("Agitateur_regard", gameObject);
 			agent.speed = 0;
 		}
 	}
@@ -104,6 +106,7 @@ public class scarabBehavior : Lookable
 		{
 			base.QuitSee ();
 			agent.speed = speed;
+			AkSoundEngine.PostEvent ("Agitateur_marche", gameObject);
 		}
 	}
 }

@@ -12,6 +12,7 @@ public class crowdBehavior : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		AkSoundEngine.PostEvent ("foule", gameObject);
 		agent = GetComponent<UnityEngine.AI.NavMeshAgent> ();
 		places = GameObject.FindGameObjectsWithTag ("place");
 
