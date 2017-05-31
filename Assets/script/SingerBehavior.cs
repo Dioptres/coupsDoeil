@@ -98,6 +98,10 @@ public class SingerBehavior : MonoBehaviour {
 		
 		if (!isSleeping)
 		{
+			if (timeSpendSinging == 0)
+			{
+				AkSoundEngine.PostEvent ("Chanteur_fixe", gameObject);
+			}
 			timeSpendSinging += Time.deltaTime;
 
 			if (timeSpendSinging >= totalTimeSinging)
