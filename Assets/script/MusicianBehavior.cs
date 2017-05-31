@@ -83,7 +83,8 @@ public class MusicianBehavior : Lookable
 
 	private void Awake ()
 	{
-		anim = GetComponentInChildren<Animator> ();
+		
+		
 		nbrOfMusician = 0;
 		source = GetComponent<AudioSource> ();
 		manager = GameObject.FindGameObjectWithTag ("Game_Manager").GetComponent<GameManager> ();
@@ -92,6 +93,8 @@ public class MusicianBehavior : Lookable
 
 	protected override void StartLookable ()
 	{
+		anim = GetComponentInChildren<Animator> ();
+		Debug.Log (anim);
 		musicLaunched = false;
 		agent = GetComponent<UnityEngine.AI.NavMeshAgent> ();
 		stopMoving = false;
@@ -131,6 +134,8 @@ public class MusicianBehavior : Lookable
 
 	public void MoveThere (GameObject targetPosition)
 	{
+		Debug.Log ("shouldWalk");
+		anim.SetBool ("isWalking", true);
 		if (!isSleeping)
 		{
 			foreach (MusicianBehavior musicos in Musician)
@@ -163,9 +168,11 @@ public class MusicianBehavior : Lookable
 		base.UpdateLookable ();
 		if (Vector3.Distance (this.transform.position, agent.destination) < 1)
 		{
+			anim.SetBool ("isWalking", false);
 			if (lastPlace)
 			{
 				stopMoving = true;
+				agent.speed = 0;
 			}
 		}
 		if (lampWakingMeUp.transform.GetChild (0).GetComponent<Light> ().intensity > 0)
@@ -189,7 +196,7 @@ public class MusicianBehavior : Lookable
 			}
 			if (nbrOfMusician != lastNbrOfMusician)
 			{//si la valeur a change et que l'etat de son anim a besoin d'etre changee
-				anim.SetBool ("dancerIsDancing", nbrOfMusician > 0);
+				anim.SetBool ("isPlayingMusic", nbrOfMusician > 0);
 				if (instrument != Instrument.Percu && !musicLaunched)
 				{
 					musicLaunched = true;
@@ -212,5 +219,6 @@ public class MusicianBehavior : Lookable
 
 	public override void DoAction ()
 	{
+		anim.SetTrigger ("isPlayingOnce");
 	}
 }
