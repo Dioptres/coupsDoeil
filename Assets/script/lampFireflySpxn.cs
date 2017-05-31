@@ -171,6 +171,8 @@ public class lampFireflySpxn : MonoBehaviour {
 				this.transform.GetChild (0).GetComponent<Light> ().intensity = intensityOfLampist;
 				this.transform.position = lastPos.position;
 				end = false;
+
+				this.GetComponent<moveFromAtoB2> ().StopTP ();
 			}
 		}
 

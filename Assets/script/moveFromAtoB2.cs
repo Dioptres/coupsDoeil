@@ -38,6 +38,11 @@ public class moveFromAtoB2 : Lookable {
 	public float timeTillCancel = 1.0f;
 	public float timeTillTeleport = 0.4f;
 
+	public void StopTP()
+	{
+		state = State.Idle;
+	}
+
 	public override void DoAction () { // LookingAt
 		
 		timerCanMove -= Time.deltaTime;
