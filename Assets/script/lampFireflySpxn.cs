@@ -135,6 +135,8 @@ public class lampFireflySpxn : MonoBehaviour {
 						AkSoundEngine.PostEvent ("Lampadaire_On", gameObject);
 						waveNumber = (waveNumber+1)%3;
 						this.transform.GetChild (0).GetComponent<Light> ().intensity -= intensityOfLampist/totalNbrLampes;
+						Animator anim = lampe.GetComponentInChildren<Animator> ();
+						anim.SetTrigger("lightOn");
 
 						if (lampeAllume == totalNbrLampes)
 						{
