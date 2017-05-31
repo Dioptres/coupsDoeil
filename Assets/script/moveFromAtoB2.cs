@@ -149,6 +149,7 @@ public class moveFromAtoB2 : Lookable {
 				{
 					this.transform.position = new Vector3 (targetLocation.x, 0, targetLocation.z);
 					AkSoundEngine.PostEvent ("Lampiste_tp", gameObject);
+					state = State.Idle;
 				}
 				else
 				{
