@@ -39,13 +39,16 @@ public class moveFromAtoB2 : Lookable {
 	public float timeTillTeleport = 0.4f;
 
 	public override void DoAction () { // LookingAt
+		
 		timerCanMove -= Time.deltaTime;
 		if (state == State.Idle) {
 			state = State.LookedAt;
 			//animator.SetInteger ("doing", 1);
 		}
 		else if (state == State.LookedAt) {
-			if (timerCanMove < 0) {
+			if (timerCanMove < 0)
+			{
+				AkSoundEngine.PostEvent ("Lampiste_regard", gameObject);
 				state = State.Ready;
 				//animator.SetInteger ("doing", 0);
 			}
@@ -93,6 +96,8 @@ public class moveFromAtoB2 : Lookable {
 	protected override void UpdateLookable () {
 		base.UpdateLookable ();
 
+		
+
 		if (throwFanim)
 		{
 			this.GetComponent<lampFireflySpxn> ().throwFireFly ();
@@ -100,6 +105,7 @@ public class moveFromAtoB2 : Lookable {
 		}
 
 		if (state == State.WaitingLocation) {
+			AkSoundEngine.PostEvent ("Lampiste_tp_load", gameObject);
 			if (targetLocationIsValid && Vector3.Distance (GameManager.whereIlook, targetLocation) < maxDistance) {
 				timerMove += Time.deltaTime;
 			}

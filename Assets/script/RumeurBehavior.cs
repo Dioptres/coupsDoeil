@@ -61,7 +61,6 @@ public class RumeurBehavior : Lookable {
 			source.loop = true;
 			source.clip = move;
 			source.Play ();
-			AkSoundEngine.PostEvent ("Play_le_son_de_mon_poney_au_reveil", gameObject);  // call event
 		}
 
 		if(flee)
@@ -79,6 +78,7 @@ public class RumeurBehavior : Lookable {
 			if(!flee)
 			{
 				checkPoints.GetChild(0).GetComponent<Light> ().intensity = 0;
+				AkSoundEngine.PostEvent ("Lampadaire_off", gameObject);
 				agent.destination = terrier.transform.position;
 				flee = true;
 			}

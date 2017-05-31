@@ -132,6 +132,7 @@ public class lampFireflySpxn : MonoBehaviour {
 				if (Vector3.Distance (this.transform.position, lampe.transform.position) < distanceActivationLampe) {
 					if (lampe.GetComponentInChildren<Light> ().intensity == 0) {
 						lampeAllume++;
+						AkSoundEngine.PostEvent ("Lampadaire_On", gameObject);
 						waveNumber = (waveNumber+1)%3;
 						this.transform.GetChild (0).GetComponent<Light> ().intensity -= intensityOfLampist/totalNbrLampes;
 
