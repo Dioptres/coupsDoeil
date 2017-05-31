@@ -2,16 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MusicianBehavior : Lookable {
+public class MusicianBehavior : Lookable
+{
+	public enum Instrument
+	{
+		None = 0,
+		Bass = 1,
+		Flute = 2,
+		Guitare = 4,
+		Percu = 8,
+		Uku = 16
+	}
 
-	/*
-	 * enum :
-	 *	guitare
-	 *  basse
-	 *  ukulele
-	 * flutte
-	 * batterie
-	 */
+	Animator anim;
+
+	bool musicLaunched;
+
+	public float distanceOtherMusician;
+	int nbrOfMusician;
+
+	public bool boule;
+
+	GameObject lampWakingMeUp;
+
+	bool isSleeping;
+
+	GameObject myPlace;
 
 	public bool lastPlace;
 
@@ -19,21 +35,7 @@ public class MusicianBehavior : Lookable {
 
 	UnityEngine.AI.NavMeshAgent agent;
 
-	Animator anim;
-
-	public float distanceOtherMusician;
-	int nbrOfMusician;
-	public int trueNbrOfMusician;
-
-	public bool boule;
-
-	public GameObject lampWakingMeUp;
-
-	bool isSleeping;
-
-	GameObject myPlace;
-
-	public GameObject[] Musician;
+	private MusicianBehavior[] Musician;
 	GameObject[] lampes;
 
 	public AudioClip son1;
@@ -44,15 +46,29 @@ public class MusicianBehavior : Lookable {
 
 	public int numberOfFouleSpwn = 8;
 	public GameObject foule;
+	public Instrument instrument;
 
 	private AudioSource source;
 
 	float time;
 
-	GameObject manager;
+	GameManager manager;
 
-	
-	public void spwnFoule()
+	private static Instrument _groupSize;
+	private static Instrument groupSize
+	{
+		get { return _groupSize; }
+		set
+		{
+			if ((_groupSize | value) == (_groupSize ^ value))
+			{
+				GameManager.numberMaxMusiGroupTogether++;
+			}
+			_groupSize = value;
+		}
+	}
+
+	public void spwnFoule ()
 	{
 		GameObject[] foulesSPWNer;
 		foulesSPWNer = GameObject.FindGameObjectsWithTag ("place");
@@ -65,19 +81,42 @@ public class MusicianBehavior : Lookable {
 		}
 	}
 
-	private void Awake () {
+	private void Awake ()
+	{
 		anim = GetComponentInChildren<Animator> ();
 		nbrOfMusician = 0;
-		trueNbrOfMusician = 0;
 		source = GetComponent<AudioSource> ();
-		manager = GameObject.FindGameObjectWithTag ("Game_Manager");
+		manager = GameObject.FindGameObjectWithTag ("Game_Manager").GetComponent<GameManager> ();
+		Musician = GameObject.FindObjectsOfType<MusicianBehavior> ();
 	}
 
 	protected override void StartLookable ()
 	{
+		musicLaunched = false;
 		agent = GetComponent<UnityEngine.AI.NavMeshAgent> ();
 		stopMoving = false;
 		lampes = GameObject.FindGameObjectsWithTag ("lampe");
+		isSleeping = true;
+		base.StartLookable ();
+		time = 0;
+
+		if (instrument == Instrument.Percu)
+		{
+			AkSoundEngine.SetState (instrument.ToString (), "percu_Jeu");
+		}
+
+		GameObject[] foulesSPWNer;
+		foulesSPWNer = GameObject.FindGameObjectsWithTag ("soonToBePlace");
+
+		myPlace = foulesSPWNer[0];
+
+		for (int i = 1; i < foulesSPWNer.Length; i++)
+		{
+			if (Vector3.Distance (this.transform.position, foulesSPWNer[i].transform.position) < Vector3.Distance (this.transform.position, myPlace.transform.position))
+			{
+				myPlace = foulesSPWNer[i];
+			}
+		}
 
 		lampWakingMeUp = lampes[0];
 		for (int i = 1; i < lampes.Length; i++)
@@ -88,32 +127,13 @@ public class MusicianBehavior : Lookable {
 			}
 		}
 
-		isSleeping = true;
-		base.StartLookable ();
-		time = 0;
-
-		GameObject[] foulesSPWNer;
-		foulesSPWNer = GameObject.FindGameObjectsWithTag ("soonToBePlace");
-
-		myPlace = foulesSPWNer[0];
-
-		for(int i = 1; i<foulesSPWNer.Length; i++)
-		{
-			if(Vector3.Distance(this.transform.position, foulesSPWNer[i].transform.position) < Vector3.Distance (this.transform.position, myPlace.transform.position))
-			{
-				myPlace = foulesSPWNer[i];
-			}
-		}
-
-		
-
 	}
 
 	public void MoveThere (GameObject targetPosition)
 	{
-		if(!isSleeping && !stopMoving)
+		if (!isSleeping)
 		{
-			foreach (GameObject musicos in Musician)
+			foreach (MusicianBehavior musicos in Musician)
 			{
 
 				if (Vector3.Distance (this.transform.position, musicos.transform.position) < distanceOtherMusician)
@@ -124,7 +144,6 @@ public class MusicianBehavior : Lookable {
 					{
 						if (foule.GetComponent<crowdBehavior> ().MyStartTarget == myPlace.transform.position)
 						{
-							Debug.Log ("here the random ");
 							if (Random.Range (0, 2) == 0)
 							{
 								foule.GetComponent<crowdBehavior> ().agent.destination = targetPosition.transform.position;
@@ -133,111 +152,65 @@ public class MusicianBehavior : Lookable {
 					}
 
 					myPlace = targetPosition;
-					musicos.GetComponent<UnityEngine.AI.NavMeshAgent> ().destination = targetPosition.transform.position;
+					musicos.agent.destination = targetPosition.transform.position;
 				}
 			}
 		}
 	}
 
-	protected override void UpdateLookable () {
+	protected override void UpdateLookable ()
+	{
 		base.UpdateLookable ();
-
 		if (Vector3.Distance (this.transform.position, agent.destination) < 1)
 		{
-			if(lastPlace)
+			if (lastPlace)
 			{
 				stopMoving = true;
 			}
 		}
-
-			if (lampWakingMeUp.transform.GetChild(0).GetComponent<Light>().intensity > 0)
+		if (lampWakingMeUp.transform.GetChild (0).GetComponent<Light> ().intensity > 0)
 		{
 			isSleeping = false;
 		}
+		if (!isSleeping)
+		{
+			int lastNbrOfMusician = nbrOfMusician;
 
-		if (trueNbrOfMusician > 1) {
-			anim.SetBool ("dancerIsDancing", true);
-		}
-		
-		if (time > 0 && trueNbrOfMusician == 1) {
-			time -= Time.deltaTime;
-			if (time <= 0 && trueNbrOfMusician != Musician.Length) {
-				anim.SetBool ("dancerIsDancing", false);
-			}
-		}
-				
-		nbrOfMusician = 0;
-		foreach (GameObject musicos in Musician) {
-
-			if (Vector3.Distance (this.transform.position, musicos.transform.position) < distanceOtherMusician) {
-
-				nbrOfMusician++;
-			}
-
-			if(manager.GetComponent<GameManager>().numberMaxMusiGroupTogether < nbrOfMusician)
+			nbrOfMusician = 0;
+			foreach (MusicianBehavior musicos in Musician)
 			{
-				manager.GetComponent<GameManager> ().numberMaxMusiGroupTogether = nbrOfMusician;
-				spwnFoule ();
-			}
-		}
-		if (nbrOfMusician > trueNbrOfMusician) {
-			if (nbrOfMusician < Musician.Length) {
-				trueNbrOfMusician = nbrOfMusician;
-			}
-			else {
-				foreach (GameObject musicos in Musician) {
-					musicos.GetComponent<MusicianBehavior> ().trueNbrOfMusician = nbrOfMusician;
-					if (trueNbrOfMusician > 1) {
-						musicos.GetComponent<MusicianBehavior> ().anim.SetBool ("dancerIsDancing", true);
-					}
+				if (musicos == this)
+					continue; //ignore celui-ci et passe au prochain
+
+				if (Vector3.Distance (transform.position, musicos.transform.position) < distanceOtherMusician)
+				{
+					nbrOfMusician++;
 				}
 			}
-
-		}
-		if (trueNbrOfMusician == Musician.Length) {
-			anim.SetBool ("dancerIsDancing", true);
-			source.loop = false;
-			if (superSon != null) {
-				if (source.loop != true && source.clip != superSon) {
-					source.loop = true;
-					source.clip = superSon;
-					source.Play ();
+			if (nbrOfMusician != lastNbrOfMusician)
+			{//si la valeur a change et que l'etat de son anim a besoin d'etre changee
+				anim.SetBool ("dancerIsDancing", nbrOfMusician > 0);
+				if (instrument != Instrument.Percu && !musicLaunched)
+				{
+					musicLaunched = true;
+					AkSoundEngine.SetState (instrument.ToString (), instrument.ToString () + (nbrOfMusician > 0 ? "_is" : "_not") + "playing");
 				}
+				Debug.Log (instrument.ToString () + (nbrOfMusician > 0 ? "_is" : "_not") + "playing");
 
 			}
-			else {
-				source.loop = false;
-				source.clip = null;
-			}
-		}
-		else if (trueNbrOfMusician > 1) {
-			anim.SetBool ("dancerIsDancing", true);
-			if (source.loop != true && source.clip != son2) {
-				source.loop = true;
-				source.clip = son2;
-				source.Play ();
-			}
-		}
-		else {
-			if (source.loop) {
-				source.Stop ();
-			}
 
-		}
-		if (trueNbrOfMusician > 1) {
-			anim.SetBool ("dancerIsDancing", true);
+			if (nbrOfMusician > 0)
+			{
+				if ((groupSize & instrument) != instrument)
+				{
+					groupSize |= instrument;
+					spwnFoule ();
+				}
+			}
 		}
 	}
 
-	public override void DoAction () {
-		if (!isSleeping)
-		{
-			if (trueNbrOfMusician == 1)
-			{
-				source.PlayOneShot (son1);
-				time = 0.2f;
-				anim.SetBool ("dancerIsDancing", true);
-			}
-		}
+	public override void DoAction ()
+	{
 	}
 }

@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class destroyActivate : MonoBehaviour {
+public class destroyActivate : MonoBehaviour
+{
 
 	public GameObject toActivate;
 
 	private void OnDestroy ()
 	{
-		toActivate.tag = "place";
+		if (toActivate)
+			toActivate.tag = "place";
 	}
 }

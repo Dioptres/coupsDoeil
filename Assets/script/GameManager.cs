@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using Tobii.EyeTracking;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour
+{
 
 	public GameObject lastMusicianSeen;
 	public float TimeSincelastMusicianSeen;
@@ -11,7 +12,7 @@ public class GameManager : MonoBehaviour {
 
 	bool ready;
 
-	public int numberMaxMusiGroupTogether;
+	public static int numberMaxMusiGroupTogether = 1;
 
 	bool haveSeenMusician;
 
@@ -22,7 +23,8 @@ public class GameManager : MonoBehaviour {
 	public GameObject[] lookables2;
 
 	// Use this for initialization
-	void Awake () {
+	void Awake ()
+	{
 		lookables = GameObject.FindGameObjectsWithTag ("Lookable");
 		lookables2 = GameObject.FindGameObjectsWithTag ("place");
 		TimeSincelastMusicianSeen = 99999999;
@@ -31,13 +33,15 @@ public class GameManager : MonoBehaviour {
 	}
 
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+	{
 		TimeSincelastMusicianSeen += Time.deltaTime;
 		lookables = GameObject.FindGameObjectsWithTag ("Lookable");
 		lookables2 = GameObject.FindGameObjectsWithTag ("place");
 
 		gazePoint = EyeTracking.GetGazePoint ();
-		if (true) {
+		if (true)
+		{
 			//whereIlook = Camera.main.ScreenToWorldPoint (new Vector3 (gazePoint.Screen.x, gazePoint.Screen.y, 5.5f));
 			whereIlook = Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 5.5f));
 			haveSeenMusician = false;
@@ -45,8 +49,8 @@ public class GameManager : MonoBehaviour {
 			{
 				if (Vector3.Distance (whereIlook, toLook.transform.position) < toLook.GetComponent<Lookable> ().distanceDeVision)
 				{
-					
-					if(toLook.layer == 8)
+
+					if (toLook.layer == 8)
 					{
 						haveSeenMusician = true;
 						if (ready)
@@ -55,19 +59,23 @@ public class GameManager : MonoBehaviour {
 						}
 						ready = !ready;
 
-						
+
 						TimeSincelastMusicianSeen = 0;
 					}
 					Lookable[] lo = toLook.GetComponents<Lookable> ();
-					foreach (Lookable loo in lo) {
+					foreach (Lookable loo in lo)
+					{
 						loo.looked = Lookable.StareState.Looking;
 					}
 					//Debug.Log (toLook.GetComponent<Lookable> ().looked);
 				}
-				else {
-					if (toLook.GetComponent<Lookable> ().looked == Lookable.StareState.Looking) {
+				else
+				{
+					if (toLook.GetComponent<Lookable> ().looked == Lookable.StareState.Looking)
+					{
 						Lookable[] lo = toLook.GetComponents<Lookable> ();
-						foreach (Lookable loo in lo) {
+						foreach (Lookable loo in lo)
+						{
 							loo.looked = Lookable.StareState.LosingSight;
 						}
 					}
