@@ -54,7 +54,7 @@ public class MusicianBehavior : Lookable {
 	
 	public void spwnFoule()
 	{
-		/*GameObject[] foulesSPWNer;
+		GameObject[] foulesSPWNer;
 		foulesSPWNer = GameObject.FindGameObjectsWithTag ("place");
 		for (int i = 0; i<numberOfFouleSpwn; i++)
 		{
@@ -62,7 +62,7 @@ public class MusicianBehavior : Lookable {
 			Debug.Log (randPosition + "   " + foulesSPWNer.Length);
 			GameObject go = Instantiate (foule, foulesSPWNer[randPosition].transform.position, Quaternion.identity);
 			go.GetComponent<crowdBehavior> ().MainPlace = myPlace;
-		}*/
+		}
 	}
 
 	private void Awake () {
