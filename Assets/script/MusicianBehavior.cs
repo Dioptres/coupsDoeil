@@ -105,7 +105,7 @@ public class MusicianBehavior : Lookable
 
 		if (instrument == Instrument.Percu)
 		{
-			AkSoundEngine.SetState (instrument.ToString (), "percu_Jeu");
+			AkSoundEngine.SetState (instrument.ToString (), "percu_intro");
 		}
 
 		GameObject[] foulesSPWNer;
@@ -212,6 +212,7 @@ public class MusicianBehavior : Lookable
 				{
 					groupSize |= instrument;
 					spwnFoule ();
+					AkSoundEngine.SetState (instrument.ToString (), "percu_Jeu");
 				}
 			}
 		}

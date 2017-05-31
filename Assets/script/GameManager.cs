@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
 		TimeSincelastMusicianSeen = 99999999;
 		numberMaxMusiGroupTogether = 1;
 		ready = true;
+
 	}
 
 	// Update is called once per frame

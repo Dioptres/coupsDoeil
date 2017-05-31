@@ -94,7 +94,8 @@ public class SingerBehavior : MonoBehaviour {
 
 	void Sing()
 	{
-		AkSoundEngine.PostEvent ("Chanteur_regard", gameObject);
+		Debug.Log ("NOW SING !!!");
+		
 		if (!isSleeping)
 		{
 			timeSpendSinging += Time.deltaTime;
@@ -164,7 +165,12 @@ public class SingerBehavior : MonoBehaviour {
 
 				if(Vector3.Distance (this.transform.position, GameManager.whereIlook) < 1)
 				{
-					agent.speed = 0;
+					if (agent.speed != 0)
+					{
+						Debug.Log (agent.speed);
+						AkSoundEngine.PostEvent ("Chanteur_regard", gameObject);
+						agent.speed = 0;
+					}
 				}
 				else
 				{

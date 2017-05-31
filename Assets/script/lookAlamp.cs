@@ -41,13 +41,13 @@ public class lookAlamp : Lookable
 		timer += Time.deltaTime;
 		if (Manager.GetComponent<GameManager>().TimeSincelastMusicianSeen < 3)
 		{
-			if(Manager.GetComponent<GameManager> ().lastMusicianSeen.name == "Singer" && Vector3.Distance(Manager.GetComponent<GameManager> ().lastMusicianSeen.transform.position, this.transform.position)>2)
+			if(Manager.GetComponent<GameManager> ().lastMusicianSeen.name == "Singer" && Vector3.Distance(Manager.GetComponent<GameManager> ().lastMusicianSeen.transform.position, this.transform.position)>3)
 			{
 				Manager.GetComponent<GameManager> ().lastMusicianSeen.GetComponent<SingerBehavior> ().stopSing ();
 				Manager.GetComponent<GameManager> ().lastMusicianSeen.GetComponent<SingerBehavior> ().MoveThere (this.gameObject);
 				Manager.GetComponent<GameManager> ().lastMusicianSeen.GetComponent<SingerBehavior> ().mustStop = true;
 			}
-			else
+			else if (Manager.GetComponent<GameManager> ().lastMusicianSeen)
 			{
 				Manager.GetComponent<GameManager> ().lastMusicianSeen.GetComponent<MusicianBehavior> ().MoveThere (this.gameObject);
 				Manager.GetComponent<GameManager> ().lastMusicianSeen.GetComponent<MusicianBehavior> ().lastPlace = lastOne;

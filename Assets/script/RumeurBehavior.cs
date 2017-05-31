@@ -94,35 +94,24 @@ public class RumeurBehavior : Lookable {
 	
 
 	public override void DoAction () {
-		if (shy) {
+		if (shy)
+		{
 			agent.destination = terrier.transform.position;
-			flee = true;
+			if (!flee)
+			{
+				AkSoundEngine.PostEvent ("Rumeur_regard", gameObject);
 
-			agent.speed = 0;
-			timeHappenedSinceLooked = 0;
+				flee = true;
 
-			if (source.clip == move) {
-				int random = Random.Range (1, 4);
+				agent.speed = 0;
+				timeHappenedSinceLooked = 0;
 
-
-				switch (random) {
-					case 1:
-						source.loop = false;
-						source.clip = look1;
-						source.Play ();
-						break;
-					case 2:
-						source.loop = false;
-						source.clip = look2;
-						source.Play ();
-						break;
-					case 3:
-						source.loop = false;
-						source.clip = look3;
-						source.Play ();
-						break;
-				}
+				agent.speed = 0;
 			}
+			
+
+			
+
 		}
 
 	}
