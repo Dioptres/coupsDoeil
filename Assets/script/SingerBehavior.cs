@@ -114,10 +114,13 @@ public class SingerBehavior : MonoBehaviour {
 
 				if (!porteLuneActivate && !mustStop)
 				{
-					if (Vector3.Distance (this.transform.position, porteLune.transform.position) < 3)
+					if (porteLune)
 					{
-						porteLuneActivate = true;
-						carrier.GetComponent<scarabBehavior> ().endSleep ();
+						if (Vector3.Distance (this.transform.position, porteLune.transform.position) < 3)
+						{
+							porteLuneActivate = true;
+							carrier.GetComponent<scarabBehavior> ().endSleep ();
+						}
 					}
 				}
 			}

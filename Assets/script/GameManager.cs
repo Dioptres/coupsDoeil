@@ -43,8 +43,8 @@ public class GameManager : MonoBehaviour
 		gazePoint = EyeTracking.GetGazePoint ();
 		if (true)
 		{
-			//whereIlook = Camera.main.ScreenToWorldPoint (new Vector3 (gazePoint.Screen.x, gazePoint.Screen.y, 5.5f));
-			whereIlook = Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 5.5f));
+			whereIlook = Camera.main.ScreenToWorldPoint (new Vector3 (gazePoint.Screen.x, gazePoint.Screen.y, 5.5f));
+			//whereIlook = Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 5.5f));
 			haveSeenMusician = false;
 			foreach (GameObject toLook in lookables)
 			{

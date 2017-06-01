@@ -60,8 +60,6 @@ public class SingerFieldOfView : Lookable {
 
 
 
-			targetAudio.clip = crowdSound[Random.Range (0, crowdSound.Length)];
-			targetAudio.Play ();
 		}
 	}
 }

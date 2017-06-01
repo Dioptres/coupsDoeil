@@ -54,8 +54,10 @@ public class scarabBehavior : Lookable
 
 		if (!porteLuneDestroy)
 		{
+			Debug.Log (Vector3.Distance (this.transform.position, triggerPorteLune.transform.position));
 			if (Vector3.Distance (this.transform.position, triggerPorteLune.transform.position) < distanceToActivateStuff)
 			{
+				Debug.Log ("?");
 				Destroy (porteLune);
 				porteLuneDestroy = true;
 			}

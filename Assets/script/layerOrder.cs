@@ -27,7 +27,7 @@ public class layerOrder : MonoBehaviour {
 					}
 					else
 					{
-						character.GetComponent<SpriteRenderer> ().sortingOrder = 2;
+						character.GetComponent<SpriteRenderer> ().sortingOrder = 15;
 					}
 				}
 			}
