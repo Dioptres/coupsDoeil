@@ -134,6 +134,7 @@ public class lampFireflySpxn : MonoBehaviour {
 						lampeAllume++;
 						AkSoundEngine.PostEvent ("Lampadaire_On", gameObject);
 						waveNumber = (waveNumber+1)%3;
+						lampe.GetComponentInChildren<Light> ().color = fireflyColor;
 						this.transform.GetChild (0).GetComponent<Light> ().intensity -= intensityOfLampist/totalNbrLampes;
 						Animator anim = lampe.GetComponentInChildren<Animator> ();
 						anim.SetTrigger("lightOn");
@@ -148,7 +149,7 @@ public class lampFireflySpxn : MonoBehaviour {
 					}
 					lampe.GetComponentInChildren<Light> ().intensity = lampPostIntensity;
 					lampe.GetComponentInChildren<Light> ().range = lampPostRange;
-					lampe.GetComponentInChildren<Light> ().color = fireflyColor;
+					
 
 
 				}
