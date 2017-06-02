@@ -9,6 +9,7 @@ public class millePatteBehavior : MonoBehaviour {
 	public bool hasStarted;
 	GameObject lampChoosen;
 	GameObject actualSpwnPoint;
+	bool sleep;
 
 	int securite;
 
@@ -16,6 +17,8 @@ public class millePatteBehavior : MonoBehaviour {
 
 	GameObject[] spwnPoints;
 
+
+	public float timeSpentSleeping = 5f;
 
 	public void deactivate()
 	{
@@ -31,6 +34,8 @@ public class millePatteBehavior : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
+
+		sleep = true;
 		hasStarted = false;
 		securite = 0;
 		lampes = GameObject.FindGameObjectsWithTag ("lampe");
@@ -45,6 +50,19 @@ public class millePatteBehavior : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		timeSpentSleeping -= Time.deltaTime;
+		if(timeSpentSleeping < 0 && sleep)
+		{
+			Debug.Log ("WAKE UP");
+			sleep = false;
+			AkSoundEngine.PostEvent ("Rumeur_reveil", gameObject);
+			Destroy (this.transform.GetChild (0).gameObject);
+			foreach (Transform child in this.transform)
+			{
+				child.gameObject.SetActive (true);
+			}
+		}
+
 		if (hasStarted)
 		{
 			timer -= Time.deltaTime;

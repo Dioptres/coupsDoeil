@@ -85,8 +85,9 @@ public class RumeurBehavior : Lookable {
 			}
 			else
 			{
-				this.transform.parent.GetComponent<millePatteBehavior> ().deactivate ();
 				flee = false;
+				agent.speed = speed;
+				this.transform.parent.GetComponent<millePatteBehavior> ().deactivate ();
 			}
 		}
 	}
@@ -106,7 +107,6 @@ public class RumeurBehavior : Lookable {
 				agent.speed = 0;
 				timeHappenedSinceLooked = 0;
 
-				agent.speed = 0;
 			}
 			
 
