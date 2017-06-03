@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
 	void Awake ()
 	{
 		lookables = GameObject.FindGameObjectsWithTag ("Lookable");
-		lookables2 = GameObject.FindGameObjectsWithTag ("place");
+		lookables2 = GameObject.FindGameObjectsWithTag ("luciole");
 		TimeSincelastMusicianSeen = 99999999;
 		numberMaxMusiGroupTogether = 1;
 		ready = true;
@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
 	{
 		TimeSincelastMusicianSeen += Time.deltaTime;
 		lookables = GameObject.FindGameObjectsWithTag ("Lookable");
-		lookables2 = GameObject.FindGameObjectsWithTag ("place");
+		lookables2 = GameObject.FindGameObjectsWithTag ("luciole");
 
 		gazePoint = EyeTracking.GetGazePoint ();
 		if (true)
