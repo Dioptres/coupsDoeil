@@ -77,7 +77,6 @@ public class MusicianBehavior : Lookable
 			int randPosition = Random.Range (0, foulesSPWNer.Length);
 			Debug.Log (randPosition + "   " + foulesSPWNer.Length);
 			GameObject go = Instantiate (foule, foulesSPWNer[randPosition].transform.position, Quaternion.identity);
-			go.GetComponent<crowdBehavior> ().MainPlace = myPlace;
 		}
 	}
 
@@ -147,13 +146,7 @@ public class MusicianBehavior : Lookable
 
 					foreach (GameObject foule in foules)
 					{
-						if (foule.GetComponent<crowdBehavior> ().MyStartTarget == myPlace.transform.position)
-						{
-							if (Random.Range (0, 2) == 0)
-							{
-								foule.GetComponent<crowdBehavior> ().agent.destination = targetPosition.transform.position;
-							}
-						}
+						
 					}
 
 					myPlace = targetPosition;

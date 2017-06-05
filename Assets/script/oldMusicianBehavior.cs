@@ -120,17 +120,7 @@ public class oldMusicianBehavior : Lookable {
 				{
 					GameObject[] foules = GameObject.FindGameObjectsWithTag ("foule");
 
-					foreach (GameObject foule in foules)
-					{
-						if (foule.GetComponent<crowdBehavior> ().MyStartTarget == myPlace.transform.position)
-						{
-							Debug.Log ("here the random ");
-							if (Random.Range (0, 2) == 0)
-							{
-								foule.GetComponent<crowdBehavior> ().agent.destination = targetPosition.transform.position;
-							}
-						}
-					}
+					
 
 					myPlace = targetPosition;
 					musicos.GetComponent<UnityEngine.AI.NavMeshAgent> ().destination = targetPosition.transform.position;
