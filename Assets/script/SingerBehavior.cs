@@ -50,7 +50,6 @@ public class SingerBehavior : MonoBehaviour {
 			{
 				porteLuneActivate = true;
 				AkSoundEngine.PostEvent ("foule", gameObject);
-				carrier.GetComponent<scarabBehavior> ().endSleep ();
 			}
 		}
 		mustSing = false;
@@ -117,7 +116,7 @@ public class SingerBehavior : MonoBehaviour {
 					if (Vector3.Distance (this.transform.position, porteLune.transform.position) < 3)
 					{
 						porteLuneActivate = true;
-						carrier.GetComponent<scarabBehavior> ().endSleep ();
+
 					}
 				}
 			}

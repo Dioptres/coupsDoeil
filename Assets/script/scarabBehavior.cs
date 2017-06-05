@@ -12,15 +12,19 @@ public class scarabBehavior : Lookable
 	bool stop;
 	bool rumeurActive;
 	bool porteLuneDestroy;
-	public bool sleep;
-	public int speed = 1;
-	public GameObject triggerPorteLune;
-	public GameObject triggerRumeur;
-	public GameObject porteLune;
-	public GameObject rumeur;
+	public float speed = 1;
+	public float modifFuite = 1.5f;
 
-	public GameObject lampist;
+	public int nbrOfActivBeforeLeaving = 3;
+	int actualNbrOfActiv;
+
+	bool willLaunch;
+	bool flee;
+
 	public float distanceToActivateStuff;
+
+	public float waitThisBeforeGoing = 4;
+	float timerOfWaiting;
 
 
 	public void Awake ()
@@ -31,46 +35,30 @@ public class scarabBehavior : Lookable
 
 	}
 
-	public void endSleep()
-	{
-		sleep = false;
-		agent.speed = speed;
-	}
-
 	protected override void StartLookable ()
 	{
+		flee = false;
+
+		actualNbrOfActiv = 0;
+		willLaunch = false;
 		rumeurActive = false;
 		porteLuneDestroy = false;
 		base.StartLookable ();
-		sleep = true;
 		agent.destination = checkPoints[0].position;
-		agent.speed = 0;
+		agent.speed = speed;
 	}
 
 	protected override void UpdateLookable ()
 	{
 		base.UpdateLookable ();
 
-
-		if (!porteLuneDestroy)
+		if(willLaunch)
 		{
-			if (Vector3.Distance (this.transform.position, triggerPorteLune.transform.position) < distanceToActivateStuff)
+			timerOfWaiting -= Time.deltaTime;
+			if(timerOfWaiting <= 0)
 			{
-				Destroy (porteLune);
-				porteLuneDestroy = true;
-			}
-		}
-		if (!rumeurActive)
-		{
-			if (Vector3.Distance (this.transform.position, triggerRumeur.transform.position) < distanceToActivateStuff)
-			{
-				rumeurActive = true;
-				AkSoundEngine.PostEvent ("Rumeur_reveil", gameObject);
-				Destroy (rumeur.transform.GetChild (0).gameObject);
-				foreach (Transform child in rumeur.transform)
-				{
-					child.gameObject.SetActive (true);
-				}
+				agent.speed = speed;
+				willLaunch = false;
 			}
 		}
 
@@ -84,7 +72,6 @@ public class scarabBehavior : Lookable
 			else if (actualCheckPoint == checkPoints.Length - 1)
 			{
 				actualCheckPoint++;
-				lampist.GetComponent<shoot> ().active = true;
 			}
 
 
@@ -93,19 +80,32 @@ public class scarabBehavior : Lookable
 
 	public override void DoAction ()
 	{
-		if (!sleep)
+		if (!flee)
 		{
 			AkSoundEngine.PostEvent ("Agitateur_regard", gameObject);
 			agent.speed = 0;
+			actualNbrOfActiv++;
+			timerOfWaiting = waitThisBeforeGoing;
+			willLaunch = true;
+
+			if (actualNbrOfActiv == nbrOfActivBeforeLeaving)
+			{
+				actualCheckPoint--;
+				flee = true;
+				agent.destination = checkPoints[actualCheckPoint].position;
+				agent.speed = speed * modifFuite;
+			}
 		}
 	}
 
+	
+
 	public override void QuitSee ()
 	{
-		if (!sleep)
+		if (!flee)
 		{
 			base.QuitSee ();
-			agent.speed = speed;
+
 			AkSoundEngine.PostEvent ("Agitateur_marche", gameObject);
 		}
 	}
