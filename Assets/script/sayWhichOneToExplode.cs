@@ -22,6 +22,8 @@ public class sayWhichOneToExplode : MonoBehaviour {
 
 	public float distMin = 2;
 
+	public float compteur;
+
 	int numberUp;
 	int numberDown;
 	int numberLeft;
@@ -31,10 +33,32 @@ public class sayWhichOneToExplode : MonoBehaviour {
 	int numberOfCyan;
 	int numberOfYellow;
 
+	public bool lastFireworks;
+
 	public GameObject luciole;
 	GameObject[] lucioles;
 
+	public int[] paliers;
+	public int[] fireflyAdded;
+
 	int whichColor;
+
+	public void addFirefly ()
+	{
+		compteur++;
+
+		for(int i = 0; i< paliers.Length; i++)
+		{
+			if(compteur == paliers[i])
+			{
+				numberOfLuciolForEachColor += fireflyAdded[i];
+				if(i == paliers.Length-1)
+				{
+					lastFireworks = true;
+				}
+			}
+		}
+	}
 
 	public void removeOne(Color colorSent)
 	{
@@ -55,6 +79,9 @@ public class sayWhichOneToExplode : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
+		lastFireworks = false;
+		compteur = 0;
+
 		numberDown = chanceOfAppearinDown;
 		numberLeft = chanceOfAppearingLeft;
 		numberRight = chanceOfAppearinRight;
@@ -113,12 +140,19 @@ public class sayWhichOneToExplode : MonoBehaviour {
 				break;
 		}
 
-		whichColor = whichColor % 3;
-		if(whichColor == -1)
+		if(lastFireworks)
 		{
-			whichColor = 2;
+			whichColor = 3;
 		}
-
+		else
+		{
+			whichColor = whichColor % 3;
+			if (whichColor == -1)
+			{
+				whichColor = 2;
+			}
+		}
+		
 		switch(whichColor)
 		{
 			case 0:
@@ -129,6 +163,9 @@ public class sayWhichOneToExplode : MonoBehaviour {
 				break;
 			case 2:
 				this.GetComponentInChildren<Light> ().color = Color.magenta;
+				break;
+			case 3:
+				this.GetComponentInChildren<Light> ().color = Color.white;
 				break;
 		}
 
