@@ -74,6 +74,7 @@ public abstract class Lookable : MonoBehaviour {
 			}
 			else {
 				if (!done) {
+					
 					DoAction ();
 					done = true;
 				}
@@ -87,8 +88,11 @@ public abstract class Lookable : MonoBehaviour {
 	}
 
 	protected virtual void UpdateLookable () {
-		if (!canAct) {
-			if (conditionsDactivation.Length != 0) {
+		if (!canAct)
+		{
+			
+			if (conditionsDactivation.Length != 0)
+			{
 				for (var i = 0; i < conditionsDactivation.Length; i++) {
 					if (conditionsDactivation[i].GetComponent<Lookable> ().done == false) {
 						break;
@@ -98,7 +102,9 @@ public abstract class Lookable : MonoBehaviour {
 					}
 				}
 			}
-			else {
+			else
+			{
+				
 				canAct = true;
 			}
 		}
@@ -108,8 +114,7 @@ public abstract class Lookable : MonoBehaviour {
 			tempBool = !tempBool;
 		}
 
-
-		//Debug.Log(po);
+		
 		if (looked == StareState.Looking && canAct) {
 			timeForDecrement = 0.0f;
 			clock += Time.deltaTime;
