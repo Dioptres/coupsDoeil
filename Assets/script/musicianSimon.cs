@@ -17,6 +17,15 @@ public class musicianSimon : Lookable {
 		Uku = 16
 	}
 
+	public void play()
+	{
+		AkSoundEngine.SetState (instrument.ToString (), instrument.ToString () + "_is" + "playing");
+	}
+	public void stop ()
+	{
+		AkSoundEngine.SetState (instrument.ToString (), instrument.ToString () + "_not" + "playing");
+	}
+
 	public Instrument instrument;
 
 	protected override void StartLookable ()

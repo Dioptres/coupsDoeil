@@ -116,6 +116,7 @@ public class moveFromAtoB2 : Lookable {
 			}
 			else {
 				Ray ray = Camera.main.ScreenPointToRay (GameManager.gazePoint.Screen);
+				Debug.Log (ray);
 				Debug.DrawRay (ray.origin, ray.direction * 10.0f, Color.red);
 				RaycastHit hit;
 				targetLocationIsValid = !Physics.Raycast (ray, out hit, 20.0f, 1 << 10);

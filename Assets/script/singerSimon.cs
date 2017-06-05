@@ -8,6 +8,7 @@ public class singerSimon : MonoBehaviour {
 	{
 		show,
 		choose,
+		listen,
 		none
 	}
 
@@ -29,6 +30,10 @@ public class singerSimon : MonoBehaviour {
 	int indexDaffichage;
 	public float timer = 4;
 	float timeToWait;
+	public float timerListeningMusic = 5;
+	float timeBeforeShuttingMusic;
+
+	public musicianSimon[] musicians;
 
 	public SpriteRenderer tourneLune;
 
@@ -82,8 +87,8 @@ public class singerSimon : MonoBehaviour {
 				if(timeToWait <= 0)
 				{
 					//go to choose musicos
+					isWaiting = false;
 					state = State.choose;
-					Debug.Log ("choose !");
 				}
 			}
 			else
@@ -175,7 +180,6 @@ public class singerSimon : MonoBehaviour {
 		if (whichChainIllDO <= numberOfOne)
 		{
 			chainOf1 = Random.Range (1, 5);
-			Debug.Log (chainOf1);
 		}
 		else if (whichChainIllDO <= numberOfOne + numberOfTwo)
 		{
@@ -233,28 +237,27 @@ public class singerSimon : MonoBehaviour {
 
 	public void choose (int whichOne)
 	{
-		Debug.Log ("state   " + state);
 		if(state == State.choose)
 		{
 			if (whichChainIllDO <= numberOfOne)
 			{
 				if(whichOne == chainOf1)
 				{
-					Debug.Log ("yay !");
-					// sucess then go to next
-					state = State.none;
+					musicians[chainOf1 - 1].play();
+					timeBeforeShuttingMusic = timerListeningMusic;
+					state = State.listen;
 				}
 			}
 			else if (whichChainIllDO <= numberOfOne + numberOfTwo)
 			{
 				if (whichOne == chainOf2[indexChoosen])
 				{
-					// sucess temp
+					musicians[chainOf2[indexChoosen] - 1].play ();
 					if (indexChoosen == 1)
 					{
 						indexChoosen = 0;
-						// sucess then go to next
-						state = State.none;
+						timeBeforeShuttingMusic = timerListeningMusic;
+						state = State.listen;
 					}
 					else
 					{
@@ -270,11 +273,12 @@ public class singerSimon : MonoBehaviour {
 			{
 				if (whichOne == chainOf3[indexChoosen])
 				{
-					// sucess temp
+					musicians[chainOf3[indexChoosen] - 1].play ();
 					if (indexChoosen == 2)
 					{
 						// sucess then go to next
-						state = State.none;
+						timeBeforeShuttingMusic = timerListeningMusic;
+						state = State.listen;
 					}
 					else
 					{
@@ -290,11 +294,12 @@ public class singerSimon : MonoBehaviour {
 			{
 				if (whichOne == chainOf4[indexChoosen])
 				{
-					// sucess temp
+					musicians[chainOf4[indexChoosen] - 1].play ();
 					if (indexChoosen == 3)
 					{
 						// sucess then go to next
-						state = State.none;
+						timeBeforeShuttingMusic = timerListeningMusic;
+						state = State.listen;
 					}
 					else
 					{
@@ -315,6 +320,42 @@ public class singerSimon : MonoBehaviour {
 		if(state == State.show)
 		{
 			showAchain ();
+		}
+
+		if(state == State.listen)
+		{
+			timeBeforeShuttingMusic -= Time.deltaTime;
+			if (timeBeforeShuttingMusic <= 0)
+			{
+				if (whichChainIllDO <= numberOfOne)
+				{
+					musicians[chainOf1 - 1].stop ();
+				}
+				else if (whichChainIllDO <= numberOfOne + numberOfTwo)
+				{
+					for(int i = 0; i<chainOf2.Length; i++)
+					{
+						musicians[chainOf2[i] - 1].stop ();
+					}
+				}
+				else if (whichChainIllDO <= numberOfOne + numberOfTwo + numberOfthree)
+				{
+					for (int i = 0; i < chainOf3.Length; i++)
+					{
+						musicians[chainOf3[i] - 1].stop ();
+					}
+				}
+				else
+				{
+					for (int i = 0; i < chainOf4.Length; i++)
+					{
+						musicians[chainOf4[i] - 1].stop ();
+					}
+				}
+				whichChainIllDO++;
+				state = State.none;
+				chooseAchain ();
+			}
 		}
 	}
 }
