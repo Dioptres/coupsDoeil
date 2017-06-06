@@ -79,6 +79,7 @@ public class singerSimon : MonoBehaviour {
 
 	void showAchain ()
 	{
+		
 		if (whichChainIllDO <= numberOfOne)
 		{
 			if(isWaiting)
@@ -114,10 +115,13 @@ public class singerSimon : MonoBehaviour {
 					//go to choose musicos
 					indexDaffichage = 0;
 					state = State.choose;
+					isWaiting = false;
+					Debug.Log ("reset d'affichage   " + indexDaffichage);
 				}
 			}
 			else
 			{
+				Debug.Log ("index d'affichage   " + indexDaffichage);
 				tourneLune.material.SetColor ("_Color", gimmeColor (chainOf2[indexDaffichage]));
 				isWaiting = true;
 				timeToWait = timer;
@@ -138,11 +142,13 @@ public class singerSimon : MonoBehaviour {
 				{
 					//go to choose musicos
 					indexDaffichage = 0;
+					isWaiting = false;
 					state = State.choose;
 				}
 			}
 			else
 			{
+				Debug.Log ("index d'affichage   " + indexDaffichage);
 				tourneLune.material.SetColor ("_Color", gimmeColor (chainOf3[indexDaffichage]));
 				isWaiting = true;
 				timeToWait = timer;
@@ -163,11 +169,13 @@ public class singerSimon : MonoBehaviour {
 				{
 					//go to choose musicos
 					indexDaffichage = 0;
+					isWaiting = false;
 					state = State.choose;
 				}
 			}
 			else
 			{
+				Debug.Log ("index d'affichage   " + indexDaffichage);
 				tourneLune.material.SetColor ("_Color", gimmeColor (chainOf4[indexDaffichage]));
 				isWaiting = true;
 				timeToWait = timer;
@@ -179,10 +187,12 @@ public class singerSimon : MonoBehaviour {
 	{
 		if (whichChainIllDO <= numberOfOne)
 		{
+			Debug.Log ("chain 1");
 			chainOf1 = Random.Range (1, 5);
 		}
 		else if (whichChainIllDO <= numberOfOne + numberOfTwo)
 		{
+			Debug.Log ("chain 2");
 			for (int i = 0; i < chainOf2.Length; i++)
 			{
 				chainOf2[i] = Random.Range (1, 5);
@@ -200,6 +210,7 @@ public class singerSimon : MonoBehaviour {
 		}
 		else if (whichChainIllDO <= numberOfOne + numberOfTwo + numberOfthree)
 		{
+			Debug.Log ("chain 3");
 			for (int i = 0; i < chainOf3.Length; i++)
 			{
 				chainOf3[i] = Random.Range (1, 5);
@@ -213,10 +224,11 @@ public class singerSimon : MonoBehaviour {
 						}
 					}
 				}
-			}
+			}  
 		}
 		else
 		{
+			Debug.Log ("chain 4");
 			for (int i = 0; i < chainOf4.Length; i++)
 			{
 				chainOf4[i] = Random.Range (1, 5);
@@ -261,7 +273,15 @@ public class singerSimon : MonoBehaviour {
 					}
 					else
 					{
-						indexChoosen++;
+						if (whichChainIllDO == numberOfOne + numberOfTwo + numberOfthree + numberOffour)
+						{
+							GameManager.fadeToDo = GameManager.fadeState.FadeOut;
+						}
+						else
+						{
+							indexChoosen++;
+						}
+						
 					}
 				}
 				else

@@ -58,7 +58,6 @@ public class GameManager : MonoBehaviour
 			Color tempColor = toBeFaded.color;
 			tempColor.a -= speedFading * Time.deltaTime;
 			toBeFaded.color = tempColor;
-			Debug.Log (tempColor.a);
 			if (tempColor.a <= 0)
 			{
 				fadeToDo = fadeState.None;
