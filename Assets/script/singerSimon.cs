@@ -260,19 +260,12 @@ public class singerSimon : MonoBehaviour {
 					}
 					else
 					{
-						if (whichChainIllDO == numberOfOne + numberOfTwo + numberOfthree + numberOffour)
-						{
-							GameManager.fadeToDo = GameManager.fadeState.FadeOut;
-						}
-						else
-						{
-							indexChoosen++;
-						}
-						
+						indexChoosen++;	
 					}
 				}
 				else
 				{
+					indexChoosen = 0;
 					state = State.none;
 					chooseAchain ();
 				}
@@ -284,7 +277,7 @@ public class singerSimon : MonoBehaviour {
 					musicians[chainOf3[indexChoosen] - 1].play ();
 					if (indexChoosen == 2)
 					{
-						// sucess then go to next
+						indexChoosen = 0;
 						timeBeforeShuttingMusic = timerListeningMusic;
 						state = State.listen;
 					}
@@ -295,7 +288,7 @@ public class singerSimon : MonoBehaviour {
 				}
 				else
 				{
-					//state = State.choose;
+					indexChoosen = 0;
 					state = State.none;
 					chooseAchain ();
 				}
@@ -307,7 +300,7 @@ public class singerSimon : MonoBehaviour {
 					musicians[chainOf4[indexChoosen] - 1].play ();
 					if (indexChoosen == 3)
 					{
-						// sucess then go to next
+						indexChoosen = 0;
 						timeBeforeShuttingMusic = timerListeningMusic;
 						state = State.listen;
 					}
@@ -318,7 +311,9 @@ public class singerSimon : MonoBehaviour {
 				}
 				else
 				{
-					// fail
+					indexChoosen = 0;
+					state = State.none;
+					chooseAchain ();
 				}
 			}
 		}
@@ -357,6 +352,10 @@ public class singerSimon : MonoBehaviour {
 				}
 				else
 				{
+					if(whichChainIllDO == numberOfOne+numberOfTwo+numberOfthree+numberOffour)
+					{
+						GameManager.fadeToDo = GameManager.fadeState.FadeOut;
+					}
 					for (int i = 0; i < chainOf4.Length; i++)
 					{
 						musicians[chainOf4[i] - 1].stop ();
