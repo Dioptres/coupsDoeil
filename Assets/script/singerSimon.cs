@@ -286,7 +286,8 @@ public class singerSimon : MonoBehaviour {
 				}
 				else
 				{
-					// fail
+					state = State.none;
+					chooseAchain ();
 				}
 			}
 			else if (whichChainIllDO <= numberOfOne + numberOfTwo + numberOfthree)
