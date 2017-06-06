@@ -8,12 +8,12 @@ public class fireflyBehavior : Lookable {
 	public GameObject lampe;
 	float timer;
 
+	
+
 	public float speedMin = 0.5f;
 	public float speedMax = 1.5f;
 
 	public float speed;
-
-	
 
 	// Use this for initialization
 	protected override void StartLookable ()
@@ -43,10 +43,9 @@ public class fireflyBehavior : Lookable {
 
 	public override void DoAction ()
 	{
-		if(myColor == lampe.GetComponent<sayWhichOneToExplode>().GetComponentInChildren<Light>().color || lampe.GetComponent<sayWhichOneToExplode> ().GetComponentInChildren<sayWhichOneToExplode> ().lastFireworks)
+		if(myColor == lampe.GetComponent<sayWhichOneToExplode>().GetComponentInChildren<Light>().color)
 		{
 			Debug.Log ("good");
-			lampe.GetComponent<sayWhichOneToExplode> ().addFirefly();
 		}
 		else
 		{
