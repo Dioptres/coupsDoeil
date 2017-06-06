@@ -50,10 +50,12 @@ public class sayWhichOneToExplode : MonoBehaviour {
 		{
 			if (compteur == paliers[i])
 			{
+				Debug.Log (i + "    " + (paliers.Length-2));
 				numberOfLuciolForEachColor += fireflyAdded[i];
 				if (i == paliers.Length - 2)
 				{
 					lastFireworks = true;
+					changeColor ();
 				}
 				else if(i == paliers.Length - 1)
 				{
