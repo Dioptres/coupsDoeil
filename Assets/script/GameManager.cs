@@ -63,6 +63,17 @@ public class GameManager : MonoBehaviour
 				fadeToDo = fadeState.None;
 			}
 		}
+		else if (fadeToDo == fadeState.FadeOut)
+		{
+			Color tempColor = toBeFaded.color;
+			tempColor.a += speedFading * Time.deltaTime;
+			toBeFaded.color = tempColor;
+			Debug.Log (tempColor.a);
+			if (tempColor.a >= 1)
+			{
+				fadeToDo = fadeState.None;
+			}
+		}
 
 		TimeSincelastMusicianSeen += Time.deltaTime;
 		lookables = GameObject.FindGameObjectsWithTag ("Lookable");
