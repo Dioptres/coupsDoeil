@@ -7,6 +7,10 @@ public class musicianSimon : Lookable {
 	public singerSimon actualSinger;
 	int numberOfMyInstrument;
 
+	Animator anim;
+
+	
+
 	public enum Instrument
 	{
 		None = 0,
@@ -20,10 +24,12 @@ public class musicianSimon : Lookable {
 	public void play()
 	{
 		AkSoundEngine.SetState (instrument.ToString (), instrument.ToString () + "_is" + "playing");
+		anim.SetBool ("isPlayingMusic", true);
 	}
 	public void stop ()
 	{
 		AkSoundEngine.SetState (instrument.ToString (), instrument.ToString () + "_not" + "playing");
+		anim.SetBool ("isPlayingMusic", false);
 	}
 
 	public Instrument instrument;
@@ -32,7 +38,9 @@ public class musicianSimon : Lookable {
 	{
 		base.StartLookable ();
 
-		switch(instrument)
+		anim = GetComponentInChildren<Animator> ();
+
+		switch (instrument)
 		{
 			case Instrument.Bass:
 				numberOfMyInstrument = 1;
