@@ -43,8 +43,9 @@ public class fireflyBehavior : Lookable {
 
 	public override void DoAction ()
 	{
-		if(myColor == lampe.GetComponent<sayWhichOneToExplode>().GetComponentInChildren<Light>().color)
+		if (myColor == lampe.GetComponent<sayWhichOneToExplode> ().GetComponentInChildren<Light> ().color || lampe.GetComponent<sayWhichOneToExplode> ().GetComponentInChildren<sayWhichOneToExplode> ().lastFireworks)
 		{
+			lampe.GetComponent<sayWhichOneToExplode> ().addFirefly ();
 			Debug.Log ("good");
 		}
 		else
