@@ -308,7 +308,7 @@ public class singerSimon : MonoBehaviour {
 				}
 				else
 				{
-					// fail
+					state = State.choose;
 				}
 			}
 			else

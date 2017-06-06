@@ -72,6 +72,7 @@ public class scarabBehavior : Lookable
 			else if (actualCheckPoint == checkPoints.Length - 1)
 			{
 				actualCheckPoint++;
+				GameManager.fadeToDo = GameManager.fadeState.FadeOut;
 			}
 
 
