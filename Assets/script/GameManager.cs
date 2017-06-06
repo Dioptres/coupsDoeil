@@ -5,18 +5,6 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-	public enum fadeState
-	{
-		None,
-		FadeIn,
-		FadeOut
-	}
-
-	fadeState fadeToDo = fadeState.None;
-
-	public float speedFading = 1;
-
-	public SpriteRenderer toBeFaded;
 
 	public GameObject lastMusicianSeen;
 	public float TimeSincelastMusicianSeen;
@@ -37,10 +25,6 @@ public class GameManager : MonoBehaviour
 	// Use this for initialization
 	void Awake ()
 	{
-		fadeToDo = fadeState.FadeIn;
-
-		
-
 		lookables = GameObject.FindGameObjectsWithTag ("Lookable");
 		lookables2 = GameObject.FindGameObjectsWithTag ("luciole");
 		TimeSincelastMusicianSeen = 99999999;
@@ -52,18 +36,6 @@ public class GameManager : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if(fadeToDo == fadeState.FadeIn)
-		{
-			Color tempColor = toBeFaded.color;
-			tempColor.a -= speedFading * Time.deltaTime;
-			toBeFaded.color = tempColor;
-			Debug.Log (tempColor.a);
-			if (tempColor.a <= 0)
-			{
-				fadeToDo = fadeState.None;
-			}
-		}
-
 		TimeSincelastMusicianSeen += Time.deltaTime;
 		lookables = GameObject.FindGameObjectsWithTag ("Lookable");
 		lookables2 = GameObject.FindGameObjectsWithTag ("luciole");
