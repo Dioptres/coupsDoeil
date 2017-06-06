@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Tobii.EyeTracking;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -72,6 +73,8 @@ public class GameManager : MonoBehaviour
 			if (tempColor.a >= 1)
 			{
 				fadeToDo = fadeState.None;
+				SceneManager.LoadScene (SceneManager.GetActiveScene ().buildIndex + 1);
+
 			}
 		}
 
