@@ -19,6 +19,8 @@ public class singerSimon : MonoBehaviour {
 	public int numberOfthree = 1;
 	public int numberOffour = 1;
 
+	Animator anim;
+
 	int chainOf1;
 	int[] chainOf2;
 	int[] chainOf3;
@@ -42,6 +44,8 @@ public class singerSimon : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
+		anim = GetComponentInChildren<Animator> ();
+
 		isWaiting = false;
 		indexDaffichage = 0;
 
@@ -53,28 +57,6 @@ public class singerSimon : MonoBehaviour {
 		chainOf4 = new int[4];
 
 		chooseAchain ();
-	}
-	
-	Color gimmeColor(int colorIndex)
-	{
-		Color futurColor = Color.white;
-		switch (colorIndex)
-		{
-			case 1:
-				futurColor = Color.red;
-				break;
-			case 2:
-				futurColor = Color.yellow;
-				break;
-			case 3:
-				futurColor = new Color(0.58f, 0.44f, 0.86f);
-				break;
-			case 4:
-				futurColor = Color.blue;
-				break;
-		}
-		//tourneLune.material.SetColor ("_Color", Color.red);
-		return futurColor;
 	}
 
 	void showAchain ()
@@ -90,11 +72,13 @@ public class singerSimon : MonoBehaviour {
 					//go to choose musicos
 					isWaiting = false;
 					state = State.choose;
+					anim.SetInteger ("moonColor", 0);
 				}
 			}
 			else
 			{
-				tourneLune.material.SetColor ("_Color", gimmeColor (chainOf1));
+				anim.SetInteger ("moonColor", chainOf1);
+				
 				isWaiting = true;
 				timeToWait = timer;
 			}
@@ -115,6 +99,7 @@ public class singerSimon : MonoBehaviour {
 					//go to choose musicos
 					indexDaffichage = 0;
 					state = State.choose;
+					anim.SetInteger ("moonColor", 0);
 					isWaiting = false;
 					Debug.Log ("reset d'affichage   " + indexDaffichage);
 				}
@@ -122,7 +107,7 @@ public class singerSimon : MonoBehaviour {
 			else
 			{
 				Debug.Log ("index d'affichage   " + indexDaffichage);
-				tourneLune.material.SetColor ("_Color", gimmeColor (chainOf2[indexDaffichage]));
+				anim.SetInteger ("moonColor", chainOf2[indexDaffichage]);
 				isWaiting = true;
 				timeToWait = timer;
 			}
@@ -144,12 +129,13 @@ public class singerSimon : MonoBehaviour {
 					indexDaffichage = 0;
 					isWaiting = false;
 					state = State.choose;
+					anim.SetInteger ("moonColor", 0);
 				}
 			}
 			else
 			{
 				Debug.Log ("index d'affichage   " + indexDaffichage);
-				tourneLune.material.SetColor ("_Color", gimmeColor (chainOf3[indexDaffichage]));
+				anim.SetInteger ("moonColor", chainOf3[indexDaffichage]);
 				isWaiting = true;
 				timeToWait = timer;
 			}
@@ -171,12 +157,13 @@ public class singerSimon : MonoBehaviour {
 					indexDaffichage = 0;
 					isWaiting = false;
 					state = State.choose;
+					anim.SetInteger ("moonColor", 0);
 				}
 			}
 			else
 			{
 				Debug.Log ("index d'affichage   " + indexDaffichage);
-				tourneLune.material.SetColor ("_Color", gimmeColor (chainOf4[indexDaffichage]));
+				anim.SetInteger ("moonColor", chainOf4[indexDaffichage]);
 				isWaiting = true;
 				timeToWait = timer;
 			}
@@ -308,7 +295,9 @@ public class singerSimon : MonoBehaviour {
 				}
 				else
 				{
-					state = State.choose;
+					//state = State.choose;
+					state = State.none;
+					chooseAchain ();
 				}
 			}
 			else
