@@ -8,7 +8,7 @@ public class fireflyBehavior : Lookable {
 	public GameObject lampe;
 	float timer;
 
-	
+	Animator anim;
 
 	public float speedMin = 0.5f;
 	public float speedMax = 1.5f;
@@ -19,9 +19,26 @@ public class fireflyBehavior : Lookable {
 	protected override void StartLookable ()
 	{
 		base.StartLookable ();
+
+		anim = GetComponentInChildren<Animator> ();
 		timer = 0;
 
 		speed = Random.Range (speedMin, speedMax);
+
+		if(myColor == Color.cyan)
+		{
+			anim.SetBool ("isCyan", true);
+		}
+		else if (myColor == Color.magenta)
+		{
+			anim.SetBool ("isMagenta", true);
+		}
+		else if (myColor == Color.yellow)
+		{
+			anim.SetBool ("isYellow", true);
+		}
+
+		
 	}
 
 
