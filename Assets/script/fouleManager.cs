@@ -24,7 +24,6 @@ public class fouleManager : MonoBehaviour {
 	void Update () {
 		if(timeBeforeAction<=0)
 		{
-			Debug.Log ("ACTIIIIII   " + fouleToActivate);
 
 			this.transform.GetChild (fouleToActivate).GetComponent<crowdBehavior> ().action ();
 

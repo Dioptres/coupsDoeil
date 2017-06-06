@@ -50,6 +50,7 @@ public class scarabBehavior : Lookable
 
 	protected override void UpdateLookable ()
 	{
+
 		base.UpdateLookable ();
 
 		if(willLaunch)
@@ -68,6 +69,12 @@ public class scarabBehavior : Lookable
 			{
 				actualCheckPoint++;
 				agent.destination = checkPoints[actualCheckPoint].position;
+				if(flee)
+				{
+					flee = false;
+					actualNbrOfActiv = 0;
+					agent.speed = speed;
+				}
 			}
 			else if (actualCheckPoint == checkPoints.Length - 1)
 			{
@@ -81,6 +88,7 @@ public class scarabBehavior : Lookable
 
 	public override void DoAction ()
 	{
+		Debug.Log ("DOOO !");
 		if (!flee)
 		{
 			AkSoundEngine.PostEvent ("Agitateur_regard", gameObject);
@@ -103,11 +111,12 @@ public class scarabBehavior : Lookable
 
 	public override void QuitSee ()
 	{
-		if (!flee)
-		{
+		
 			base.QuitSee ();
 
+
+
 			AkSoundEngine.PostEvent ("Agitateur_marche", gameObject);
-		}
+		
 	}
 }
