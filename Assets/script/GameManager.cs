@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
 		FadeOut
 	}
 
-	fadeState fadeToDo = fadeState.None;
+	public static fadeState fadeToDo = fadeState.None;
 
 	public float speedFading = 1;
 

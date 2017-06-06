@@ -16,6 +16,8 @@ public class lampFireflySpxn : MonoBehaviour {
 
 	GameObject fireFly4;
 
+	public GameObject singer;
+
 	Vector3 move;
 
 	int lampeAllume;
@@ -51,6 +53,8 @@ public class lampFireflySpxn : MonoBehaviour {
 	public AudioClip fireFly;
 
 	protected void Start () {
+		singer.SetActive (false);
+
 		feedback = true;
 
 		end = false;
@@ -136,10 +140,12 @@ public class lampFireflySpxn : MonoBehaviour {
 						waveNumber = (waveNumber+1)%3;
 						this.transform.GetChild (0).GetComponent<Light> ().intensity -= intensityOfLampist/totalNbrLampes;
 
+						Debug.Log (lampeAllume +"   "+ totalNbrLampes);
+
 						if (lampeAllume == totalNbrLampes)
 						{
 							end = true;
-							
+							singer.SetActive (true);
 						}
 
 						lampe.GetComponent<lamp> ().song ();
@@ -171,6 +177,8 @@ public class lampFireflySpxn : MonoBehaviour {
 				this.transform.GetChild (0).GetComponent<Light> ().intensity = intensityOfLampist;
 				this.transform.position = lastPos.position;
 				end = false;
+
+				GameManager.fadeToDo = GameManager.fadeState.FadeOut;
 
 				this.GetComponent<moveFromAtoB2> ().StopTP ();
 			}
