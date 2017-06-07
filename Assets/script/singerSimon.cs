@@ -9,10 +9,13 @@ public class singerSimon : MonoBehaviour {
 		show,
 		choose,
 		listen,
+		badThings,
 		none
 	}
 
-	private State state = State.none;
+	public doCroaCroa doCroa;
+
+	private State state;
 
 	public int numberOfOne = 1;
 	public int numberOfTwo = 1;
@@ -20,6 +23,9 @@ public class singerSimon : MonoBehaviour {
 	public int numberOffour = 1;
 
 	Animator anim;
+
+	float badTime;
+	public float gonnaHaveABadTime = 2;
 
 	int chainOf1;
 	int[] chainOf2;
@@ -47,7 +53,7 @@ public class singerSimon : MonoBehaviour {
 		anim = GetComponentInChildren<Animator> ();
 
 		isWaiting = false;
-		indexDaffichage = 0;
+		indexDaffichage = -1;
 
 		indexChoosen = 0;
 
@@ -56,7 +62,19 @@ public class singerSimon : MonoBehaviour {
 		chainOf3 = new int[3];
 		chainOf4 = new int[4];
 
-		chooseAchain ();
+		badTime = gonnaHaveABadTime;
+		state = State.badThings;
+	}
+
+	void badThingsHappen()
+	{
+		badTime -= Time.deltaTime;
+
+		if(badTime<0)
+		{
+			state = State.none;
+			chooseAchain();
+		}
 	}
 
 	void stopMusician()
@@ -118,6 +136,7 @@ public class singerSimon : MonoBehaviour {
 		}
 		else if (whichChainIllDO <= numberOfOne + numberOfTwo)
 		{
+			Debug.Log("show chain of 2");
 			if (isWaiting)
 			{
 				
@@ -130,7 +149,7 @@ public class singerSimon : MonoBehaviour {
 				else if (timeToWait <= 0)
 				{
 					//go to choose musicos
-					indexDaffichage = 0;
+					indexDaffichage = -1;
 					state = State.choose;
 					anim.SetInteger ("moonColor", 0);
 					isWaiting = false;
@@ -139,8 +158,15 @@ public class singerSimon : MonoBehaviour {
 			}
 			else
 			{
-				Debug.Log ("index d'affichage   " + indexDaffichage);
-				anim.SetInteger ("moonColor", chainOf2[indexDaffichage]);
+				if(indexDaffichage == -1)
+				{
+					doCroa.neutral();
+				}
+				else
+				{
+					anim.SetInteger("moonColor", chainOf2[indexDaffichage]);
+				}
+				
 				isWaiting = true;
 				timeToWait = timer;
 			}
@@ -159,7 +185,7 @@ public class singerSimon : MonoBehaviour {
 				else if (timeToWait <= 0)
 				{
 					//go to choose musicos
-					indexDaffichage = 0;
+					indexDaffichage = -1;
 					isWaiting = false;
 					state = State.choose;
 					anim.SetInteger ("moonColor", 0);
@@ -167,8 +193,14 @@ public class singerSimon : MonoBehaviour {
 			}
 			else
 			{
-				Debug.Log ("index d'affichage   " + indexDaffichage);
-				anim.SetInteger ("moonColor", chainOf3[indexDaffichage]);
+				if (indexDaffichage == -1)
+				{
+					doCroa.neutral();
+				}
+				else
+				{
+					anim.SetInteger("moonColor", chainOf3[indexDaffichage]);
+				}
 				isWaiting = true;
 				timeToWait = timer;
 			}
@@ -187,7 +219,7 @@ public class singerSimon : MonoBehaviour {
 				else if (timeToWait <= 0)
 				{
 					//go to choose musicos
-					indexDaffichage = 0;
+					indexDaffichage = -1;
 					isWaiting = false;
 					state = State.choose;
 					anim.SetInteger ("moonColor", 0);
@@ -195,8 +227,14 @@ public class singerSimon : MonoBehaviour {
 			}
 			else
 			{
-				Debug.Log ("index d'affichage   " + indexDaffichage);
-				anim.SetInteger ("moonColor", chainOf4[indexDaffichage]);
+				if (indexDaffichage == -1)
+				{
+					doCroa.neutral();
+				}
+				else
+				{
+					anim.SetInteger("moonColor", chainOf4[indexDaffichage]);
+				}
 				isWaiting = true;
 				timeToWait = timer;
 			}
@@ -275,6 +313,7 @@ public class singerSimon : MonoBehaviour {
 			{
 				if(whichOne == chainOf1)
 				{
+					doCroa.good();
 					musicians[chainOf1 - 1].play();
 					timeBeforeShuttingMusic = timerListeningMusic;
 					state = State.listen;
@@ -284,6 +323,7 @@ public class singerSimon : MonoBehaviour {
 			{
 				if (whichOne == chainOf2[indexChoosen])
 				{
+					doCroa.good();
 					musicians[chainOf2[indexChoosen] - 1].play ();
 					if (indexChoosen == 1)
 					{
@@ -301,13 +341,16 @@ public class singerSimon : MonoBehaviour {
 					stopMusician();
 					indexChoosen = 0;
 					state = State.none;
-					chooseAchain ();
+					state = State.badThings;
+					badTime = gonnaHaveABadTime;
+					doCroa.bad();
 				}
 			}
 			else if (whichChainIllDO <= numberOfOne + numberOfTwo + numberOfthree)
 			{
 				if (whichOne == chainOf3[indexChoosen])
 				{
+					doCroa.good();
 					musicians[chainOf3[indexChoosen] - 1].play ();
 					if (indexChoosen == 2)
 					{
@@ -325,13 +368,16 @@ public class singerSimon : MonoBehaviour {
 					stopMusician();
 					indexChoosen = 0;
 					state = State.none;
-					chooseAchain ();
+					state = State.badThings;
+					badTime = gonnaHaveABadTime;
+					doCroa.bad();
 				}
 			}
 			else
 			{
 				if (whichOne == chainOf4[indexChoosen])
 				{
+					doCroa.good();
 					musicians[chainOf4[indexChoosen] - 1].play ();
 					if (indexChoosen == 3)
 					{
@@ -348,8 +394,9 @@ public class singerSimon : MonoBehaviour {
 				{
 					stopMusician();
 					indexChoosen = 0;
-					state = State.none;
-					chooseAchain ();
+					state = State.badThings;
+					badTime = gonnaHaveABadTime;
+					doCroa.bad();
 				}
 			}
 		}
@@ -358,12 +405,13 @@ public class singerSimon : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
+		Debug.Log(state);
 		if(state == State.show)
 		{
 			showAchain ();
 		}
 
-		if(state == State.listen)
+		else if(state == State.listen)
 		{
 			timeBeforeShuttingMusic -= Time.deltaTime;
 			if (timeBeforeShuttingMusic <= 0)
@@ -373,6 +421,10 @@ public class singerSimon : MonoBehaviour {
 				state = State.none;
 				chooseAchain ();
 			}
+		}
+		else if(state == State.badThings)
+		{
+			badThingsHappen();
 		}
 	}
 }
