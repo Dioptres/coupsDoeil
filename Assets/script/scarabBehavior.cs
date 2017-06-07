@@ -15,6 +15,9 @@ public class scarabBehavior : Lookable
 	public float speed = 1;
 	public float modifFuite = 1.5f;
 
+	public float timeToHide = 2;
+	float timeHidden;
+
 	public int nbrOfActivBeforeLeaving = 3;
 	int actualNbrOfActiv;
 
@@ -67,13 +70,22 @@ public class scarabBehavior : Lookable
 		{
 			if (actualCheckPoint < checkPoints.Length - 1)
 			{
-				actualCheckPoint++;
-				agent.destination = checkPoints[actualCheckPoint].position;
-				if(flee)
+				if (!flee)
 				{
-					flee = false;
-					actualNbrOfActiv = 0;
-					agent.speed = speed;
+					actualCheckPoint++;
+					agent.destination = checkPoints[actualCheckPoint].position;
+				}
+				else
+				{
+					timeHidden -= Time.deltaTime;
+					if(timeHidden <=0)
+					{
+						actualCheckPoint++;
+						agent.destination = checkPoints[actualCheckPoint].position;
+						flee = false;
+						actualNbrOfActiv = 0;
+						agent.speed = speed;
+					}
 				}
 			}
 			else if (actualCheckPoint == checkPoints.Length - 1)
@@ -88,7 +100,6 @@ public class scarabBehavior : Lookable
 
 	public override void DoAction ()
 	{
-		Debug.Log ("DOOO !");
 		if (!flee)
 		{
 			AkSoundEngine.PostEvent ("Agitateur_regard", gameObject);
@@ -101,6 +112,7 @@ public class scarabBehavior : Lookable
 			{
 				actualCheckPoint--;
 				flee = true;
+				timeHidden = timeToHide;
 				agent.destination = checkPoints[actualCheckPoint].position;
 				agent.speed = speed * modifFuite;
 			}
