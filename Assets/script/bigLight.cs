@@ -34,6 +34,7 @@ public class bigLight : Lookable {
 
 	protected override void UpdateLookable ()
 	{
+		
 		base.UpdateLookable ();
 
 		lights = GameObject.FindGameObjectsWithTag ("lampe");
@@ -50,7 +51,7 @@ public class bigLight : Lookable {
 				{
 					lights[j].GetComponentInChildren<Light> ().intensity = 2;
 				}
-				this.transform.localScale = new Vector3 (2,2,2);
+				this.transform.parent.localScale = new Vector3 (2,2,2);
 				this.GetComponentInChildren<Light> ().intensity = 0;
 			}
 		}
@@ -68,21 +69,21 @@ public class bigLight : Lookable {
 
 			modifSpeedOfGrowth*= intensityOfModifier;
 
-			this.transform.localScale = new Vector3(transform.localScale.x+croissance * modifSpeedOfGrowth, 1, transform.localScale.z + croissance * modifSpeedOfGrowth);
+			this.transform.parent.localScale = new Vector3(transform.parent.localScale.x+croissance * modifSpeedOfGrowth, 1, transform.parent.localScale.z + croissance * modifSpeedOfGrowth);
 			this.GetComponentInChildren<Light> ().intensity += croissance;
 
 			Debug.Log (croissance * modifSpeedOfGrowth);
 
-			if(transform.localScale.x > 4)
+			if(transform.parent.localScale.x > 4)
 			{
 				GameManager.fadeToDo = GameManager.fadeState.FadeOut;
 			}
 		}
 		else
 		{
-			if (transform.localScale.x > 2 && transform.localScale.x < 4)
+			if (transform.parent.localScale.x > 2 && transform.parent.localScale.x < 4)
 			{
-				this.transform.localScale = new Vector3 (transform.localScale.x - croissance/2, 1, transform.localScale.z - croissance/2);
+				this.transform.parent.localScale = new Vector3 (transform.parent.localScale.x - croissance/2, 1, transform.parent.localScale.z - croissance/2);
 			}
 		}
 	}
