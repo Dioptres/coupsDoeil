@@ -6,6 +6,8 @@ public class lampFireflySpxn : MonoBehaviour {
 
 	public Animator anim;
 
+	public doCroaCroa doCroa;
+
 	public float intensityOfLampist = 2;
 
 	GameObject fireFly1;
@@ -151,6 +153,7 @@ public class lampFireflySpxn : MonoBehaviour {
 						{
 							end = true;
 							singer.SetActive (true);
+							doCroa.good();
 						}
 
 						lampe.GetComponent<lamp> ().song ();
