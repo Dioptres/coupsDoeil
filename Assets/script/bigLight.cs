@@ -74,6 +74,8 @@ public class bigLight : Lookable {
 
 			Debug.Log (croissance * modifSpeedOfGrowth);
 
+			Debug.Log(transform.parent.localScale.x);
+
 			if(transform.parent.localScale.x > 4)
 			{
 				GameManager.fadeToDo = GameManager.fadeState.FadeOut;
