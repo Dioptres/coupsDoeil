@@ -8,6 +8,10 @@ public class bigLight : Lookable {
 	public float croissance = 0.01f;
 	public float speedOfLoss = 2;
 
+	public float intensityOfModifier = 0.1f;
+
+	float modifSpeedOfGrowth;
+
 	GameObject[] lights;
 
 	protected override void StartLookable ()
@@ -53,8 +57,21 @@ public class bigLight : Lookable {
 
 		if (charging)
 		{
-			this.transform.localScale = new Vector3(transform.localScale.x+croissance, 1, transform.localScale.z + croissance);
+			modifSpeedOfGrowth = 0;
+			foreach(GameObject light in lights)
+			{
+				if(light.GetComponentInChildren<Light> ().intensity > 0)
+				{
+					modifSpeedOfGrowth++;
+				}
+			}
+
+			modifSpeedOfGrowth*= intensityOfModifier;
+
+			this.transform.localScale = new Vector3(transform.localScale.x+croissance * modifSpeedOfGrowth, 1, transform.localScale.z + croissance * modifSpeedOfGrowth);
 			this.GetComponentInChildren<Light> ().intensity += croissance;
+
+			Debug.Log (croissance * modifSpeedOfGrowth);
 
 			if(transform.localScale.x > 4)
 			{
