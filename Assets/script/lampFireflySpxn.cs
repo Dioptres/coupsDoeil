@@ -133,8 +133,13 @@ public class lampFireflySpxn : MonoBehaviour {
 			}
 
 			foreach (GameObject lampe in lampes) {
-				if (Vector3.Distance (this.transform.position, lampe.transform.position) < distanceActivationLampe) {
-					if (lampe.GetComponentInChildren<Light> ().intensity == 0) {
+				if (Vector3.Distance (this.transform.position, lampe.transform.position) < distanceActivationLampe)
+				{
+					if (lampe.GetComponentInChildren<Light> ().intensity == 0)
+					{
+						lampe.GetComponentInChildren<Light> ().intensity = lampPostIntensity;
+						lampe.GetComponentInChildren<Light> ().range = lampPostRange;
+						lampe.GetComponentInChildren<Light> ().color = fireflyColor;
 						lampeAllume++;
 						AkSoundEngine.PostEvent ("Lampadaire_On", gameObject);
 						waveNumber = (waveNumber+1)%3;
@@ -150,9 +155,7 @@ public class lampFireflySpxn : MonoBehaviour {
 
 						lampe.GetComponent<lamp> ().song ();
 					}
-					lampe.GetComponentInChildren<Light> ().intensity = lampPostIntensity;
-					lampe.GetComponentInChildren<Light> ().range = lampPostRange;
-					lampe.GetComponentInChildren<Light> ().color = fireflyColor;
+					
 
 
 				}
