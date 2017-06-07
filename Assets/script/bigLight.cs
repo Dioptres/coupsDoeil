@@ -63,7 +63,7 @@ public class bigLight : Lookable {
 		}
 		else
 		{
-			if (transform.localScale.x > 2)
+			if (transform.localScale.x > 2 && transform.localScale.x < 4)
 			{
 				this.transform.localScale = new Vector3 (transform.localScale.x - croissance/2, 1, transform.localScale.z - croissance/2);
 			}
