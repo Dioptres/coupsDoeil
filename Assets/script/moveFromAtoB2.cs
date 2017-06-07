@@ -45,7 +45,7 @@ public class moveFromAtoB2 : Lookable {
 
 	public override void DoAction () { // LookingAt
 		
-		timerCanMove -= Time.deltaTime;
+		
 		if (state == State.Idle) {
 			state = State.LookedAt;
 			//animator.SetInteger ("doing", 1);
@@ -100,8 +100,8 @@ public class moveFromAtoB2 : Lookable {
 
 	protected override void UpdateLookable () {
 		base.UpdateLookable ();
+		timerCanMove -= Time.deltaTime;
 
-		
 
 		if (throwFanim)
 		{
