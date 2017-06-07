@@ -59,6 +59,39 @@ public class singerSimon : MonoBehaviour {
 		chooseAchain ();
 	}
 
+	void stopMusician()
+	{
+		if (whichChainIllDO <= numberOfOne)
+		{
+			musicians[chainOf1 - 1].stop();
+		}
+		else if (whichChainIllDO <= numberOfOne + numberOfTwo)
+		{
+			for (int i = 0; i < chainOf2.Length; i++)
+			{
+				musicians[chainOf2[i] - 1].stop();
+			}
+		}
+		else if (whichChainIllDO <= numberOfOne + numberOfTwo + numberOfthree)
+		{
+			for (int i = 0; i < chainOf3.Length; i++)
+			{
+				musicians[chainOf3[i] - 1].stop();
+			}
+		}
+		else
+		{
+			if (whichChainIllDO == numberOfOne + numberOfTwo + numberOfthree + numberOffour)
+			{
+				GameManager.fadeToDo = GameManager.fadeState.FadeOut;
+			}
+			for (int i = 0; i < chainOf4.Length; i++)
+			{
+				musicians[chainOf4[i] - 1].stop();
+			}
+		}
+	}
+
 	void showAchain ()
 	{
 		
@@ -265,6 +298,7 @@ public class singerSimon : MonoBehaviour {
 				}
 				else
 				{
+					stopMusician();
 					indexChoosen = 0;
 					state = State.none;
 					chooseAchain ();
@@ -288,6 +322,7 @@ public class singerSimon : MonoBehaviour {
 				}
 				else
 				{
+					stopMusician();
 					indexChoosen = 0;
 					state = State.none;
 					chooseAchain ();
@@ -311,6 +346,7 @@ public class singerSimon : MonoBehaviour {
 				}
 				else
 				{
+					stopMusician();
 					indexChoosen = 0;
 					state = State.none;
 					chooseAchain ();
@@ -332,35 +368,7 @@ public class singerSimon : MonoBehaviour {
 			timeBeforeShuttingMusic -= Time.deltaTime;
 			if (timeBeforeShuttingMusic <= 0)
 			{
-				if (whichChainIllDO <= numberOfOne)
-				{
-					musicians[chainOf1 - 1].stop ();
-				}
-				else if (whichChainIllDO <= numberOfOne + numberOfTwo)
-				{
-					for(int i = 0; i<chainOf2.Length; i++)
-					{
-						musicians[chainOf2[i] - 1].stop ();
-					}
-				}
-				else if (whichChainIllDO <= numberOfOne + numberOfTwo + numberOfthree)
-				{
-					for (int i = 0; i < chainOf3.Length; i++)
-					{
-						musicians[chainOf3[i] - 1].stop ();
-					}
-				}
-				else
-				{
-					if(whichChainIllDO == numberOfOne+numberOfTwo+numberOfthree+numberOffour)
-					{
-						GameManager.fadeToDo = GameManager.fadeState.FadeOut;
-					}
-					for (int i = 0; i < chainOf4.Length; i++)
-					{
-						musicians[chainOf4[i] - 1].stop ();
-					}
-				}
+				stopMusician();
 				whichChainIllDO++;
 				state = State.none;
 				chooseAchain ();
