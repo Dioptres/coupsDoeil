@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class crowdBehavior : Lookable {
 
+	public doCroaCroa doCroa;
 
 	public UnityEngine.AI.NavMeshAgent agent;
 	float timer;
@@ -26,6 +27,7 @@ public class crowdBehavior : Lookable {
 		base.DoAction ();
 		if(timer> -1)
 		{
+			doCroa.good();
 			agent.destination = new Vector3 (-0.4f, 0.5f, 1);
 		}
 	}
