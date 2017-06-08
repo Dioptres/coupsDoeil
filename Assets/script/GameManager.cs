@@ -17,9 +17,12 @@ public class GameManager : MonoBehaviour
 
 	public static fadeState fadeToDo = fadeState.None;
 
+	public float timeBeforeFadeIn = 2;
+
 	public float speedFading = 1;
 
 	public SpriteRenderer toBeFaded;
+	public TextMesh toBeFaded2;
 
 	public GameObject lastMusicianSeen;
 	public float TimeSincelastMusicianSeen;
@@ -37,11 +40,13 @@ public class GameManager : MonoBehaviour
 	public static GameObject[] lookables;
 	public GameObject[] lookables2;
 
+	bool fadeStart;
+
 	// Use this for initialization
 	void Awake ()
 	{
-		fadeToDo = fadeState.FadeIn;
 
+		fadeStart = false;
 
 
 		lookables = GameObject.FindGameObjectsWithTag ("Lookable");
@@ -55,6 +60,17 @@ public class GameManager : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+		if(timeBeforeFadeIn <= 0 && !fadeStart)
+		{
+			fadeStart = true;
+			fadeToDo = fadeState.FadeIn;
+		}
+		else if(!fadeStart)
+		{
+			timeBeforeFadeIn -= Time.deltaTime;
+		}
+
+
 		if(thatsAllFolks <= 0)
 		{
 			fadeToDo = fadeState.FadeOut;
@@ -64,8 +80,11 @@ public class GameManager : MonoBehaviour
 		if (fadeToDo == fadeState.FadeIn)
 		{
 			Color tempColor = toBeFaded.color;
+			Color tempColor2 = toBeFaded2.color;
 			tempColor.a -= speedFading * Time.deltaTime;
+			tempColor2.a -= speedFading * Time.deltaTime;
 			toBeFaded.color = tempColor;
+			toBeFaded2.color = tempColor2;
 			if (tempColor.a <= 0)
 			{
 				fadeToDo = fadeState.None;
