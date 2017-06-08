@@ -12,6 +12,10 @@ public class RumeurBehavior : Lookable {
 	bool flee;
 	public bool shy;
 
+	bool isGoingLeft;
+
+	Animator anim;
+
 	public float timerBeforeLeaving = 1;
 	float timeHappenedSinceLooked;
 
@@ -25,9 +29,13 @@ public class RumeurBehavior : Lookable {
 	public AudioClip look2;
 	public AudioClip look3;
 
+	Vector3 myPreviousPos;
+
 
 	public void Awake () {
-		
+		myPreviousPos = this.transform.position;
+
+		isGoingLeft = false;
 
 		source = GetComponent<AudioSource> ();
 		flee = false;
@@ -39,6 +47,8 @@ public class RumeurBehavior : Lookable {
 	protected override void StartLookable ()
 	{
 		base.StartLookable ();
+
+		anim = GetComponentInChildren<Animator> ();
 
 		agent.speed = speed;
 
@@ -54,7 +64,8 @@ public class RumeurBehavior : Lookable {
 		agent.destination = checkPoints.position;
 	}
 
-	protected override void UpdateLookable () {
+	protected override void UpdateLookable ()
+	{
 		base.UpdateLookable ();
 
 		if (!source.isPlaying && shy) {
@@ -78,6 +89,7 @@ public class RumeurBehavior : Lookable {
 			if(!flee)
 			{
 				checkPoints.GetChild(0).GetComponent<Light> ().intensity = 0;
+				anim.SetTrigger ("isSnatching");
 				AkSoundEngine.PostEvent ("Lampadaire_off", gameObject);
 				agent.destination = terrier.transform.position;
 				flee = true;
@@ -87,8 +99,26 @@ public class RumeurBehavior : Lookable {
 			{
 				this.transform.parent.GetComponent<millePatteBehavior> ().deactivate ();
 				flee = false;
+				anim.SetBool ("isFrightened", false);
 			}
 		}
+
+		Debug.Log (myPreviousPos.x - this.transform.position.x);
+
+		if (myPreviousPos.x - this.transform.position.x > 0 && !isGoingLeft)
+		{
+			Debug.Log ("LEFT !!!!!!!!!!!!");
+			isGoingLeft = true;
+			anim.SetBool ("goingLeft", true);
+		}
+		else if (myPreviousPos.x - this.transform.position.x < 0 && isGoingLeft)
+		{
+			Debug.Log ("RIGHT !!!!!!!!!!!!");
+			isGoingLeft = false;
+			anim.SetBool ("goingLeft", false);
+		}
+
+		myPreviousPos = this.transform.position;
 	}
 
 	
@@ -102,6 +132,7 @@ public class RumeurBehavior : Lookable {
 				AkSoundEngine.PostEvent ("Rumeur_regard", gameObject);
 
 				flee = true;
+				anim.SetBool ("isFrightened", true);
 
 				agent.speed = 0;
 				timeHappenedSinceLooked = 0;
