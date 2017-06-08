@@ -89,7 +89,7 @@ public class fireflyBehavior : Lookable {
 				numbOfPonderation += pourcentageDePop[j];
 				if(whichIndexExplode <= numbOfPonderation)
 				{
-					Debug.Log ("NUM !!!  " + j);
+					AkSoundEngine.PostEvent ("Luciole_Firework", gameObject);
 					Instantiate (fireWorks[j], this.transform.position, Quaternion.identity);
 					Destroy (gameObject);
 				}
@@ -99,7 +99,7 @@ public class fireflyBehavior : Lookable {
 		}
 		else
 		{
-			Debug.Log ("bad");
+			AkSoundEngine.PostEvent ("Luciole_Fail", gameObject);
 		}
 		Destroy (gameObject);
 	}
