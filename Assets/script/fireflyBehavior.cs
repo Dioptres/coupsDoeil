@@ -9,11 +9,13 @@ public class fireflyBehavior : Lookable {
 	float timer;
 
 	Animator anim;
+	int numbOfPonderation;
 
 	public float speedMin = 0.5f;
 	public float speedMax = 1.5f;
 
-	public GameObject fireWorks;
+	public GameObject[] fireWorks;
+	public int[] pourcentageDePop;
 
 	public float speed;
 
@@ -21,6 +23,8 @@ public class fireflyBehavior : Lookable {
 	protected override void StartLookable ()
 	{
 		base.StartLookable ();
+
+		numbOfPonderation = 0;
 
 		anim = GetComponentInChildren<Animator> ();
 		timer = 0;
@@ -65,7 +69,33 @@ public class fireflyBehavior : Lookable {
 		if (myColor == lampe.GetComponent<sayWhichOneToExplode> ().GetComponentInChildren<Light> ().color || lampe.GetComponent<sayWhichOneToExplode> ().GetComponentInChildren<sayWhichOneToExplode> ().lastFireworks)
 		{
 			lampe.GetComponent<sayWhichOneToExplode> ().addFirefly ();
-			Instantiate (fireWorks, this.transform.position, Quaternion.identity);
+
+			int whichOneExplode;
+			int whichIndexExplode;
+
+
+
+			for (int i = 0; i < pourcentageDePop.Length; i++)
+			{
+				numbOfPonderation += pourcentageDePop[i];
+			}
+
+			whichIndexExplode = Random.Range (0, numbOfPonderation);
+			Debug.Log ("NUM Choose index !!!  " + whichIndexExplode);
+			numbOfPonderation = 0;
+
+			for(int j = 0; j < fireWorks.Length; j++)
+			{
+				numbOfPonderation += pourcentageDePop[j];
+				if(whichIndexExplode <= numbOfPonderation)
+				{
+					Debug.Log ("NUM !!!  " + j);
+					Instantiate (fireWorks[j], this.transform.position, Quaternion.identity);
+					Destroy (gameObject);
+				}
+			}
+
+			
 		}
 		else
 		{
