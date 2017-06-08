@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+	public float thatsAllFolks = 120;
+
 	public enum fadeState
 	{
 		None,
@@ -53,6 +55,12 @@ public class GameManager : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+		if(thatsAllFolks <= 0)
+		{
+			fadeToDo = fadeState.FadeOut;
+		}
+		thatsAllFolks -= Time.deltaTime;
+
 		if (fadeToDo == fadeState.FadeIn)
 		{
 			Color tempColor = toBeFaded.color;
