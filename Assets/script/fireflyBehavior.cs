@@ -13,6 +13,8 @@ public class fireflyBehavior : Lookable {
 	public float speedMin = 0.5f;
 	public float speedMax = 1.5f;
 
+	public GameObject fireWorks;
+
 	public float speed;
 
 	// Use this for initialization
@@ -63,7 +65,7 @@ public class fireflyBehavior : Lookable {
 		if (myColor == lampe.GetComponent<sayWhichOneToExplode> ().GetComponentInChildren<Light> ().color || lampe.GetComponent<sayWhichOneToExplode> ().GetComponentInChildren<sayWhichOneToExplode> ().lastFireworks)
 		{
 			lampe.GetComponent<sayWhichOneToExplode> ().addFirefly ();
-			Debug.Log ("good");
+			Instantiate (fireWorks, this.transform.position, Quaternion.identity);
 		}
 		else
 		{
