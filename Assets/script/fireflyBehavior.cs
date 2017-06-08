@@ -17,7 +17,7 @@ public class fireflyBehavior : Lookable {
 	public GameObject[] fireWorks;
 	public int[] pourcentageDePop;
 
-	public float speed;
+	float speed;
 
 	// Use this for initialization
 	protected override void StartLookable ()
