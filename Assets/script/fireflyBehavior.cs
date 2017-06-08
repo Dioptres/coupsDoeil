@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class fireflyBehavior : Lookable {
+public class fireflyBehavior : Lookable
+{
 
 	public Color myColor;
 	public GameObject lampe;
@@ -31,7 +32,7 @@ public class fireflyBehavior : Lookable {
 
 		speed = Random.Range (speedMin, speedMax);
 
-		if(myColor == Color.cyan)
+		if (myColor == Color.cyan)
 		{
 			anim.SetBool ("isCyan", true);
 		}
@@ -44,7 +45,7 @@ public class fireflyBehavior : Lookable {
 			anim.SetBool ("isYellow", true);
 		}
 
-		
+
 	}
 
 
@@ -53,12 +54,12 @@ public class fireflyBehavior : Lookable {
 	protected override void UpdateLookable ()
 	{
 		base.UpdateLookable ();
-	
+
 		timer += Time.deltaTime;
 		transform.Translate (Vector3.forward * Time.deltaTime * speed);
 
 
-		if(this.transform.position.x < -13 || this.transform.position.x > 12 || this.transform.position.z < -7 || this.transform.position.z > 8)
+		if (this.transform.position.x < -13 || this.transform.position.x > 12 || this.transform.position.z < -7 || this.transform.position.z > 8)
 		{
 			Destroy (gameObject);
 		}
@@ -84,18 +85,25 @@ public class fireflyBehavior : Lookable {
 			Debug.Log ("NUM Choose index !!!  " + whichIndexExplode);
 			numbOfPonderation = 0;
 
-			for(int j = 0; j < fireWorks.Length; j++)
+			for (int j = 0; j < fireWorks.Length; j++)
 			{
 				numbOfPonderation += pourcentageDePop[j];
-				if(whichIndexExplode <= numbOfPonderation)
+				if (whichIndexExplode <= numbOfPonderation)
 				{
 					AkSoundEngine.PostEvent ("Luciole_Firework", gameObject);
-					Instantiate (fireWorks[j], this.transform.position, Quaternion.identity);
+					GameObject myFire = Instantiate (fireWorks[j], this.transform.position, Quaternion.identity);
+
+					foreach (Transform child in myFire.transform)
+					{
+						child.GetComponent<ParticleSystem> ().startColor = myColor;
+					}
+
+
 					Destroy (gameObject);
 				}
 			}
 
-			
+
 		}
 		else
 		{
