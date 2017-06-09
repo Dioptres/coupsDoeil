@@ -4,35 +4,34 @@ using UnityEngine;
 
 public class lamp : MonoBehaviour {
 
-	public AudioClip son1;
-	public AudioClip son2;
-	public AudioClip son3;
-	public AudioClip son4;
+	
+	Light mine;
+
+	Animator anim;
+
+	bool lighten;
 
 	private AudioSource source;
 
 	// Use this for initialization
 	void Start () {
+		anim = GetComponentInChildren<Animator> ();
 		source = GetComponent<AudioSource> ();
+		lighten = false;
+		mine = GetComponentInChildren<Light> ();
 	}
 	
 	// Update is called once per frame
-	public void song () {
-		int rand = Random.Range (1, 5);
-		switch(rand)
+	public void Update () {
+		if(lighten && mine.intensity == 0)
 		{
-			case 1 :
-				source.PlayOneShot (son1);
-				break;
-			case 2:
-				source.PlayOneShot (son2);
-				break;
-			case 3:
-				source.PlayOneShot (son3);
-				break;
-			case 4:
-				source.PlayOneShot (son4);
-				break;
+			lighten = false;
+			anim.SetTrigger ("lightOff");
+		}
+		else if (!lighten && mine.intensity >0)
+		{
+			lighten = true;
+			anim.SetTrigger ("lightOn");
 		}
 	}
 }

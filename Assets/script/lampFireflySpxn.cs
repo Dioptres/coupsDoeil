@@ -155,8 +155,6 @@ public class lampFireflySpxn : MonoBehaviour {
 							singer.SetActive (true);
 							doCroa.good();
 						}
-
-						lampe.GetComponent<lamp> ().song ();
 					}
 					
 
