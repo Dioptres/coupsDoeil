@@ -9,10 +9,22 @@ public class crowdBehavior : Lookable {
 	public UnityEngine.AI.NavMeshAgent agent;
 	float timer;
 
+	public float timeDancing = 4;
+	float dancingTime;
+
+	Animator anim;
+
 	// Use this for initialization
 	protected override void StartLookable ()
 	{
 		base.StartLookable ();
+
+		anim = GetComponentInChildren<Animator> ();
+
+		int temp = Random.Range (0, 4);
+
+		anim.SetInteger ("villagerType", temp);
+
 		timer = 0;
 		agent = GetComponent<UnityEngine.AI.NavMeshAgent> ();
 	}
@@ -28,7 +40,8 @@ public class crowdBehavior : Lookable {
 		if(timer> -1)
 		{
 			doCroa.good();
-			agent.destination = new Vector3 (-0.4f, 0.5f, 1);
+			anim.SetBool ("isDancing", true);
+			dancingTime = timeDancing;
 		}
 	}
 
@@ -37,13 +50,21 @@ public class crowdBehavior : Lookable {
 	{
 		base.UpdateLookable ();
 
+		if(dancingTime > 0)
+		{
+			dancingTime -= Time.deltaTime;
+			if(dancingTime <=0)
+			{
+				anim.SetBool ("isDancing", false);
+			}
+		}
+
 		if (timer > -1)
 		{
 			timer -= Time.deltaTime;
 		}
 		if (timer > 0)
 		{
-			
 			this.transform.GetChild (0).eulerAngles = new Vector3(this.transform.GetChild (0).eulerAngles.x, this.transform.GetChild (0).eulerAngles.y+1, this.transform.GetChild (0).eulerAngles.z);
 		}
 	}
