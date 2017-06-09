@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class lampFireflySpxn : MonoBehaviour {
 
-	public Animator anim;
+	Animator anim;
 
 	public doCroaCroa doCroa;
 
@@ -57,6 +57,10 @@ public class lampFireflySpxn : MonoBehaviour {
 	protected void Start () {
 		singer.SetActive (false);
 
+		anim = GetComponentInChildren<Animator> ();
+
+		anim.SetBool ("isDancing", true);
+
 		feedback = true;
 
 		end = false;
@@ -65,7 +69,6 @@ public class lampFireflySpxn : MonoBehaviour {
 
 		this.transform.GetChild (0).GetComponent<Light> ().intensity = intensityOfLampist;
 	}
-
 
 	public void throwFireFly () {
 		if (true)
@@ -142,6 +145,7 @@ public class lampFireflySpxn : MonoBehaviour {
 						lampe.GetComponentInChildren<Light> ().intensity = lampPostIntensity;
 						lampe.GetComponentInChildren<Light> ().range = lampPostRange;
 						lampe.GetComponentInChildren<Light> ().color = fireflyColor;
+						anim.SetBool ("nextToLamp", true);
 						lampeAllume++;
 						AkSoundEngine.PostEvent ("Lampadaire_On", gameObject);
 						waveNumber = (waveNumber+1)%3;
@@ -180,6 +184,8 @@ public class lampFireflySpxn : MonoBehaviour {
 			{
 				this.transform.GetChild (0).GetComponent<Light> ().intensity = intensityOfLampist;
 				this.transform.position = lastPos.position;
+				anim.SetTrigger ("isTeleported");
+				
 				end = false;
 
 				GameManager.fadeToDo = GameManager.fadeState.FadeOut;

@@ -31,7 +31,7 @@ public class moveFromAtoB2 : Lookable {
 
 	public bool attire;
 
-	public Animator animator;
+	Animator animator;
 
 	public float maxDistance = 0.7f;
 	public float timeTillReady = 1.0f;
@@ -47,6 +47,8 @@ public class moveFromAtoB2 : Lookable {
 		
 		
 		if (state == State.Idle) {
+
+			
 			state = State.LookedAt;
 			//animator.SetInteger ("doing", 1);
 		}
@@ -54,6 +56,7 @@ public class moveFromAtoB2 : Lookable {
 			if (timerCanMove < 0)
 			{
 				AkSoundEngine.PostEvent ("Lampiste_regard", gameObject);
+				animator.SetBool ("isLookedAt", true);
 				state = State.Ready;
 				//animator.SetInteger ("doing", 0);
 			}
@@ -74,6 +77,7 @@ public class moveFromAtoB2 : Lookable {
 
 	public override void QuitSee () {
 		base.QuitSee ();
+		animator.SetBool ("isLookedAt", false);
 		timerCanMove = timeTillReady;
 		if (state == State.LookedAt) {
 			state = State.Idle;
@@ -87,6 +91,9 @@ public class moveFromAtoB2 : Lookable {
 
 	protected override void StartLookable () {
 		base.StartLookable ();
+
+		animator = GetComponentInChildren<Animator> ();
+
 		throwFanim = false;
 		timerCanMove = 0.6f;
 		timerMove = 0;
@@ -153,6 +160,9 @@ public class moveFromAtoB2 : Lookable {
 				if (Mathf.Abs (targetLocation.x) < 10 && Mathf.Abs (targetLocation.z) < 6)
 				{
 					this.transform.position = new Vector3 (targetLocation.x, 0, targetLocation.z);
+					animator.SetBool ("nextToLamp", false);
+					animator.SetTrigger ("isTeleported");
+					animator.SetBool ("isDancing", false);
 					AkSoundEngine.PostEvent ("Lampiste_tp", gameObject);
 					state = State.Idle;
 				}
