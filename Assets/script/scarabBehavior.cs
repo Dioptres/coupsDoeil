@@ -29,6 +29,7 @@ public class scarabBehavior : Lookable
 	public float waitThisBeforeGoing = 4;
 	float timerOfWaiting;
 
+	Animator anim;
 
 	public void Awake ()
 	{
@@ -41,7 +42,7 @@ public class scarabBehavior : Lookable
 	protected override void StartLookable ()
 	{
 		flee = false;
-
+		anim = GetComponentInChildren<Animator> ();
 		actualNbrOfActiv = 0;
 		willLaunch = false;
 		rumeurActive = false;
@@ -62,6 +63,7 @@ public class scarabBehavior : Lookable
 			if(timerOfWaiting <= 0)
 			{
 				agent.speed = speed;
+				anim.SetTrigger ("isLeftUpAgain");
 				willLaunch = false;
 			}
 		}
@@ -77,6 +79,11 @@ public class scarabBehavior : Lookable
 				}
 				else
 				{
+					if(timeHidden == timeToHide)
+					{
+						anim.SetTrigger ("isLookedAt");
+					}
+					
 					timeHidden -= Time.deltaTime;
 					if(timeHidden <=0)
 					{
@@ -85,6 +92,7 @@ public class scarabBehavior : Lookable
 						flee = false;
 						actualNbrOfActiv = 0;
 						agent.speed = speed;
+						anim.SetTrigger ("isLeftUpAgain");
 					}
 				}
 			}
@@ -103,10 +111,11 @@ public class scarabBehavior : Lookable
 		if (!flee)
 		{
 			AkSoundEngine.PostEvent ("Agitateur_regard", gameObject);
+			
+			
 			agent.speed = 0;
 			actualNbrOfActiv++;
-			timerOfWaiting = waitThisBeforeGoing;
-			willLaunch = true;
+			
 
 			if (actualNbrOfActiv == nbrOfActivBeforeLeaving)
 			{
@@ -115,6 +124,13 @@ public class scarabBehavior : Lookable
 				timeHidden = timeToHide;
 				agent.destination = checkPoints[actualCheckPoint].position;
 				agent.speed = speed * modifFuite;
+			}
+			else
+			{
+				timerOfWaiting = waitThisBeforeGoing;
+				willLaunch = true;
+				anim.SetTrigger ("isLookedAt");
+				Debug.Log ("LUIHPIJQD");
 			}
 		}
 	}
