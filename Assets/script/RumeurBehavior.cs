@@ -97,9 +97,11 @@ public class RumeurBehavior : Lookable {
 			}
 			else
 			{
-				this.transform.parent.GetComponent<millePatteBehavior> ().deactivate ();
+				
 				flee = false;
+				agent.speed = speed;
 				anim.SetBool ("isFrightened", false);
+				this.transform.parent.GetComponent<millePatteBehavior> ().deactivate ();
 			}
 		}
 
