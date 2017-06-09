@@ -10,6 +10,7 @@ public class singerSimon : MonoBehaviour {
 		choose,
 		listen,
 		badThings,
+		canShow,
 		none
 	}
 
@@ -302,7 +303,15 @@ public class singerSimon : MonoBehaviour {
 				}
 			}
 		}
-		state = State.show;
+		state = State.canShow;
+	}
+
+	public void willYouShow()
+	{
+		if(state == State.canShow)
+		{
+			state = State.show;
+		}
 	}
 
 	public void choose (int whichOne)
