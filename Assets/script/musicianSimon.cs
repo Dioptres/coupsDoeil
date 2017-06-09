@@ -5,10 +5,12 @@ using UnityEngine;
 public class musicianSimon : Lookable {
 
 	public singerSimon actualSinger;
+	public letThemCome actualSinger2;
 	int numberOfMyInstrument;
 
 	Animator anim;
 
+	public bool isSimon;
 	
 
 	public enum Instrument
@@ -38,6 +40,8 @@ public class musicianSimon : Lookable {
 	{
 		base.StartLookable ();
 
+		isSimon = false;
+
 		anim = GetComponentInChildren<Animator> ();
 
 		switch (instrument)
@@ -62,11 +66,22 @@ public class musicianSimon : Lookable {
 		base.UpdateLookable ();
 	}
 
+	public void becomeSimon()
+	{
+		isSimon = true;
+	}
+
 	public override void DoAction ()
 	{
 		base.DoAction ();
-		Debug.Log ("choosen !   " + numberOfMyInstrument);
-		actualSinger.choose (numberOfMyInstrument);
+		if(isSimon)
+		{
+			actualSinger.choose (numberOfMyInstrument);
+		}
+		else
+		{
+			actualSinger2.moveToDestination (numberOfMyInstrument);
+		}
 	}
 
 }

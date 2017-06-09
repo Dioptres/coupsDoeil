@@ -323,10 +323,11 @@ public class singerSimon : MonoBehaviour {
 			{
 				if (whichOne == chainOf2[indexChoosen])
 				{
-					doCroa.good();
+					
 					musicians[chainOf2[indexChoosen] - 1].play ();
 					if (indexChoosen == 1)
 					{
+						doCroa.good ();
 						indexChoosen = 0;
 						timeBeforeShuttingMusic = timerListeningMusic;
 						state = State.listen;
@@ -350,10 +351,11 @@ public class singerSimon : MonoBehaviour {
 			{
 				if (whichOne == chainOf3[indexChoosen])
 				{
-					doCroa.good();
+					
 					musicians[chainOf3[indexChoosen] - 1].play ();
 					if (indexChoosen == 2)
 					{
+						doCroa.good ();
 						indexChoosen = 0;
 						timeBeforeShuttingMusic = timerListeningMusic;
 						state = State.listen;
@@ -377,10 +379,11 @@ public class singerSimon : MonoBehaviour {
 			{
 				if (whichOne == chainOf4[indexChoosen])
 				{
-					doCroa.good();
+					
 					musicians[chainOf4[indexChoosen] - 1].play ();
 					if (indexChoosen == 3)
 					{
+						doCroa.good ();
 						indexChoosen = 0;
 						timeBeforeShuttingMusic = timerListeningMusic;
 						state = State.listen;
