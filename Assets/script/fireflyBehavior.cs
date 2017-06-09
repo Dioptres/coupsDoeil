@@ -9,6 +9,9 @@ public class fireflyBehavior : Lookable
 	public GameObject lampe;
 	float timer;
 
+	float timeBeforeDestroy = 0.65f;
+	bool destroy;
+
 	Animator anim;
 	int numbOfPonderation;
 
@@ -25,6 +28,10 @@ public class fireflyBehavior : Lookable
 	{
 		base.StartLookable ();
 
+		
+
+		destroy = false;
+
 		numbOfPonderation = 0;
 
 		anim = GetComponentInChildren<Animator> ();
@@ -34,15 +41,15 @@ public class fireflyBehavior : Lookable
 
 		if (myColor == Color.cyan)
 		{
-			anim.SetBool ("isCyan", true);
+			anim.SetInteger ("fireflyColor", 1);
 		}
 		else if (myColor == Color.magenta)
 		{
-			anim.SetBool ("isMagenta", true);
+			anim.SetInteger ("fireflyColor", 2);
 		}
 		else if (myColor == Color.yellow)
 		{
-			anim.SetBool ("isYellow", true);
+			anim.SetInteger ("fireflyColor", 3);
 		}
 
 
@@ -53,6 +60,15 @@ public class fireflyBehavior : Lookable
 	// Update is called once per frame
 	protected override void UpdateLookable ()
 	{
+		if (destroy)
+		{
+			if (timeBeforeDestroy <= 0)
+			{
+				Destroy (this.gameObject);
+			}
+			timeBeforeDestroy -= Time.deltaTime;
+		}
+
 		base.UpdateLookable ();
 
 		timer += Time.deltaTime;
@@ -69,6 +85,12 @@ public class fireflyBehavior : Lookable
 	{
 		if (myColor == lampe.GetComponent<sayWhichOneToExplode> ().GetComponentInChildren<Light> ().color || lampe.GetComponent<sayWhichOneToExplode> ().GetComponentInChildren<sayWhichOneToExplode> ().lastFireworks)
 		{
+
+			anim.SetTrigger ("burst");
+			destroy = true;
+
+			this.speed = 0;
+
 			lampe.GetComponent<sayWhichOneToExplode> ().addFirefly ();
 
 			int whichOneExplode;
@@ -97,9 +119,6 @@ public class fireflyBehavior : Lookable
 					{
 						child.GetComponent<ParticleSystem> ().startColor = myColor;
 					}
-
-
-					Destroy (gameObject);
 				}
 			}
 
@@ -108,8 +127,9 @@ public class fireflyBehavior : Lookable
 		else
 		{
 			AkSoundEngine.PostEvent ("Luciole_Fail", gameObject);
+			Destroy (gameObject);
 		}
-		Destroy (gameObject);
+		
 	}
 
 	private void OnDestroy ()
