@@ -10,6 +10,12 @@ public class bigLight : Lookable {
 
 	public float intensityOfModifier = 0.1f;
 
+	public millePatteBehavior rumeur1;
+	public millePatteBehavior rumeur2;
+	public millePatteBehavior rumeur3;
+
+	bool reveil;
+
 	float modifSpeedOfGrowth;
 
 	GameObject[] lights;
@@ -17,6 +23,7 @@ public class bigLight : Lookable {
 	protected override void StartLookable ()
 	{
 		base.StartLookable ();
+		reveil = false;
 		charging = false;
 	}
 
@@ -36,6 +43,14 @@ public class bigLight : Lookable {
 	{
 		
 		base.UpdateLookable ();
+
+		if (transform.parent.localScale.x >= 3 && !reveil)
+		{
+			reveil = true;
+			rumeur1.wakeMeUp ();
+			rumeur2.wakeMeUp ();
+			rumeur3.wakeMeUp ();
+		}
 
 		lights = GameObject.FindGameObjectsWithTag ("lampe");
 

@@ -12,7 +12,6 @@ public class millePatteBehavior : MonoBehaviour {
 
 	bool sleep;
 
-	public float timeSpentSleeping = 5f;
 
 
 	int securite;
@@ -50,21 +49,23 @@ public class millePatteBehavior : MonoBehaviour {
 		active = false;
 	}
 	
+	public void wakeMeUp()
+	{
+		sleep = false;
+		AkSoundEngine.PostEvent ("Rumeur_reveil", gameObject);
+		Destroy (this.transform.GetChild (0).gameObject);
+		foreach (Transform child in this.transform)
+		{
+			child.gameObject.SetActive (true);
+		}
+	}
+
 	// Update is called once per frame
 	void Update () {
 
-		timeSpentSleeping -= Time.deltaTime;
-		if (timeSpentSleeping < 0 && sleep)
-		{
-			Debug.Log ("WAKE UP");
-			sleep = false;
-			AkSoundEngine.PostEvent ("Rumeur_reveil", gameObject);
-			Destroy (this.transform.GetChild (0).gameObject);
-			foreach (Transform child in this.transform)
-			{
-				child.gameObject.SetActive (true);
-			}
-		}
+		
+			
+	
 
 
 
