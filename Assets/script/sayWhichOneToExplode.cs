@@ -135,7 +135,7 @@ public class sayWhichOneToExplode : MonoBehaviour {
 
 	void changeColor ()
 	{
-		AkSoundEngine.PostEvent ("Lampadaire_On", gameObject);
+		
 		int tempChange = Random.Range (0, 2);
 		switch(tempChange)
 		{
@@ -153,6 +153,7 @@ public class sayWhichOneToExplode : MonoBehaviour {
 		}
 		else
 		{
+			AkSoundEngine.PostEvent ("Lampadaire_On", gameObject);
 			whichColor = whichColor % 3;
 			if (whichColor == -1)
 			{
