@@ -87,6 +87,7 @@ public class GameManager : MonoBehaviour
 			toBeFaded2.color = tempColor2;
 			if (tempColor.a <= 0)
 			{
+				toBeFaded2.color = tempColor;
 				fadeToDo = fadeState.None;
 			}
 		}
