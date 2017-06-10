@@ -58,6 +58,8 @@ public class bigLight : Lookable {
 		
 		base.UpdateLookable ();
 
+		Debug.Log (transform.parent.localScale.x);
+
 		if (transform.parent.localScale.x >= whenTheyWake && !reveil)
 		{
 			reveil = true;
@@ -91,7 +93,7 @@ public class bigLight : Lookable {
 
 
 			this.transform.parent.localScale = new Vector3(transform.parent.localScale.x+croissance*Time.deltaTime, 1, transform.parent.localScale.z + croissance * Time.deltaTime);
-			this.GetComponentInChildren<Light> ().intensity += croissance;
+			this.GetComponentInChildren<Light> ().intensity += croissance*Time.deltaTime;
 
 
 
