@@ -9,6 +9,7 @@ public class RumeurBehavior : Lookable {
 	public Transform terrier;
 	UnityEngine.AI.NavMeshAgent agent;
 	int actualCheckPoint;
+	//enlever le public
 	bool flee;
 	public bool shy;
 
@@ -54,7 +55,7 @@ public class RumeurBehavior : Lookable {
 
 		timeHappenedSinceLooked = 0;
 
-		agent.destination = terrier.position;
+		agent.destination = checkPoints.position;
 		this.transform.parent.gameObject.GetComponent<millePatteBehavior> ().hasStarted = true;
 		this.transform.parent.gameObject.GetComponent<millePatteBehavior> ().active = true;
 	}
