@@ -145,16 +145,20 @@ public class lampFireflySpxn : MonoBehaviour {
 						lampe.GetComponentInChildren<Light> ().intensity = lampPostIntensity;
 						lampe.GetComponentInChildren<Light> ().range = lampPostRange;
 						lampe.GetComponentInChildren<Light> ().color = fireflyColor;
+						
 						anim.SetBool ("nextToLamp", true);
 						lampeAllume++;
 						AkSoundEngine.PostEvent ("Lampadaire_On", gameObject);
 						waveNumber = (waveNumber+1)%3;
-						this.transform.GetChild (0).GetComponent<Light> ().intensity -= intensityOfLampist/totalNbrLampes;
+						
+						this.transform.GetChild (1).GetComponent<Light> ().intensity -= intensityOfLampist/totalNbrLampes;
+						Debug.Log (lampeAllume + "   " + totalNbrLampes);
 
-						Debug.Log (lampeAllume +"   "+ totalNbrLampes);
+
 
 						if (lampeAllume == totalNbrLampes)
 						{
+							Debug.Log ("end is near");
 							end = true;
 							singer.SetActive (true);
 							doCroa.good();
@@ -187,7 +191,7 @@ public class lampFireflySpxn : MonoBehaviour {
 				anim.SetTrigger ("isTeleported");
 				
 				end = false;
-
+				Debug.Log ("LEAVE !");
 				GameManager.fadeToDo = GameManager.fadeState.FadeOut;
 
 				this.GetComponent<moveFromAtoB2> ().StopTP ();
