@@ -31,7 +31,7 @@ public class RumeurBehavior : Lookable {
 
 	Vector3 myPreviousPos;
 
-
+	public bigLight theLight;
 	public void Awake () {
 		myPreviousPos = this.transform.position;
 
@@ -92,6 +92,7 @@ public class RumeurBehavior : Lookable {
 				checkPoints.GetChild(0).GetComponent<Light> ().intensity = 0;
 				anim.SetTrigger ("isSnatching");
 				AkSoundEngine.PostEvent ("Lampadaire_off", gameObject);
+				theLight.lostAlight ();
 				agent.destination = terrier.transform.position;
 				flee = true;
 				AkSoundEngine.PostEvent ("Rumeur_regard", gameObject);

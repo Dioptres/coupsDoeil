@@ -7,6 +7,7 @@ public class bigLight : Lookable {
 	bool charging;
 	public float croissance = 0.01f;
 	public float speedOfLoss = 2;
+	public float howManyIlost = 0.2f;
 
 	public float intensityOfModifier = 0.1f;
 
@@ -15,8 +16,6 @@ public class bigLight : Lookable {
 	public millePatteBehavior rumeur3;
 
 	bool reveil;
-
-	float modifSpeedOfGrowth;
 
 	GameObject[] lights;
 
@@ -37,6 +36,19 @@ public class bigLight : Lookable {
 	{
 		base.QuitSee ();
 		charging = false;
+	}
+
+	public void lostAlight()
+	{
+		if(transform.parent.localScale.x > 2+howManyIlost)
+		{
+			this.transform.parent.localScale = new Vector3 (transform.parent.localScale.x - howManyIlost, 1, transform.parent.localScale.z - howManyIlost);
+		}
+		else
+		{
+			this.transform.parent.localScale = new Vector3 (2, 1, 2);
+		}
+		this.transform.parent.localScale = new Vector3 (transform.parent.localScale.x + croissance, 1, transform.parent.localScale.z + croissance);
 	}
 
 	protected override void UpdateLookable ()
@@ -73,18 +85,10 @@ public class bigLight : Lookable {
 
 		if (charging)
 		{
-			modifSpeedOfGrowth = 0;
-			foreach(GameObject light in lights)
-			{
-				if(light.GetComponentInChildren<Light> ().intensity > 0)
-				{
-					modifSpeedOfGrowth++;
-				}
-			}
+			
 
-			modifSpeedOfGrowth*= intensityOfModifier;
 
-			this.transform.parent.localScale = new Vector3(transform.parent.localScale.x+croissance * modifSpeedOfGrowth, 1, transform.parent.localScale.z + croissance * modifSpeedOfGrowth);
+			this.transform.parent.localScale = new Vector3(transform.parent.localScale.x+croissance, 1, transform.parent.localScale.z + croissance);
 			this.GetComponentInChildren<Light> ().intensity += croissance;
 
 
