@@ -5,6 +5,7 @@ using UnityEngine;
 public class millePatteBehavior : MonoBehaviour {
 
 	public float timer = 5;
+	float trueTimer;
 	public bool active;
 	public bool hasStarted;
 	GameObject lampChoosen;
@@ -23,7 +24,7 @@ public class millePatteBehavior : MonoBehaviour {
 
 	public void deactivate()
 	{
-		timer = 5;
+		trueTimer = timer;
 		securite = 0;
 		foreach (Transform child in transform)
 		{
@@ -108,7 +109,7 @@ public class millePatteBehavior : MonoBehaviour {
 				}
 				else
 				{
-					timer = 5;
+					trueTimer = timer;
 				}
 
 				securite = 0;
