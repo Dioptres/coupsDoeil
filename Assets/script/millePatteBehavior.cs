@@ -72,8 +72,8 @@ public class millePatteBehavior : MonoBehaviour {
 
 		if (hasStarted)
 		{
-			timer -= Time.deltaTime;
-			if (timer <= 0 && !active)
+			trueTimer -= Time.deltaTime;
+			if (trueTimer <= 0 && !active)
 			{
 
 				lampChoosen = lampes[0]; //DELETE
