@@ -50,7 +50,7 @@ public class bigLight : Lookable {
 		{
 			this.transform.parent.localScale = new Vector3 (2, 1, 2);
 		}
-		this.transform.parent.localScale = new Vector3 (transform.parent.localScale.x + croissance, 1, transform.parent.localScale.z + croissance);
+		this.transform.parent.localScale = new Vector3 (transform.parent.localScale.x + croissance*Time.deltaTime, 1, transform.parent.localScale.z + croissance * Time.deltaTime);
 	}
 
 	protected override void UpdateLookable ()
