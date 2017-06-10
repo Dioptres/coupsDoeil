@@ -9,6 +9,8 @@ public class bigLight : Lookable {
 	public float speedOfLoss = 2;
 	public float howManyIlost = 0.2f;
 
+	public float whenTheyWake = 3;
+
 	public float intensityOfModifier = 0.1f;
 
 	public millePatteBehavior rumeur1;
@@ -56,7 +58,7 @@ public class bigLight : Lookable {
 		
 		base.UpdateLookable ();
 
-		if (transform.parent.localScale.x >= 3 && !reveil)
+		if (transform.parent.localScale.x >= whenTheyWake && !reveil)
 		{
 			reveil = true;
 			rumeur1.wakeMeUp ();
