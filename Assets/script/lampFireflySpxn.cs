@@ -67,7 +67,7 @@ public class lampFireflySpxn : MonoBehaviour {
 		lampeAllume = 0;
 		source = GetComponent<AudioSource> ();
 
-		this.transform.GetChild (0).GetComponent<Light> ().intensity = intensityOfLampist;
+		this.transform.GetChild (1).GetComponent<Light> ().intensity = intensityOfLampist;
 	}
 
 	public void throwFireFly () {
@@ -179,6 +179,8 @@ public class lampFireflySpxn : MonoBehaviour {
 		{
 			timerBeforeLeaving -= Time.deltaTime;
 
+			Debug.Log (timerBeforeLeaving);
+
 			if (timerBeforeLeaving <= 0.4f && feedback)
 			{
 				throwFireFly ();
@@ -186,7 +188,7 @@ public class lampFireflySpxn : MonoBehaviour {
 			}
 			else if (timerBeforeLeaving <= 0)
 			{
-				this.transform.GetChild (0).GetComponent<Light> ().intensity = intensityOfLampist;
+				this.transform.GetChild (1).GetComponent<Light> ().intensity = intensityOfLampist;
 				this.transform.position = lastPos.position;
 				anim.SetTrigger ("isTeleported");
 				
