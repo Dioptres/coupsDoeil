@@ -87,9 +87,9 @@ public class bigLight : Lookable {
 			this.transform.parent.localScale = new Vector3(transform.parent.localScale.x+croissance * modifSpeedOfGrowth, 1, transform.parent.localScale.z + croissance * modifSpeedOfGrowth);
 			this.GetComponentInChildren<Light> ().intensity += croissance;
 
-			Debug.Log (croissance * modifSpeedOfGrowth);
 
-			Debug.Log(transform.parent.localScale.x);
+
+
 
 			if(transform.parent.localScale.x > 4)
 			{

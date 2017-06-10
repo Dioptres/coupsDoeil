@@ -9,7 +9,6 @@ public class RumeurBehavior : Lookable {
 	public Transform terrier;
 	UnityEngine.AI.NavMeshAgent agent;
 	int actualCheckPoint;
-	//enlever le public
 	bool flee;
 	public bool shy;
 
@@ -89,6 +88,7 @@ public class RumeurBehavior : Lookable {
 		{
 			if(!flee)
 			{
+				Debug.Log (checkPoints.GetChild (0).GetComponent<Light> ().intensity);
 				checkPoints.GetChild(0).GetComponent<Light> ().intensity = 0;
 				anim.SetTrigger ("isSnatching");
 				AkSoundEngine.PostEvent ("Lampadaire_off", gameObject);
@@ -106,7 +106,7 @@ public class RumeurBehavior : Lookable {
 			}
 		}
 
-		Debug.Log (myPreviousPos.x - this.transform.position.x);
+
 
 		if (myPreviousPos.x - this.transform.position.x > 0 && !isGoingLeft)
 		{
