@@ -6,12 +6,12 @@ public class bigLight : Lookable {
 
 	bool charging;
 	public float croissance = 0.01f;
-	public float speedOfLoss = 2;
 	public float howManyIlost = 0.2f;
 
-	public float whenTheyWake = 3;
+	Animator anim;
 
-	public float intensityOfModifier = 0.1f;
+
+	public float whenTheyWake = 3;
 
 	public millePatteBehavior rumeur1;
 	public millePatteBehavior rumeur2;
@@ -24,6 +24,12 @@ public class bigLight : Lookable {
 	protected override void StartLookable ()
 	{
 		base.StartLookable ();
+
+		croissance /= 4;
+		howManyIlost /= 4;
+		whenTheyWake /= 4;
+
+		anim = GetComponentInChildren<Animator> ();
 		reveil = false;
 		charging = false;
 	}
@@ -31,6 +37,7 @@ public class bigLight : Lookable {
 	public override void DoAction ()
 	{
 		base.DoAction ();
+		anim.SetTrigger ("isLookedAt");
 		charging = true;
 	}
 
@@ -42,15 +49,14 @@ public class bigLight : Lookable {
 
 	public void lostAlight()
 	{
-		if(transform.parent.localScale.x > 2+howManyIlost)
+		if(transform.parent.localScale.x > 0.25+howManyIlost)
 		{
 			this.transform.parent.localScale = new Vector3 (transform.parent.localScale.x - howManyIlost, 1, transform.parent.localScale.z - howManyIlost);
 		}
 		else
 		{
-			this.transform.parent.localScale = new Vector3 (2, 1, 2);
+			this.transform.parent.localScale = new Vector3 (0.25f, 1, 0.25f);
 		}
-		this.transform.parent.localScale = new Vector3 (transform.parent.localScale.x + croissance*Time.deltaTime, 1, transform.parent.localScale.z + croissance * Time.deltaTime);
 	}
 
 	protected override void UpdateLookable ()
@@ -83,7 +89,7 @@ public class bigLight : Lookable {
 					lights[j].GetComponentInChildren<Light> ().intensity = 2;
 				}
 				this.transform.parent.localScale = new Vector3 (2,2,2);
-				this.GetComponentInChildren<Light> ().intensity = 0;
+				this.transform.GetChild(1).GetComponent<Light> ().intensity = 0;
 			}
 		}
 
@@ -93,20 +99,20 @@ public class bigLight : Lookable {
 
 
 			this.transform.parent.localScale = new Vector3(transform.parent.localScale.x+croissance*Time.deltaTime, 1, transform.parent.localScale.z + croissance * Time.deltaTime);
-			this.GetComponentInChildren<Light> ().intensity += croissance*Time.deltaTime;
+			this.transform.GetChild (1).GetComponent<Light> ().intensity += croissance*Time.deltaTime;
 
 
 
 
 
-			if(transform.parent.localScale.x > 4)
+			if(transform.parent.localScale.x >= 1)
 			{
 				GameManager.fadeToDo = GameManager.fadeState.FadeOut;
 			}
 		}
 		else
 		{
-			if (transform.parent.localScale.x > 2 && transform.parent.localScale.x < 4)
+			if (transform.parent.localScale.x > 0.25 && transform.parent.localScale.x < 1)
 			{
 				this.transform.parent.localScale = new Vector3 (transform.parent.localScale.x - (croissance/2)* Time.deltaTime, 1, transform.parent.localScale.z - (croissance/2) * Time.deltaTime);
 			}
