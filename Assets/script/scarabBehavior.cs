@@ -41,6 +41,7 @@ public class scarabBehavior : Lookable
 
 	protected override void StartLookable ()
 	{
+		AkSoundEngine.PostEvent ("Agitateur_marche", gameObject);
 		flee = false;
 		anim = GetComponentInChildren<Animator> ();
 		actualNbrOfActiv = 0;
@@ -50,6 +51,7 @@ public class scarabBehavior : Lookable
 		base.StartLookable ();
 		agent.destination = checkPoints[0].position;
 		agent.speed = speed;
+		Debug.Log (1);
 	}
 
 	protected override void UpdateLookable ()
@@ -63,6 +65,7 @@ public class scarabBehavior : Lookable
 			if(timerOfWaiting <= 0)
 			{
 				agent.speed = speed;
+				Debug.Log (2);
 				anim.SetTrigger ("isLeftUpAgain");
 				willLaunch = false;
 			}
@@ -92,6 +95,7 @@ public class scarabBehavior : Lookable
 						flee = false;
 						actualNbrOfActiv = 0;
 						agent.speed = speed;
+						Debug.Log (3);
 						anim.SetTrigger ("isLeftUpAgain");
 					}
 				}
@@ -99,6 +103,7 @@ public class scarabBehavior : Lookable
 			else if (actualCheckPoint == checkPoints.Length - 1)
 			{
 				actualCheckPoint++;
+				AkSoundEngine.PostEvent ("Agitateur_plante", gameObject);
 				GameManager.fadeToDo = GameManager.fadeState.FadeOut;
 			}
 
