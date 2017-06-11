@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour
 	public float TimeSincelastMusicianSeen;
 	float timeBeforeSelecMusic;
 
+	public int scene;
+
 	bool ready;
 
 	public static int numberMaxMusiGroupTogether = 1;
@@ -64,6 +66,25 @@ public class GameManager : MonoBehaviour
 		{
 			fadeStart = true;
 			fadeToDo = fadeState.FadeIn;
+			switch(scene)
+			{
+				case 1:
+					AkSoundEngine.PostEvent ("Carton_scene1", gameObject);
+					break;
+				case 2:
+					AkSoundEngine.PostEvent ("Carton_scene2", gameObject);
+					break;
+				case 3:
+					AkSoundEngine.PostEvent ("Carton_scene3", gameObject);
+					break;
+				case 4:
+					AkSoundEngine.PostEvent ("Carton_scene4", gameObject);
+					break;
+				case 5:
+					AkSoundEngine.PostEvent ("Carton_scene5", gameObject);
+					break;
+				
+			}
 		}
 		else if(!fadeStart)
 		{
