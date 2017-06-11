@@ -93,7 +93,7 @@ public class bigLight : Lookable {
 				{
 					lights[j].GetComponentInChildren<Light> ().intensity = 2;
 				}
-				this.transform.parent.localScale = new Vector3 (2,2,2);
+				this.transform.parent.localScale = new Vector3 (0.25f,1,0.25f);
 				this.transform.GetChild(1).GetComponent<Light> ().intensity = 0;
 			}
 		}
