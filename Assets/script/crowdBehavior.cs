@@ -40,7 +40,7 @@ public class crowdBehavior : Lookable {
 		if(timer> -1)
 		{
 			doCroa.neutral();
-			AkSoundEngine.PostEvent ("foule");
+			AkSoundEngine.PostEvent ("foule", this.gameObject);
 			dancingTime = timeDancing;
 		}
 	}
