@@ -51,6 +51,7 @@ public class scarabBehavior : Lookable
 		base.StartLookable ();
 		agent.destination = checkPoints[0].position;
 		agent.speed = speed;
+		AkSoundEngine.PostEvent ("Agitateur_marche", gameObject);
 		Debug.Log (1);
 	}
 
@@ -65,6 +66,7 @@ public class scarabBehavior : Lookable
 			if(timerOfWaiting <= 0)
 			{
 				agent.speed = speed;
+				AkSoundEngine.PostEvent ("Agitateur_marche", gameObject);
 				Debug.Log (2);
 				anim.SetTrigger ("isLeftUpAgain");
 				willLaunch = false;
@@ -95,6 +97,7 @@ public class scarabBehavior : Lookable
 						flee = false;
 						actualNbrOfActiv = 0;
 						agent.speed = speed;
+						AkSoundEngine.PostEvent ("Agitateur_marche", gameObject);
 						Debug.Log (3);
 						anim.SetTrigger ("isLeftUpAgain");
 					}
@@ -119,6 +122,7 @@ public class scarabBehavior : Lookable
 			
 			
 			agent.speed = 0;
+			AkSoundEngine.PostEvent ("Agitateur_stopmarche", gameObject);
 			actualNbrOfActiv++;
 			
 
@@ -129,6 +133,7 @@ public class scarabBehavior : Lookable
 				timeHidden = timeToHide;
 				agent.destination = checkPoints[actualCheckPoint].position;
 				agent.speed = speed * modifFuite;
+				AkSoundEngine.PostEvent ("Agitateur_marche", gameObject);
 			}
 			else
 			{
@@ -149,7 +154,7 @@ public class scarabBehavior : Lookable
 
 
 
-			AkSoundEngine.PostEvent ("Agitateur_marche", gameObject);
+			
 		
 	}
 }
