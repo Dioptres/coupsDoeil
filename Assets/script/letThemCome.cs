@@ -25,6 +25,7 @@ public class letThemCome : MonoBehaviour {
 		anim = GameObject.Find ("Bassiste").GetComponentInChildren<Animator> ();
 		animLune = GetComponentInChildren<Animator> ();
 		animLune.SetInteger ("moonColor", 1);
+		AkSoundEngine.PostEvent ("Tournelune_switch",gameObject);
 		Debug.Log ("light me ip");
 		selected = false;
 		wait = false;
@@ -48,15 +49,19 @@ public class letThemCome : MonoBehaviour {
 				{
 					case 0:
 						animLune.SetInteger ("moonColor", 2);
+						AkSoundEngine.PostEvent ("Tournelune_switch",gameObject);
 						break;
 					case 1:
 						animLune.SetInteger ("moonColor", 4);
+						AkSoundEngine.PostEvent ("Tournelune_switch",gameObject);
 						break;
 					case 2:
 						animLune.SetInteger ("moonColor", 3);
+						AkSoundEngine.PostEvent ("Tournelune_switch",gameObject);
 						break;
 					case 3:
 						animLune.SetInteger ("moonColor", 0);
+						AkSoundEngine.PostEvent ("Tournelune_switch",gameObject);
 						break;
 				}
 				if (index == 3)

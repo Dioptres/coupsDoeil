@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 5d23cc8082107dd428babf20ac236719
+timeCreated: 1497206132
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Calluna
+  fontNames:
+  - Calluna
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

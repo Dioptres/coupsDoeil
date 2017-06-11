@@ -41,7 +41,6 @@ public class scarabBehavior : Lookable
 
 	protected override void StartLookable ()
 	{
-		AkSoundEngine.PostEvent ("Agitateur_marche", gameObject);
 		flee = false;
 		anim = GetComponentInChildren<Animator> ();
 		actualNbrOfActiv = 0;
@@ -50,7 +49,9 @@ public class scarabBehavior : Lookable
 		porteLuneDestroy = false;
 		base.StartLookable ();
 		agent.destination = checkPoints[0].position;
-		agent.speed = speed;
+		agent.speed = 0;
+		timerOfWaiting = 5;
+		willLaunch = true;
 		AkSoundEngine.PostEvent ("Agitateur_marche", gameObject);
 		Debug.Log (1);
 	}

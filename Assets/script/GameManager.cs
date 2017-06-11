@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
 
 	public static fadeState fadeToDo = fadeState.None;
 
-	public float timeBeforeFadeIn = 2;
+	float timeBeforeFadeIn = 2;
 
 	public float speedFading = 1;
 
@@ -66,7 +66,15 @@ public class GameManager : MonoBehaviour
 		{
 			fadeStart = true;
 			fadeToDo = fadeState.FadeIn;
-			switch(scene)
+			
+			
+			
+		}
+		else if(!fadeStart)
+		{
+			if(timeBeforeFadeIn == 2)
+			{
+				switch(scene)
 			{
 				case 1:
 					AkSoundEngine.PostEvent ("Carton_scene1", gameObject);
@@ -85,9 +93,7 @@ public class GameManager : MonoBehaviour
 					break;
 				
 			}
-		}
-		else if(!fadeStart)
-		{
+			}
 			timeBeforeFadeIn -= Time.deltaTime;
 		}
 
