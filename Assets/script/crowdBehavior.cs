@@ -58,15 +58,14 @@ public class crowdBehavior : Lookable {
 				anim.SetBool ("isDancing", false);
 			}
 		}
-
+	
+		if(timer == 1)
+		{
+			anim.SetTrigger("danceQuick");
+		}
 		if (timer > -1)
 		{
 			timer -= Time.deltaTime;
-		}
-		if (timer > 0)
-		{
-			//this.transform.GetChild (0).eulerAngles = new Vector3(this.transform.GetChild (0).eulerAngles.x, this.transform.GetChild (0).eulerAngles.y+1, this.transform.GetChild (0).eulerAngles.z);
-			anim.SetTrigger("danceQuick");
 		}
 	}
 }
