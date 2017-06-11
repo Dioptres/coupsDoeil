@@ -48,6 +48,8 @@ public class RumeurBehavior : Lookable {
 	{
 		base.StartLookable ();
 
+
+
 		anim = GetComponentInChildren<Animator> ();
 
 		agent.speed = speed;

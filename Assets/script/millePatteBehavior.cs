@@ -31,6 +31,7 @@ public class millePatteBehavior : MonoBehaviour {
 			child.gameObject.SetActive (false);
 		}
 		active = false;
+		AkSoundEngine.PostEvent ("Rumeur_stopmarche", gameObject);
 	}
 
 	// Use this for initialization
@@ -58,6 +59,7 @@ public class millePatteBehavior : MonoBehaviour {
 		foreach (Transform child in this.transform)
 		{
 			child.gameObject.SetActive (true);
+			AkSoundEngine.PostEvent ("Rumeur_marche", gameObject);
 		}
 	}
 
@@ -105,6 +107,7 @@ public class millePatteBehavior : MonoBehaviour {
 					this.transform.GetChild (0).gameObject.GetComponent<RumeurBehavior> ().terrier = actualSpwnPoint.transform;
 					this.transform.GetChild (0).gameObject.GetComponent<RumeurBehavior> ().checkPoints = lampChoosen.transform;
 					transform.GetChild (0).GetComponent<RumeurBehavior> ().launch ();
+					AkSoundEngine.PostEvent ("Rumeur_marche", gameObject);
 					active = true;
 				}
 				else

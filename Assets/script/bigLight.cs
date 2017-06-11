@@ -37,6 +37,8 @@ public class bigLight : Lookable {
 	public override void DoAction ()
 	{
 		base.DoAction ();
+		AkSoundEngine.PostEvent ("Champi_gonfle", gameObject);
+		AkSoundEngine.PostEvent ("Champi_stopdegonfle", gameObject);
 		anim.SetTrigger ("isLookedAt");
 		charging = true;
 	}
@@ -44,12 +46,15 @@ public class bigLight : Lookable {
 	public override void QuitSee ()
 	{
 		base.QuitSee ();
+		AkSoundEngine.PostEvent ("Champi_degonfle", gameObject);
+		AkSoundEngine.PostEvent ("Champi_stopgonfle", gameObject);
 		charging = false;
 	}
 
 	public void lostAlight()
 	{
-		if(transform.parent.localScale.x > 0.25+howManyIlost)
+		AkSoundEngine.PostEvent ("Champi_attaque", gameObject);
+		if (transform.parent.localScale.x > 0.25+howManyIlost)
 		{
 			this.transform.parent.localScale = new Vector3 (transform.parent.localScale.x - howManyIlost, 1, transform.parent.localScale.z - howManyIlost);
 		}
@@ -108,13 +113,20 @@ public class bigLight : Lookable {
 			if(transform.parent.localScale.x >= 1)
 			{
 				GameManager.fadeToDo = GameManager.fadeState.FadeOut;
+				AkSoundEngine.PostEvent ("Champi_stopgonfle", gameObject);
+				AkSoundEngine.PostEvent ("Champi_flash", gameObject);
 			}
 		}
 		else
 		{
 			if (transform.parent.localScale.x > 0.25 && transform.parent.localScale.x < 1)
 			{
+				
 				this.transform.parent.localScale = new Vector3 (transform.parent.localScale.x - (croissance/2)* Time.deltaTime, 1, transform.parent.localScale.z - (croissance/2) * Time.deltaTime);
+			}
+			else
+			{
+				AkSoundEngine.PostEvent ("Champi_stopdegonfle", gameObject);
 			}
 		}
 	}
