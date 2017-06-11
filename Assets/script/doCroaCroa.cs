@@ -8,16 +8,16 @@ public class doCroaCroa : MonoBehaviour {
 	public void neutral()
 	{
 		anim.SetTrigger("isCroakingNeutral");
-		AkSoundEngine.PostEvent("Chanteur_fixe", gameObject); // to change to neutral
+		AkSoundEngine.PostEvent("Chanteur_neutre", gameObject); // to change to neutral
 	}
 	public void good()
 	{
 		anim.SetTrigger("isCroakingGood");
-		AkSoundEngine.PostEvent("Chanteur_fixe", gameObject);
+		AkSoundEngine.PostEvent("Chanteur_positif", gameObject);
 	}
 	public void bad()
 	{
 		anim.SetTrigger("isCroakingBad");
-		AkSoundEngine.PostEvent("Chanteur_regard", gameObject);
+		AkSoundEngine.PostEvent("Chanteur_negatif", gameObject);
 	}
 }

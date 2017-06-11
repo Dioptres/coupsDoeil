@@ -117,7 +117,6 @@ public class moveFromAtoB2 : Lookable {
 		}
 
 		if (state == State.WaitingLocation) {
-			AkSoundEngine.PostEvent ("Lampiste_tp_load", gameObject);
 			if (targetLocationIsValid && Vector3.Distance (GameManager.whereIlook, targetLocation) < maxDistance) {
 				timerMove += Time.deltaTime;
 			}

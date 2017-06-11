@@ -80,6 +80,23 @@ public class musicianSimon : Lookable {
 		}
 		else
 		{
+			if(instrument == Instrument.Bass)
+			{
+				AkSoundEngine.PostEvent ("Bass_fill", gameObject);
+			}
+			else if (instrument == Instrument.Flute)
+			{
+				AkSoundEngine.PostEvent ("Flute_fill", gameObject);
+			}
+			else if (instrument == Instrument.Guitare)
+			{
+				AkSoundEngine.PostEvent ("Guit_fill", gameObject);
+			}
+			else if (instrument == Instrument.Uku)
+			{
+				AkSoundEngine.PostEvent ("Uku_fill", gameObject);
+			}
+
 			actualSinger2.moveToDestination (numberOfMyInstrument);
 		}
 	}
