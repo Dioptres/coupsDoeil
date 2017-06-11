@@ -125,11 +125,13 @@ public class singerSimon : MonoBehaviour {
 					isWaiting = false;
 					state = State.choose;
 					anim.SetInteger ("moonColor", 0);
+					AkSoundEngine.PostEvent ("Tournelune_switch",gameObject);
 				}
 			}
 			else
 			{
 				anim.SetInteger ("moonColor", chainOf1);
+				AkSoundEngine.PostEvent ("Tournelune_switch",gameObject);
 				
 				isWaiting = true;
 				timeToWait = timer;
@@ -153,6 +155,7 @@ public class singerSimon : MonoBehaviour {
 					indexDaffichage = -1;
 					state = State.choose;
 					anim.SetInteger ("moonColor", 0);
+					AkSoundEngine.PostEvent ("Tournelune_switch",gameObject);
 					isWaiting = false;
 					Debug.Log ("reset d'affichage   " + indexDaffichage);
 				}
@@ -166,6 +169,7 @@ public class singerSimon : MonoBehaviour {
 				else
 				{
 					anim.SetInteger("moonColor", chainOf2[indexDaffichage]);
+					AkSoundEngine.PostEvent ("Tournelune_switch",gameObject);
 				}
 				
 				isWaiting = true;
@@ -190,6 +194,7 @@ public class singerSimon : MonoBehaviour {
 					isWaiting = false;
 					state = State.choose;
 					anim.SetInteger ("moonColor", 0);
+					AkSoundEngine.PostEvent ("Tournelune_switch",gameObject);
 				}
 			}
 			else
@@ -201,6 +206,7 @@ public class singerSimon : MonoBehaviour {
 				else
 				{
 					anim.SetInteger("moonColor", chainOf3[indexDaffichage]);
+					AkSoundEngine.PostEvent ("Tournelune_switch",gameObject);
 				}
 				isWaiting = true;
 				timeToWait = timer;
@@ -224,6 +230,7 @@ public class singerSimon : MonoBehaviour {
 					isWaiting = false;
 					state = State.choose;
 					anim.SetInteger ("moonColor", 0);
+					AkSoundEngine.PostEvent ("Tournelune_switch",gameObject);
 				}
 			}
 			else
@@ -235,6 +242,7 @@ public class singerSimon : MonoBehaviour {
 				else
 				{
 					anim.SetInteger("moonColor", chainOf4[indexDaffichage]);
+					AkSoundEngine.PostEvent ("Tournelune_switch",gameObject);
 				}
 				isWaiting = true;
 				timeToWait = timer;

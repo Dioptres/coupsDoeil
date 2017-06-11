@@ -112,6 +112,9 @@ public class bigLight : Lookable {
 
 			if(transform.parent.localScale.x >= 1)
 			{
+				Destroy (rumeur1);
+				Destroy (rumeur2);
+				Destroy (rumeur3);
 				GameManager.fadeToDo = GameManager.fadeState.FadeOut;
 				AkSoundEngine.PostEvent ("Champi_stopgonfle", gameObject);
 				AkSoundEngine.PostEvent ("Champi_flash", gameObject);

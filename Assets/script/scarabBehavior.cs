@@ -107,6 +107,7 @@ public class scarabBehavior : Lookable
 			{
 				actualCheckPoint++;
 				AkSoundEngine.PostEvent ("Agitateur_plante", gameObject);
+				AkSoundEngine.PostEvent ("Agitateur_stopmarche", gameObject);
 				GameManager.fadeToDo = GameManager.fadeState.FadeOut;
 			}
 

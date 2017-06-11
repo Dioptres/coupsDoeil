@@ -34,6 +34,11 @@ public class millePatteBehavior : MonoBehaviour {
 		AkSoundEngine.PostEvent ("Rumeur_stopmarche", gameObject);
 	}
 
+	void OnDestroy ()
+	{
+		AkSoundEngine.PostEvent ("Rumeur_stopmarche", gameObject);
+	}
+	
 	// Use this for initialization
 	void Start ()
 	{
