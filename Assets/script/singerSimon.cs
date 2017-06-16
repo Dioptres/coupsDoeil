@@ -139,13 +139,13 @@ public class singerSimon : MonoBehaviour {
 		}
 		else if (whichChainIllDO <= numberOfOne + numberOfTwo)
 		{
-			Debug.Log("show chain of 2");
 			if (isWaiting)
 			{
-				
+				Debug.Log(timeToWait);
 				timeToWait -= Time.deltaTime;
 				if (timeToWait <= 0 && indexDaffichage < 1)
 				{
+					Debug.Log("index ++");
 					indexDaffichage++;
 					isWaiting = false;
 				}
@@ -169,6 +169,7 @@ public class singerSimon : MonoBehaviour {
 				else
 				{
 					anim.SetInteger("moonColor", chainOf2[indexDaffichage]);
+					Debug.Log("SWITCH");
 					AkSoundEngine.PostEvent ("Tournelune_switch",gameObject);
 				}
 				
@@ -324,7 +325,7 @@ public class singerSimon : MonoBehaviour {
 
 	public void choose (int whichOne)
 	{
-		if(state == State.choose)
+		if(state == State.choose || state == State.show)
 		{
 			if (whichChainIllDO <= numberOfOne)
 			{
@@ -425,7 +426,6 @@ public class singerSimon : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
-		Debug.Log(state);
 		if(state == State.show)
 		{
 			showAchain ();

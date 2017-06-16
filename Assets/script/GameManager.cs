@@ -47,9 +47,10 @@ public class GameManager : MonoBehaviour
 	// Use this for initialization
 	void Awake ()
 	{
-
+		Debug.Log("FADESTATE awake    " + fadeToDo);
 		fadeStart = false;
 
+		fadeToDo = fadeState.None;
 
 		lookables = GameObject.FindGameObjectsWithTag ("Lookable");
 		lookables2 = GameObject.FindGameObjectsWithTag ("luciole");
@@ -123,7 +124,6 @@ public class GameManager : MonoBehaviour
 			Color tempColor = toBeFaded.color;
 			tempColor.a += speedFading * Time.deltaTime;
 			toBeFaded.color = tempColor;
-			Debug.Log (tempColor.a);
 			if (tempColor.a >= 1)
 			{
 				fadeToDo = fadeState.None;
@@ -139,8 +139,8 @@ public class GameManager : MonoBehaviour
 		gazePoint = EyeTracking.GetGazePoint ();
 		if (true)
 		{
-			//whereIlook = Camera.main.ScreenToWorldPoint (new Vector3 (gazePoint.Screen.x, gazePoint.Screen.y, 5.5f));
-			whereIlook = Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 5.5f));
+			whereIlook = Camera.main.ScreenToWorldPoint (new Vector3 (gazePoint.Screen.x, gazePoint.Screen.y, 5.5f));
+			//whereIlook = Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 5.5f));
 			haveSeenMusician = false;
 			foreach (GameObject toLook in lookables)
 			{

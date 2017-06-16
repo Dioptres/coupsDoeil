@@ -89,7 +89,7 @@ public class letThemCome : MonoBehaviour {
 
 			animLune = GetComponentInChildren<Animator> ();
 			agent = GameObject.Find ("Bassiste").GetComponent<UnityEngine.AI.NavMeshAgent> ();
-			agent.destination = new Vector3 (-3.6f, 0, -1.2f);
+			agent.destination = new Vector3 (-5f, 0, -1f);
 
 			anim.SetBool ("isWalking", true);
 		}
@@ -97,7 +97,7 @@ public class letThemCome : MonoBehaviour {
 		{
 			selected = true;
 			agent = GameObject.Find ("Flûtiste").GetComponent<UnityEngine.AI.NavMeshAgent> ();
-			agent.destination = new Vector3 (-1.1f, 0, -1.8f);
+			agent.destination = new Vector3 (-1f, 0, -2.7f);
 
 			anim = GameObject.Find ("Flûtiste").GetComponentInChildren<Animator> ();
 			anim.SetBool ("isWalking", true);
@@ -106,7 +106,7 @@ public class letThemCome : MonoBehaviour {
 		{
 			selected = true;
 			agent = GameObject.Find ("Guitariste").GetComponent<UnityEngine.AI.NavMeshAgent> ();
-			agent.destination = new Vector3 (-1.5f, 0, 2.2f);
+			agent.destination = new Vector3 (-1.3f, 0, 3f);
 
 			anim = GameObject.Find ("Guitariste").GetComponentInChildren<Animator> ();
 			anim.SetBool ("isWalking", true);
@@ -115,7 +115,7 @@ public class letThemCome : MonoBehaviour {
 		{
 			selected = true;
 			agent = GameObject.Find ("Ukulele").GetComponent<UnityEngine.AI.NavMeshAgent> ();
-			agent.destination = new Vector3 (0.2f, 0, 1.1f);
+			agent.destination = new Vector3 (0.8f, 0, 1f);
 
 			anim = GameObject.Find ("Ukulele").GetComponentInChildren<Animator> ();
 			anim.SetBool ("isWalking", true);
