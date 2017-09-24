@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class scarabBehavior : Lookable
 {
+    public bool lampOKEY = false;
 
 	public Transform[] checkPoints;
 	UnityEngine.AI.NavMeshAgent agent;
@@ -53,13 +54,13 @@ public class scarabBehavior : Lookable
 		timerOfWaiting = 5;
 		willLaunch = true;
 		AkSoundEngine.PostEvent ("Agitateur_marche", gameObject);
-		Debug.Log (1);
 	}
 
 	protected override void UpdateLookable ()
 	{
-
 		base.UpdateLookable ();
+
+        
 
 		if(willLaunch)
 		{
@@ -68,7 +69,6 @@ public class scarabBehavior : Lookable
 			{
 				agent.speed = speed;
 				AkSoundEngine.PostEvent ("Agitateur_marche", gameObject);
-				Debug.Log (2);
 				anim.SetTrigger ("isLeftUpAgain");
 				willLaunch = false;
 			}
@@ -114,7 +114,15 @@ public class scarabBehavior : Lookable
 
 
 		}
-	}
+        if (!lampOKEY && !flee)
+        {
+            agent.speed = 0;
+        }
+        else if (!flee)
+        {
+            agent.speed = speed;
+        }
+    }
 
 	public override void DoAction ()
 	{
