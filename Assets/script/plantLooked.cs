@@ -66,7 +66,8 @@ public class plantLooked : Lookable
             foreach (Animator foule in foules)
             {
                 foule.SetBool("isDancing", true);
-            }
+				AkSoundEngine.PostEvent ("foule", this.gameObject);
+			}
         }
     }
 }
