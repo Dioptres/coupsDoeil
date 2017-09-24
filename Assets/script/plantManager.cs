@@ -44,13 +44,13 @@ public class plantManager : MonoBehaviour {
         switch(actualLamp)
         {
             case 0:
-                animPlant1.SetInteger("moonColor", 1);
+                animPlant1.SetInteger("moonColor", 3);
                 break;
             case 1:
                 animPlant2.SetInteger("moonColor", 2);
                 break;
             case 2:
-                animPlant3.SetInteger("moonColor", 3);
+                animPlant3.SetInteger("moonColor", 1);
                 break;
         }
         transform.GetChild(actualLamp).GetComponent<plantLooked>().active = true;
