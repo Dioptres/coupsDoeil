@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class plantLooked : Lookable
 {
+    public int crowdType = 1;
 
     public Animator[] foules;
 
@@ -45,10 +46,9 @@ public class plantLooked : Lookable
         // Use this for initialization
         void Start()
     {
-        int temp = Random.Range(0, 4);
         foreach (Animator foule in foules)
         {
-            foule.SetInteger("villagerType", temp);
+            foule.SetInteger("villagerType", crowdType);
         }
 
     }
