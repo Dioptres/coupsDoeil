@@ -6,8 +6,6 @@ public class letThemCome : MonoBehaviour {
 
 	UnityEngine.AI.NavMeshAgent agent;
 	Animator anim;
-	Animator animLune;
-
 
 
 	public int indexLune = 1;
@@ -23,10 +21,8 @@ public class letThemCome : MonoBehaviour {
 	void Start () {
 		index = -1;
 		anim = GameObject.Find ("Bassiste").GetComponentInChildren<Animator> ();
-		animLune = GetComponentInChildren<Animator> ();
-		animLune.SetInteger ("moonColor", 1);
+		CROWDmANAGER.giveCible (GameObject.Find ("Bassiste").transform);
 		AkSoundEngine.PostEvent ("Tournelune_switch",gameObject);
-		Debug.Log ("light me ip");
 		selected = false;
 		wait = false;
 	}
@@ -48,19 +44,18 @@ public class letThemCome : MonoBehaviour {
 				switch (index)
 				{
 					case 0:
-						animLune.SetInteger ("moonColor", 2);
+						CROWDmANAGER.giveCible (GameObject.Find ("Flûtiste").transform);
 						AkSoundEngine.PostEvent ("Tournelune_switch",gameObject);
 						break;
 					case 1:
-						animLune.SetInteger ("moonColor", 4);
+						CROWDmANAGER.giveCible (GameObject.Find ("Guitariste").transform);
 						AkSoundEngine.PostEvent ("Tournelune_switch",gameObject);
 						break;
 					case 2:
-						animLune.SetInteger ("moonColor", 3);
+						CROWDmANAGER.giveCible (GameObject.Find ("Ukulele").transform);
 						AkSoundEngine.PostEvent ("Tournelune_switch",gameObject);
 						break;
 					case 3:
-						animLune.SetInteger ("moonColor", 0);
 						AkSoundEngine.PostEvent ("Tournelune_switch",gameObject);
 						break;
 				}
@@ -87,7 +82,6 @@ public class letThemCome : MonoBehaviour {
 		{
 			selected = true;
 
-			animLune = GetComponentInChildren<Animator> ();
 			agent = GameObject.Find ("Bassiste").GetComponent<UnityEngine.AI.NavMeshAgent> ();
 			agent.destination = new Vector3 (-5f, 0, -1f);
 

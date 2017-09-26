@@ -51,6 +51,9 @@ public class singerSimon : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
+
+		doCroa.neutral ();
+
 		anim = GetComponentInChildren<Animator> ();
 
 		isWaiting = false;
