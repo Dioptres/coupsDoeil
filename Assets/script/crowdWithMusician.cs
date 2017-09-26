@@ -45,7 +45,6 @@ public class crowdWithMusician : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		int temp = Random.Range (0, 4);
-		Debug.Log (temp);
 
 		anim = GetComponentInChildren<Animator> ();
 

@@ -70,6 +70,26 @@ public class singerSimon : MonoBehaviour {
 		state = State.badThings;
 	}
 
+	void setCible(int index)
+	{
+		Debug.Log ("index" + index);
+		switch(index)
+		{
+			case 0:
+				CROWDmANAGER.giveCible (GameObject.Find ("Bassiste").transform);
+				break;
+			case 1:
+				CROWDmANAGER.giveCible (GameObject.Find ("Flûtiste").transform);
+				break;
+			case 2:
+				CROWDmANAGER.giveCible (GameObject.Find ("Guitariste").transform);
+				break;
+			case 3:
+				CROWDmANAGER.giveCible (GameObject.Find ("Ukulele").transform);
+				break;
+		}
+	}
+
 	void badThingsHappen()
 	{
 		badTime -= Time.deltaTime;
@@ -134,6 +154,7 @@ public class singerSimon : MonoBehaviour {
 			else
 			{
 				anim.SetInteger ("moonColor", chainOf1);
+				setCible (chainOf1);
 				AkSoundEngine.PostEvent ("Tournelune_switch",gameObject);
 				
 				isWaiting = true;
@@ -144,7 +165,6 @@ public class singerSimon : MonoBehaviour {
 		{
 			if (isWaiting)
 			{
-				Debug.Log(timeToWait);
 				timeToWait -= Time.deltaTime;
 				if (timeToWait <= 0 && indexDaffichage < 1)
 				{
@@ -172,6 +192,7 @@ public class singerSimon : MonoBehaviour {
 				else
 				{
 					anim.SetInteger("moonColor", chainOf2[indexDaffichage]);
+					setCible (chainOf2[indexDaffichage]);
 					Debug.Log("SWITCH");
 					AkSoundEngine.PostEvent ("Tournelune_switch",gameObject);
 				}
@@ -210,6 +231,7 @@ public class singerSimon : MonoBehaviour {
 				else
 				{
 					anim.SetInteger("moonColor", chainOf3[indexDaffichage]);
+					setCible (chainOf3[indexDaffichage]);
 					AkSoundEngine.PostEvent ("Tournelune_switch",gameObject);
 				}
 				isWaiting = true;
@@ -246,6 +268,7 @@ public class singerSimon : MonoBehaviour {
 				else
 				{
 					anim.SetInteger("moonColor", chainOf4[indexDaffichage]);
+					setCible (chainOf4[indexDaffichage]);
 					AkSoundEngine.PostEvent ("Tournelune_switch",gameObject);
 				}
 				isWaiting = true;
@@ -315,7 +338,7 @@ public class singerSimon : MonoBehaviour {
 				}
 			}
 		}
-		state = State.canShow;
+		state = State.show;
 	}
 
 	public void willYouShow()
