@@ -18,6 +18,14 @@ public class singerSimon : MonoBehaviour {
 
 	private State state;
 
+	int indexCibleMusi;
+	bool shouldChoose = true;
+	public float timerLeft = 10;
+	float timerOfChoice;
+	public int numberOfAct = 10;
+	int numOfActPast = 0;
+	public float removeToIncreaseDiff = 0.2f;
+
 	public int numberOfOne = 1;
 	public int numberOfTwo = 1;
 	public int numberOfthree = 1;
@@ -56,18 +64,15 @@ public class singerSimon : MonoBehaviour {
 
 		anim = GetComponentInChildren<Animator> ();
 
-		isWaiting = false;
-		indexDaffichage = -1;
+		
+	}
 
-		indexChoosen = 0;
-
-		whichChainIllDO = 1;
-		chainOf2 = new int[2];
-		chainOf3 = new int[3];
-		chainOf4 = new int[4];
-
-		badTime = gonnaHaveABadTime;
-		state = State.badThings;
+	void chooseMusi()
+	{
+		doCroa.neutral ();
+		indexCibleMusi = Random.Range (1, 4);
+		Debug.Log (indexCibleMusi + "   indexCibleMusi");
+		setCible (indexCibleMusi); 
 	}
 
 	void setCible(int index)
@@ -90,16 +95,6 @@ public class singerSimon : MonoBehaviour {
 		}
 	}
 
-	void badThingsHappen()
-	{
-		badTime -= Time.deltaTime;
-
-		if(badTime<0)
-		{
-			state = State.none;
-			chooseAchain();
-		}
-	}
 
 	void stopMusician()
 	{
@@ -351,126 +346,46 @@ public class singerSimon : MonoBehaviour {
 
 	public void choose (int whichOne)
 	{
-		if(state == State.choose || state == State.show)
+		Debug.Log (whichOne);
+		if(!shouldChoose)
 		{
-			if (whichChainIllDO <= numberOfOne)
+			if(whichOne == indexCibleMusi)
 			{
-				if(whichOne == chainOf1)
+				Debug.Log ("success  "  + indexCibleMusi);
+				doCroa.good();
+				musicians[indexCibleMusi].play();
+				numOfActPast++;
+				if(numOfActPast == numberOfAct)
 				{
-					doCroa.good();
-					musicians[chainOf1 - 1].play();
-					timeBeforeShuttingMusic = timerListeningMusic;
-					state = State.listen;
+					GameManager.fadeToDo = GameManager.fadeState.FadeOut;
 				}
+				timerLeft -= removeToIncreaseDiff;
+				shouldChoose = true;
 			}
-			else if (whichChainIllDO <= numberOfOne + numberOfTwo)
-			{
-				if (whichOne == chainOf2[indexChoosen])
-				{
-					
-					musicians[chainOf2[indexChoosen] - 1].play ();
-					if (indexChoosen == 1)
-					{
-						doCroa.good ();
-						indexChoosen = 0;
-						timeBeforeShuttingMusic = timerListeningMusic;
-						state = State.listen;
-					}
-					else
-					{
-						indexChoosen++;	
-					}
-				}
-				else
-				{
-					stopMusician();
-					indexChoosen = 0;
-					state = State.none;
-					state = State.badThings;
-					badTime = gonnaHaveABadTime;
-					doCroa.bad();
-				}
-			}
-			else if (whichChainIllDO <= numberOfOne + numberOfTwo + numberOfthree)
-			{
-				if (whichOne == chainOf3[indexChoosen])
-				{
-					
-					musicians[chainOf3[indexChoosen] - 1].play ();
-					if (indexChoosen == 2)
-					{
-						doCroa.good ();
-						indexChoosen = 0;
-						timeBeforeShuttingMusic = timerListeningMusic;
-						state = State.listen;
-					}
-					else
-					{
-						indexChoosen++;
-					}
-				}
-				else
-				{
-					stopMusician();
-					indexChoosen = 0;
-					state = State.none;
-					state = State.badThings;
-					badTime = gonnaHaveABadTime;
-					doCroa.bad();
-				}
-			}
-			else
-			{
-				if (whichOne == chainOf4[indexChoosen])
-				{
-					
-					musicians[chainOf4[indexChoosen] - 1].play ();
-					if (indexChoosen == 3)
-					{
-						doCroa.good ();
-						indexChoosen = 0;
-						timeBeforeShuttingMusic = timerListeningMusic;
-						state = State.listen;
-					}
-					else
-					{
-						indexChoosen++;
-					}
-				}
-				else
-				{
-					stopMusician();
-					indexChoosen = 0;
-					state = State.badThings;
-					badTime = gonnaHaveABadTime;
-					doCroa.bad();
-				}
-			}
+			
 		}
 	}
 
 	// Update is called once per frame
 	void Update ()
 	{
-		if(state == State.show)
+		if(shouldChoose)
 		{
-			showAchain ();
+			chooseMusi ();
+			shouldChoose = false;
+			timerOfChoice = timerLeft;
+			Debug.Log ("temps to do   " + timerOfChoice);
 		}
-
-		else if(state == State.listen)
+		else
 		{
-			timeBeforeShuttingMusic -= Time.deltaTime;
-			if (timeBeforeShuttingMusic <= 0)
+			timerOfChoice -= Time.deltaTime;
+			if(timerOfChoice <= 0)
 			{
-				stopMusician();
-				whichChainIllDO++;
-				state = State.none;
-				chooseAchain ();
+				Debug.Log ("fail");
+				shouldChoose = true;
+				doCroa.bad ();
+				musicians[indexCibleMusi].stop ();
 			}
-		}
-		else if(state == State.badThings)
-		{
-			badThingsHappen();
 		}
 	}
 }

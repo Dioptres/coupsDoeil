@@ -78,7 +78,7 @@ public class letThemCome : MonoBehaviour {
 	{
 			
 
-		if (index == -1 && musicosNbr == 1 && !selected)
+		if (index == -1 && musicosNbr == 0 && !selected)
 		{
 			selected = true;
 
@@ -87,7 +87,7 @@ public class letThemCome : MonoBehaviour {
 
 			anim.SetBool ("isWalking", true);
 		}
-		else if (index == 0 && musicosNbr == 2 && !selected)
+		else if (index == 0 && musicosNbr == 1 && !selected)
 		{
 			selected = true;
 			agent = GameObject.Find ("Flûtiste").GetComponent<UnityEngine.AI.NavMeshAgent> ();
@@ -96,7 +96,7 @@ public class letThemCome : MonoBehaviour {
 			anim = GameObject.Find ("Flûtiste").GetComponentInChildren<Animator> ();
 			anim.SetBool ("isWalking", true);
 		}
-		else if (index == 1 && musicosNbr == 4 && !selected)
+		else if (index == 1 && musicosNbr == 2 && !selected)
 		{
 			selected = true;
 			agent = GameObject.Find ("Guitariste").GetComponent<UnityEngine.AI.NavMeshAgent> ();

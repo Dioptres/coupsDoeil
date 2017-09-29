@@ -47,13 +47,13 @@ public class musicianSimon : Lookable {
 		switch (instrument)
 		{
 			case Instrument.Bass:
-				numberOfMyInstrument = 1;
+				numberOfMyInstrument = 0;
 				break;
 			case Instrument.Flute:
-				numberOfMyInstrument = 2;
+				numberOfMyInstrument = 1;
 				break;
 			case Instrument.Guitare:
-				numberOfMyInstrument = 4;
+				numberOfMyInstrument = 2;
 				break;
 			case Instrument.Uku:
 				numberOfMyInstrument = 3;
